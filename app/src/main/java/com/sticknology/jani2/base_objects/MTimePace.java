@@ -20,7 +20,11 @@ public class MTimePace extends MTime {
     public String getDispString() {
 
         String paceString = super.getDispString();
-        paceString += " /" + ((int) uDistance.getValue()) + uDistance.getUnitName();
+        if(uDistance.getValue() != 1.0) {
+            paceString += " /" + ((int) uDistance.getValue()) + uDistance.getDistanceUnit().mLabel;
+        } else {
+            paceString += " /" + uDistance.getDistanceUnit().mLabel;
+        }
 
         return paceString;
     }

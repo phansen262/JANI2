@@ -22,7 +22,7 @@ public class MTimeDay extends MTime {
         String buildString = "";
 
         //Get Display for Minutes
-        String minutesString = "";
+        String minutesString;
         if(getMinutes() < 10){
             minutesString = "0" + getMinutes();
         } else {
