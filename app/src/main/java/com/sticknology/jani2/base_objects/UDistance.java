@@ -1,6 +1,6 @@
 package com.sticknology.jani2.base_objects;
 
-public class MyDistance {
+public class UDistance {
 
     //Enum to allow for easier referencing to units in code
     public enum DistanceUnits {
@@ -21,7 +21,7 @@ public class MyDistance {
 
     //Basic Constructors
     //Public constructor for general outside use
-    public MyDistance (double value, DistanceUnits distanceUnit){
+    public UDistance(double value, DistanceUnits distanceUnit){
 
         mValue = value;
         mDistanceUnit = distanceUnit;

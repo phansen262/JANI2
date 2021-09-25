@@ -51,6 +51,12 @@ public class MTime {
         mSeconds += time.getTotalSeconds();
     }
 
+    //Divides by duration
+    public double getQuotient(MTime time){
+
+        return (double) time.getTotalSeconds() / (double) getTotalSeconds();
+    }
+
     //Start of getters/object reset
     public int getHours(){return mSeconds / 3600;}
     public int getMinutes(){return (mSeconds % 3600) / 60;}
