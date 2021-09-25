@@ -2,15 +2,15 @@ package com.sticknology.jani2.base_objects;
 
 public class MTimePace extends MTime {
 
-    UDistance uDistance;
+    MUnitValue uDistance;
 
     //Base Constructors
-    public MTimePace(int hours, int minutes, int seconds, UDistance distance) {
+    public MTimePace(int hours, int minutes, int seconds, MUnitValue distance) {
         super(hours, minutes, seconds);
         uDistance = distance;
     }
 
-    public MTimePace(int minutes, int seconds, UDistance distance){
+    public MTimePace(int minutes, int seconds, MUnitValue distance){
         super(0, minutes, seconds);
         uDistance = distance;
     }
@@ -31,13 +31,13 @@ public class MTimePace extends MTime {
 
     public String getDispString(boolean speed){
 
-        UDistance speedDistance = new UDistance(uDistance.getValue() *
+        MUnitValue speedDistance = new MUnitValue(uDistance.getValue() *
                 getQuotient(new MTime(3600)), uDistance.getDistanceUnit());
-        return speedDistance.toDispString() + "/hr";
+        return speedDistance.toDispString(1) + "/hr";
     }
 
     //Convert pace to different per unit distance
-    public void convertPace(UDistance newUDistance){
+    public void convertPace(MUnitValue newUDistance){
 
         //Convert stored uDistance to proper unit type
         uDistance.convertUnits(newUDistance.getDistanceUnit());
