@@ -11,6 +11,11 @@ public class MTimeDay extends MTime {
         super(hours, minutes, 0);
     }
 
+    public MTimeDay(MTime genericTime){
+
+        super(genericTime.getHours(), genericTime.getMinutes(), genericTime.getSeconds());
+    }
+
     //Gets Display String for UI
     @Override
     public String getDispString() {
