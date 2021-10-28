@@ -1,4 +1,4 @@
-package com.sticknology.jani2.base_objects;
+package com.sticknology.jani2.app_objects.other;
 
 import android.media.Image;
 

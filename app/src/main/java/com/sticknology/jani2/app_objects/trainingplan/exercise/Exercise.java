@@ -1,6 +1,6 @@
 package com.sticknology.jani2.app_objects.trainingplan.exercise;
 
-import com.sticknology.jani2.base_objects.Equipment;
+import com.sticknology.jani2.app_objects.other.Equipment;
 
 import java.util.List;
 
