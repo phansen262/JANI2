@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JANI2" >
         <activity
-            android:name=".ui.workshops.exercise.ExerciseWorkshop"
+            android:name=".ui.workshops.exercise.EWorkshopActivity"
             android:exported="true">
 
             <intent-filter>

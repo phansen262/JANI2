@@ -2,12 +2,15 @@ package com.sticknology.jani2.ui.workshops.exercise;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 
 import com.sticknology.jani2.R;
 
-public class ExerciseWorkshop extends AppCompatActivity {
+public class EWorkshopActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
