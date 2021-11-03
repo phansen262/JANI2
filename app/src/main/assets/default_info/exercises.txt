@@ -2,3 +2,4 @@ VERSION1.0
 Run,test running description
 Bike,test biking description
 Pushup,test pushup descirption
+Situp,test situp description

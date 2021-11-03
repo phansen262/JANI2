@@ -9,16 +9,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sticknology.jani2.app_objects.trainingplan.exercise.Exercise;
-import com.sticknology.jani2.base_operations.AssetsHandler;
+import com.sticknology.jani2.databinding.ReviWorkshopEExpandedBinding;
 import com.sticknology.jani2.databinding.ReviWorkshopEListBinding;
 
-import java.io.IOException;
 import java.util.List;
 
-public class EListAdapter extends RecyclerView.Adapter<EListAdapter.ViewHolder> {
+public class EListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final Activity mActivity;
     private final List<Exercise> mExerciseList;
+
+    private static int flippedIndex = -1;
 
     public EListAdapter(Activity activity, List<Exercise> exerciseList){
 
@@ -26,24 +27,77 @@ public class EListAdapter extends RecyclerView.Adapter<EListAdapter.ViewHolder> 
         mExerciseList = exerciseList;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+
+        if(flippedIndex != position){
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
+        RecyclerView.ViewHolder viewHolder;
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        ReviWorkshopEListBinding binding = ReviWorkshopEListBinding.inflate(layoutInflater, parent, false);
 
-        return new ViewHolder(binding);
+        if(viewType == 0) {
+            ReviWorkshopEListBinding binding = ReviWorkshopEListBinding.inflate(layoutInflater, parent, false);
+            viewHolder = new ViewHolder1(binding);
+        }
+        else {
+            ReviWorkshopEExpandedBinding binding = ReviWorkshopEExpandedBinding.inflate(layoutInflater, parent, false);
+            viewHolder = new ViewHolder2(binding);
+        }
+
+        return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        holder.mBinding.executePendingBindings();
+        EListAdapter eListAdapter = this;
+        int mPosition = position;
 
-        //Show basic details of Exercises
-        holder.mBinding.nameRwel.setText(mExerciseList.get(position).getName());
-        holder.mBinding.descriptionRwel.setText(mExerciseList.get(position).getDescription());
+        if(holder.getItemViewType() == 0) {
+
+            ViewHolder1 vh1 = (ViewHolder1) holder;
+
+            vh1.mBinding.executePendingBindings();
+
+            //Show basic details of Exercises
+            //vh1.mBinding.nameRwel.setText(mExerciseList.get(position).getName());
+            //vh1.mBinding.descriptionRwel.setText(mExerciseList.get(position).getDescription());
+            vh1.mBinding.setName(mExerciseList.get(position).getName());
+            vh1.mBinding.setDescription(mExerciseList.get(position).getDescription());
+
+            vh1.mBinding.cardviewRwel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    flippedIndex = mPosition;
+                    eListAdapter.notifyItemChanged(mPosition);
+                }
+            });
+        } else {
+
+            ViewHolder2 vh2 = (ViewHolder2) holder;
+
+            vh2.mBinding.setName(mExerciseList.get(position).getName());
+            vh2.mBinding.setDescription(mExerciseList.get(position).getDescription());
+
+            vh2.mBinding.doneButtonRwee.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    flippedIndex = -1;
+                    eListAdapter.notifyItemChanged(mPosition);
+                }
+            });
+        }
     }
 
     @Override
@@ -51,11 +105,12 @@ public class EListAdapter extends RecyclerView.Adapter<EListAdapter.ViewHolder> 
         return mExerciseList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+    public static class ViewHolder1 extends RecyclerView.ViewHolder {
 
         public ReviWorkshopEListBinding mBinding;
 
-        public ViewHolder(ReviWorkshopEListBinding binding) {
+        public ViewHolder1(ReviWorkshopEListBinding binding) {
 
             super(binding.getRoot());
             mBinding = binding;
@@ -63,6 +118,17 @@ public class EListAdapter extends RecyclerView.Adapter<EListAdapter.ViewHolder> 
 
         public ReviWorkshopEListBinding getBinding(){
             return mBinding;
+        }
+    }
+
+    public static class ViewHolder2 extends RecyclerView.ViewHolder {
+
+        public ReviWorkshopEExpandedBinding mBinding;
+
+        public ViewHolder2(ReviWorkshopEExpandedBinding binding) {
+
+            super(binding.getRoot());
+            mBinding = binding;
         }
     }
 }

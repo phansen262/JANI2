@@ -2,6 +2,15 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+        <variable
+            name="name"
+            type="String" />
+        <variable
+            name="description"
+            type="String" />
+    </data>
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -47,19 +56,20 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Name"
+                        android:text="@{name}"
                         android:layout_marginBottom="5dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Description"/>
+                        android:text="@{description}"/>
 
                 </LinearLayout>
 
             </LinearLayout>
 
             <Button
+                android:id="@+id/done_button_rwee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Done"

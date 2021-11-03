@@ -30,13 +30,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:text="test"/>
+                android:text="@{name}"/>
 
             <TextView
                 android:id="@+id/description_rwel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="testing"/>
+                android:text="@{description}"/>
 
         </LinearLayout>
 
