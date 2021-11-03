@@ -1,29 +1,31 @@
 package com.sticknology.jani2.app_objects.trainingplan.exercise;
 
-import com.sticknology.jani2.app_objects.other.Equipment;
-
-import java.util.List;
-
 public class Exercise {
 
     private String mName;
-    private int mReps;
-    private List<Equipment> mEquipment;
+    private String mDescription;
 
-    public Exercise(String name, int reps, List<Equipment> equipment){
+    //False if currently only used as info / display, True if exercise has been activated
+    //^Activated if has been used or assigned rep/duration info, or other info delegating specific usage
+    private boolean isActive = false;
+
+    private int mReps;
+
+    public Exercise(String name, String description){
 
         mName = name;
-        mReps = reps;
-        mEquipment = equipment;
+        mDescription = description;
     }
 
+    //Baseline get methods
     public String getName(){
         return mName;
     }
 
-    public int getReps(){
-        return mReps;
-    }
+    public String getDescription(){return mDescription;}
+
+    //Method to activate exercise
+    public void setActive(){isActive = true;}
 
 
 }

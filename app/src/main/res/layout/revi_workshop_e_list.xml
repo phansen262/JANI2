@@ -7,7 +7,7 @@
             name="name"
             type="String" />
         <variable
-            name="lastName"
+            name="description"
             type="String" />
     </data>
 
@@ -18,17 +18,17 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/workshop_erev_tv_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="@{name}"/>
-
-        <TextView
-            android:id="@+id/workshop_erev_tv_description"
+            android:id="@+id/name_rwel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{lastName}"/>
+            android:textSize="20sp"
+            android:text="test"/>
+
+        <TextView
+            android:id="@+id/description_rwel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="testing"/>
 
     </LinearLayout>
 </layout>

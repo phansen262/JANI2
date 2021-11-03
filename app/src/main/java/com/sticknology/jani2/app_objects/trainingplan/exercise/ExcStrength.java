@@ -1,8 +1,8 @@
 package com.sticknology.jani2.app_objects.trainingplan.exercise;
 
-public class ExcWeights extends ExcStrength {
+public class ExcStrength extends Exercise {
 
-    public ExcWeights(String name, String description) {
+    public ExcStrength(String name, String description) {
 
         super(name, description);
     }

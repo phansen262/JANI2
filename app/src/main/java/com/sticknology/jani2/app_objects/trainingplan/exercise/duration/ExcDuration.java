@@ -10,10 +10,9 @@ public class ExcDuration extends Exercise {
 
     private MTime mDuration;
 
-    public ExcDuration(String name, int reps, List<Equipment> equipment, MTime duration){
+    public ExcDuration(String name, String description){
 
-        super(name, reps, equipment);
-        mDuration = duration;
+        super(name, description);
     }
 
     public MTime getDuration(){

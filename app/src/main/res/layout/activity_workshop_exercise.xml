@@ -10,6 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/workshop_e_frag_container"/>
+        android:id="@+id/frag_container_awe"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
