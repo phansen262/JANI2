@@ -39,12 +39,12 @@ public class FileProxy {
         }
     }
 
-    public String readFileToString(String filename, Context context){
+    public String readFileToString(String filename, Context context, InputStream inputStream){
 
         String ret = "";
 
         try {
-            InputStream inputStream = context.openFileInput(filename);
+            //InputStream inputStream = context.openFileInput(filename);
 
             if ( inputStream != null ) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);

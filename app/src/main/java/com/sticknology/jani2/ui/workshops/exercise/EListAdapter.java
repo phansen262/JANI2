@@ -15,6 +15,7 @@ import com.sticknology.jani2.app_objects.trainingplan.exercise.Exercise;
 import com.sticknology.jani2.base_operations.RawHandler;
 import com.sticknology.jani2.databinding.ReviWorkshopEListBinding;
 
+import java.io.IOException;
 import java.util.List;
 
 public class EListAdapter extends RecyclerView.Adapter<EListAdapter.ViewHolder> {
@@ -45,7 +46,12 @@ public class EListAdapter extends RecyclerView.Adapter<EListAdapter.ViewHolder> 
 
         RawHandler rawHandler = new RawHandler();
         //Add default exercise list to list
-        List<Exercise> exerciseList = rawHandler.getDefaultExercises(holder.itemView.getContext());
+        List<Exercise> exerciseList = null;
+        try {
+            exerciseList = rawHandler.getDefaultExercises(holder.itemView.getContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         holder.mBinding.nameRwel.setText(exerciseList.get(position).getName());
         holder.mBinding.descriptionRwel.setText(exerciseList.get(position).getDescription());
