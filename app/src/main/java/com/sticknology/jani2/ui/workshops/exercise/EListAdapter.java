@@ -1,18 +1,15 @@
 package com.sticknology.jani2.ui.workshops.exercise;
 
 import android.app.Activity;
-import android.content.ClipData;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sticknology.jani2.R;
 import com.sticknology.jani2.app_objects.trainingplan.exercise.Exercise;
-import com.sticknology.jani2.base_operations.RawHandler;
+import com.sticknology.jani2.base_operations.AssetsHandler;
 import com.sticknology.jani2.databinding.ReviWorkshopEListBinding;
 
 import java.io.IOException;
@@ -21,10 +18,12 @@ import java.util.List;
 public class EListAdapter extends RecyclerView.Adapter<EListAdapter.ViewHolder> {
 
     private final Activity mActivity;
+    private final List<Exercise> mExerciseList;
 
-    public EListAdapter(Activity activity){
+    public EListAdapter(Activity activity, List<Exercise> exerciseList){
 
         mActivity = activity;
+        mExerciseList = exerciseList;
     }
 
     @NonNull
@@ -40,30 +39,16 @@ public class EListAdapter extends RecyclerView.Adapter<EListAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        System.out.println("Got Here");
-
         holder.mBinding.executePendingBindings();
 
-        RawHandler rawHandler = new RawHandler();
-        //Add default exercise list to list
-        List<Exercise> exerciseList = null;
-        try {
-            exerciseList = rawHandler.getDefaultExercises(holder.itemView.getContext());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        holder.mBinding.nameRwel.setText(exerciseList.get(position).getName());
-        holder.mBinding.descriptionRwel.setText(exerciseList.get(position).getDescription());
-
-
-        //holder.mBinding.descriptionRwel.setText("World");
-        //holder.mBinding.nameRwel.setText("Hello");
+        //Show basic details of Exercises
+        holder.mBinding.nameRwel.setText(mExerciseList.get(position).getName());
+        holder.mBinding.descriptionRwel.setText(mExerciseList.get(position).getDescription());
     }
 
     @Override
     public int getItemCount() {
-        return 2;
+        return mExerciseList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -74,6 +59,10 @@ public class EListAdapter extends RecyclerView.Adapter<EListAdapter.ViewHolder> 
 
             super(binding.getRoot());
             mBinding = binding;
+        }
+
+        public ReviWorkshopEListBinding getBinding(){
+            return mBinding;
         }
     }
 }

@@ -9,14 +9,14 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RawHandler {
+public class AssetsHandler {
 
     public List<Exercise> getDefaultExercises(Context context) throws IOException {
 
+        //Reads default exercises
         InputStream inputStream = context.getAssets().open("default_info/exercises.txt");
-
         FileProxy fileProxy = new FileProxy();
-        String fileOutput = fileProxy.readFileToString("default_info/exercises.txt", context, inputStream);
+        String fileOutput = fileProxy.readFileToString("", context, inputStream);
 
         String[] fileLines = fileOutput.split("\n");
 

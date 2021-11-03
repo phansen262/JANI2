@@ -44,7 +44,9 @@ public class FileProxy {
         String ret = "";
 
         try {
-            //InputStream inputStream = context.openFileInput(filename);
+            if(inputStream == null){
+                inputStream = context.openFileInput(filename);
+            }
 
             if ( inputStream != null ) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
