@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.sticknology.jani2.R;
 import com.sticknology.jani2.app_objects.trainingplan.exercise.Exercise;
 import com.sticknology.jani2.base_operations.AssetsHandler;
@@ -68,6 +69,15 @@ public class EListFragment extends Fragment {
         recyclerView.setAdapter(eListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        //mBinding.getRoot().findViewById(R.id.rev_list_fwel);
+        mBinding.buttonNewExerciseFwel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //No idea why, but need to reset setContentView
+                getActivity().setContentView(R.layout.activity_workshop_exercise);
+                EEditFragment frag = EEditFragment.newInstance("", "");
+                getActivity().getSupportFragmentManager().beginTransaction().addToBackStack("").replace(R.id.frag_container_awe, frag).commit();
+            }
+        });
     }
 }
