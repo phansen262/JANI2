@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sticknology.jani2.app_objects.trainingplan.exercise.Exercise;
+import com.sticknology.jani2.app_objects.trainingplan.Exercise;
 import com.sticknology.jani2.databinding.ReviWorkshopEExpandedBinding;
 import com.sticknology.jani2.databinding.ReviWorkshopEListBinding;
 

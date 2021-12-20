@@ -1,4 +1,5 @@
-VERSION1.0
+VERSION1.1
+TYPES:Weights,Strength,Cardio,Yoga,None
 Run,test running description
 Bike,test biking description
 Pushup,test pushup descirption

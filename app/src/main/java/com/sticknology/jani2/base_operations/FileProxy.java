@@ -12,14 +12,12 @@ import java.io.OutputStreamWriter;
 
 public class FileProxy {
 
-    public void appendText(String content, String filename, Context context, boolean newline) {
+    public void appendText(String content, String filename, Context context) {
 
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(filename, Context.MODE_APPEND));
-            if(newline) {
-                outputStreamWriter.append("\n");
-            }
             outputStreamWriter.append(content);
+            outputStreamWriter.append("\n");
             outputStreamWriter.close();
         }
         catch (IOException e) {
