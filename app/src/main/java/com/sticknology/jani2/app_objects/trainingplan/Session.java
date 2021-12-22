@@ -21,5 +21,11 @@ public class Session {
   }
   
   //Basic Getters and Setters
+  public String getName(){return mName;}
+  public String getDescription(){return mDescription;}
+  public String getType(){return mType;}
   
+  public void setName(String name){mName = name;}
+  public void setDescription(String description){mDescription = description;}
+  public void setType(String type){mType = type;}
 }
