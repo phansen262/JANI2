@@ -20,9 +20,6 @@ public class EWorkshopActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //TODO: Need to move initialization of files to actual main activity when active
-        UserFileInitializer.initExerciseUserFile(this);
-
         //Initialize actionbar for usage displaying back button during creation
         actionBar = getSupportActionBar();
 

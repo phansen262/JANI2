@@ -15,7 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sticknology.jani2.R;
 import com.sticknology.jani2.app_objects.trainingplan.Exercise;
 import com.sticknology.jani2.base_operations.AssetsHandler;
-import com.sticknology.jani2.databinding.FragmentWorkshopExerciseListBinding;
+import com.sticknology.jani2.databinding.FragmentWorkshopEListBinding;
+import com.sticknology.jani2.ui.workshops.session.SWorkshopActivity;
 
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class EListFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_workshop_exercise_list, container, false);
+        return inflater.inflate(R.layout.fragment_workshop_e_list, container, false);
     }
 
     @Override
@@ -50,8 +51,8 @@ public class EListFragment extends Fragment {
         EWorkshopActivity.actionBar.setDisplayHomeAsUpEnabled(false);
 
         //Set up binding for class use
-        FragmentWorkshopExerciseListBinding mBinding = DataBindingUtil.setContentView(getActivity(),
-                R.layout.fragment_workshop_exercise_list);
+        FragmentWorkshopEListBinding mBinding = DataBindingUtil.setContentView(getActivity(),
+                R.layout.fragment_workshop_e_list);
 
         //Add default exercise list to list
         List<Exercise> exerciseList =  AssetsHandler.getDefaultExercises(getContext());

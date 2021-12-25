@@ -1,4 +1,4 @@
-package com.sticknology.jani2.ui.workshops;
+package com.sticknology.jani2.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.sticknology.jani2.R;
 import com.sticknology.jani2.databinding.FragmentHomeWorkshopBinding;
 import com.sticknology.jani2.ui.workshops.exercise.EWorkshopActivity;
+import com.sticknology.jani2.ui.workshops.session.SWorkshopActivity;
 
 public class WorkshopFragment extends Fragment {
 
@@ -55,6 +56,15 @@ public class WorkshopFragment extends Fragment {
             public void onClick(View view) {
 
                 Intent intent = new Intent(getActivity(), EWorkshopActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        binding.sessionsFhw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getActivity(), SWorkshopActivity.class);
                 startActivity(intent);
             }
         });

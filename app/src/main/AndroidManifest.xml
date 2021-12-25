@@ -15,6 +15,10 @@
             android:exported="true"/>
 
         <activity
+            android:name=".ui.workshops.session.SWorkshopActivity"
+            android:exported="true"/>
+
+        <activity
             android:name=".ui.workshops.plan.PlanWorkshop"
             android:exported="true" />
 
