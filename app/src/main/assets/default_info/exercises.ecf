@@ -1,6 +1,6 @@
 VERSION1.1
-TYPES:Weights,Strength,Cardio,Yoga,None
-Run,test running description
-Bike,test biking description
-Pushup,test pushup descirption
-Situp,test situp description
+TYPES:Weights@!@Strength@!@Cardio@!@Yoga@!@None
+Run@!@test running description@!@Cardio
+Bike@!@test biking description@!@Cardio
+Bench@!@test bench descirption@!@Weights@!@Chest
+Situp@!@test situp description@!@Strength@!@Abs

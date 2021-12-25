@@ -3,6 +3,7 @@ package com.sticknology.jani2.base_operations;
 import android.content.Context;
 
 import com.sticknology.jani2.app_objects.trainingplan.Exercise;
+import com.sticknology.jani2.base_objects.Carrier;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,7 +20,13 @@ public class AssetsHandler {
         if(fileLines[1].equals("VERSION1.1")){
             for(int i = 3; i < fileLines.length; i++){
 
-                outputList.add(new Exercise(fileLines[i].split(",")[0], fileLines[i].split(",")[1], "", null));
+                String[] splitExercise = fileLines[i].split("@!@");
+
+                ArrayList<Carrier> attributes = new ArrayList<>();
+                if(splitExercise.length != 3) {
+                    attributes.add(new Carrier("MGROUP", splitExercise[3]));
+                }
+                outputList.add(new Exercise(splitExercise[0], splitExercise[1], splitExercise[2], attributes));
             }
         }
         return  outputList;
@@ -31,7 +38,7 @@ public class AssetsHandler {
         String[] fileLines = readAsset(context, "default_info/exercises.ecf");
         ArrayList<String> outputList = new ArrayList<>();
         if(fileLines[2].split(":")[0].equals("TYPES")) {
-            outputList.addAll(Arrays.asList(fileLines[2].split(":")[1].split(",")));
+            outputList.addAll(Arrays.asList(fileLines[2].split(":")[1].split("@!@")));
         }
         return outputList;
     }

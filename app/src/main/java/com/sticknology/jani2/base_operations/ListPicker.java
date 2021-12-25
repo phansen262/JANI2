@@ -8,6 +8,10 @@ public class ListPicker {
     public static int matchListIndex(ArrayList<String> stringList, String matchString){
 
         for(int i = 0; i < stringList.size(); i++){
+
+            //System.out.println(matchString);
+            System.out.println(stringList.get(i));
+
             if(matchString.equals(stringList.get(i))){
                 return i;
             }

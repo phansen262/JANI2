@@ -20,14 +20,12 @@ import java.util.List;
 
 public class EListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final Activity mActivity;
     private final List<Exercise> mExerciseList;
 
     private static int flippedIndex = -1;
 
-    public EListAdapter(Activity activity, List<Exercise> exerciseList){
+    public EListAdapter(List<Exercise> exerciseList){
 
-        mActivity = activity;
         mExerciseList = exerciseList;
     }
 
@@ -73,8 +71,6 @@ public class EListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             vh1.mBinding.executePendingBindings();
 
             //Show basic details of Exercises
-            //vh1.mBinding.nameRwel.setText(mExerciseList.get(position).getName());
-            //vh1.mBinding.descriptionRwel.setText(mExerciseList.get(position).getDescription());
             vh1.mBinding.setName(mExerciseList.get(position).getName());
             vh1.mBinding.setDescription(mExerciseList.get(position).getDescription());
 
@@ -100,7 +96,7 @@ public class EListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
                     //No idea why, but need to reset setContentView, potentially because of setcontentview above with data binding?
                     ((AppCompatActivity)vh2.mContext).setContentView(R.layout.activity_workshop_exercise);
-                    EEditFragment frag = EEditFragment.newInstance();
+                    EEditFragment frag = EEditFragment.newInstance(mExerciseList.get(mPosition), true);
                     FragmentManager manager = ((AppCompatActivity)vh2.mContext).getSupportFragmentManager();
                     manager.beginTransaction().addToBackStack("").replace(R.id.frag_container_awe, frag).commit();
                 }

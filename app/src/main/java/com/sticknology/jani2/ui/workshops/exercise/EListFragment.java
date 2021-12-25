@@ -58,7 +58,7 @@ public class EListFragment extends Fragment {
 
         //Set up rev for list of exercises
         RecyclerView recyclerView = mBinding.revListFwel;
-        EListAdapter eListAdapter = new EListAdapter(getActivity(), exerciseList);
+        EListAdapter eListAdapter = new EListAdapter(exerciseList);
         recyclerView.setAdapter(eListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -69,7 +69,7 @@ public class EListFragment extends Fragment {
 
                 //No idea why, but need to reset setContentView, potentially because of setcontentview above with data binding?
                 getActivity().setContentView(R.layout.activity_workshop_exercise);
-                EEditFragment frag = EEditFragment.newInstance();
+                EEditFragment frag = EEditFragment.newInstance(null, false);
                 getActivity().getSupportFragmentManager().beginTransaction().addToBackStack("").replace(R.id.frag_container_awe, frag).commit();
             }
         });

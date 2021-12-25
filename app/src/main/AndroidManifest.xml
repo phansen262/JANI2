@@ -9,8 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.JANI2" >
+
         <activity
             android:name=".ui.workshops.exercise.EWorkshopActivity"
+            android:exported="true"/>
+
+        <activity
+            android:name=".ui.workshops.plan.PlanWorkshop"
+            android:exported="true" />
+
+        <activity
+            android:name=".ui.home.HomeActivity"
             android:exported="true">
 
             <intent-filter>
@@ -19,9 +28,7 @@
             </intent-filter>
 
         </activity>
-        <activity
-            android:name=".ui.workshops.plan.PlanWorkshop"
-            android:exported="true" />
+
     </application>
 
 </manifest>

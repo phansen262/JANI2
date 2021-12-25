@@ -25,15 +25,18 @@ import java.util.ArrayList;
 
 public class EEditFragment extends Fragment {
 
-    private Exercise mExercise;
+    private static Exercise mExercise;
+    private boolean mHasInputExercise;
 
     public EEditFragment() {
 
     }
 
-    public static EEditFragment newInstance() {
+    public static EEditFragment newInstance(Exercise inputExercise, boolean hasInputExercise) {
+        mExercise = inputExercise;
         EEditFragment fragment = new EEditFragment();
         Bundle args = new Bundle();
+        args.putBoolean("hasInputExercise", hasInputExercise);
         fragment.setArguments(args);
         return fragment;
     }
@@ -41,6 +44,7 @@ public class EEditFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
+        mHasInputExercise = getArguments().getBoolean("hasInputExercise");
         super.onCreate(savedInstanceState);
     }
 
@@ -79,6 +83,19 @@ public class EEditFragment extends Fragment {
         binding.groupFwee.setAdapter(groupAdapter);
         binding.setGroup(ListPicker.matchListIndex(muscleGroups, "None"));
         binding.setGroupVisible(View.GONE);
+
+        //Set behavior for filling it edit information from selected exercise
+        if(mHasInputExercise){
+            binding.setName(mExercise.getName());
+            binding.setDescription(mExercise.getDescription());
+            binding.setType(ListPicker.matchListIndex(exerciseTypes, mExercise.getType()));
+
+            if(!mExercise.getMuscleGroups()[0].equals("")) {
+                binding.setGroup(ListPicker.matchListIndex(muscleGroups, mExercise.getMuscleGroups()[0]));
+                binding.setGroupVisible(View.VISIBLE);
+            }
+
+        }
 
         //Listener for type to trigger visibility
         binding.typeFwee.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
