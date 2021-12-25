@@ -1,13 +1,17 @@
 package com.sticknology.jani2.ui.workshops.exercise;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sticknology.jani2.R;
 import com.sticknology.jani2.app_objects.trainingplan.Exercise;
 import com.sticknology.jani2.databinding.ReviWorkshopEExpandedBinding;
 import com.sticknology.jani2.databinding.ReviWorkshopEListBinding;
@@ -50,7 +54,7 @@ public class EListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
         else {
             ReviWorkshopEExpandedBinding binding = ReviWorkshopEExpandedBinding.inflate(layoutInflater, parent, false);
-            viewHolder = new ViewHolder2(binding);
+            viewHolder = new ViewHolder2(binding, parent.getContext());
         }
 
         return viewHolder;
@@ -89,7 +93,21 @@ public class EListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             vh2.mBinding.setName(mExerciseList.get(position).getName());
             vh2.mBinding.setDescription(mExerciseList.get(position).getDescription());
 
-            vh2.mBinding.doneButtonRwee.setOnClickListener(new View.OnClickListener() {
+            //Set listening to activate edit on selected item
+            vh2.mBinding.editButtonRwee.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    //No idea why, but need to reset setContentView, potentially because of setcontentview above with data binding?
+                    ((AppCompatActivity)vh2.mContext).setContentView(R.layout.activity_workshop_exercise);
+                    EEditFragment frag = EEditFragment.newInstance();
+                    FragmentManager manager = ((AppCompatActivity)vh2.mContext).getSupportFragmentManager();
+                    manager.beginTransaction().addToBackStack("").replace(R.id.frag_container_awe, frag).commit();
+                }
+            });
+
+            //Set card listener to return to collapsed state
+            vh2.mBinding.cardviewRwee.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
@@ -124,11 +142,13 @@ public class EListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public static class ViewHolder2 extends RecyclerView.ViewHolder {
 
         public ReviWorkshopEExpandedBinding mBinding;
+        public Context mContext;
 
-        public ViewHolder2(ReviWorkshopEExpandedBinding binding) {
+        public ViewHolder2(ReviWorkshopEExpandedBinding binding, Context context) {
 
             super(binding.getRoot());
             mBinding = binding;
+            mContext = context;
         }
     }
 }

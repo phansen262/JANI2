@@ -1,5 +1,9 @@
+package com.sticknology.jani2.base_objects;
 
-public class Tuple(){
+import java.util.ArrayList;
+import java.util.List;
+
+public class Tuple {
   
   private List<Object> objects = new ArrayList<Object>();
   

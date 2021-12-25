@@ -13,7 +13,11 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:id="@+id/cardview_rwee">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -69,10 +73,10 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/done_button_rwee"
+                android:id="@+id/edit_button_rwee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Done"
+                android:text="Edit"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_gravity="end"/>
 
