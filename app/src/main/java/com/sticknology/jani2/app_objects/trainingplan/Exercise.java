@@ -12,6 +12,8 @@ public class Exercise {
 
     private ArrayList<Carrier> mAttributes = new ArrayList<>();
 
+    private ArrayList<Carrier> mData = new ArrayList<>();
+
     public Exercise(String name, String description, String type, ArrayList<Carrier> carrierList){
 
         mName = name;
@@ -41,5 +43,14 @@ public class Exercise {
         }
 
         return inter.split("@!@");
+    }
+
+    //Interact with exercise data
+    public void addData(ArrayList<Carrier> newData){
+        mData = newData;
+    }
+
+    public ArrayList<Carrier> getData(){
+        return mData;
     }
 }

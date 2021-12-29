@@ -9,10 +9,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.sticknology.jani2.R;
 import com.sticknology.jani2.databinding.FragmentWorkshopSListBinding;
 import com.sticknology.jani2.ui.workshops.exercise.EEditFragment;
+import com.sticknology.jani2.ui.workshops.exercise.EListAdapter;
 import com.sticknology.jani2.ui.workshops.exercise.EWorkshopActivity;
 
 public class SListFragment extends Fragment {
@@ -48,6 +51,12 @@ public class SListFragment extends Fragment {
         //Set up binding for class use
         FragmentWorkshopSListBinding mBinding = DataBindingUtil.setContentView(getActivity(),
                 R.layout.fragment_workshop_s_list);
+
+        //Set recyclerview for list
+        RecyclerView recyclerView = mBinding.revListFwsl;
+        SListAdapter sListAdapter = new SListAdapter(sessionList);
+        recyclerView.setAdapter(sListAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //Set listener for new session floating button
         mBinding.buttonNewSessionFwsl.setOnClickListener(new View.OnClickListener() {
