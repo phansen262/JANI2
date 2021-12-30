@@ -1,6 +1,5 @@
 package com.sticknology.jani2.ui.workshops.exercise;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,11 +19,9 @@ import com.sticknology.jani2.R;
 import com.sticknology.jani2.app_objects.trainingplan.Exercise;
 import com.sticknology.jani2.base_operations.AssetsHandler;
 import com.sticknology.jani2.base_operations.ListPicker;
+import com.sticknology.jani2.base_operations.UserDataHandler;
 import com.sticknology.jani2.databinding.FragmentWorkshopEEditBinding;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 public class EEditFragment extends Fragment {
@@ -152,29 +149,24 @@ public class EEditFragment extends Fragment {
 
         } else if(item.getItemId() == R.id.single_item){
 
-            //Perform save function
-            if(mHasInputExercise){
+            String eName = binding.nameFwee.getText().toString();
+            String eDescription = binding.descriptionFwee.getText().toString();
+            String eType = binding.typeFwee.getSelectedItem().toString();
+            Exercise saveExercise = new Exercise(eName, eDescription, eType, null);
 
-                //TODO: Add persistance so that save actually affects saved file
-
-                String eName = binding.nameFwee.getText().toString();
-                String eDescription = binding.descriptionFwee.getText().toString();
-                String eType = binding.typeFwee.getSelectedItem().toString();
-                Exercise saveExercise = new Exercise(eName, eDescription, eType, null);
+            if(mHasInputExercise) {
                 EListFragment.userExercises.set(mInputExerciseIndex, saveExercise);
-
-                EListAdapter.flippedIndex = -1;
-
-                getActivity().setContentView(R.layout.activity_workshop_exercise);
-                EListFragment frag = EListFragment.newInstance();
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frag_container_awe, frag).commit();
-
             } else {
-
-                //TODO:  Add functionality for saving new exercise
-
+                EListFragment.userExercises.add(saveExercise);
             }
 
+            EListAdapter.flippedIndex = -1;
+
+            UserDataHandler.saveExercises(EListFragment.userExercises, getContext());
+
+            getActivity().setContentView(R.layout.activity_workshop_exercise);
+            EListFragment frag = EListFragment.newInstance();
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frag_container_awe, frag).commit();
         }
 
         return super.onOptionsItemSelected(item);
