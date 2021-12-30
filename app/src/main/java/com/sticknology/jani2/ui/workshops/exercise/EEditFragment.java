@@ -1,5 +1,6 @@
 package com.sticknology.jani2.ui.workshops.exercise;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,6 +22,9 @@ import com.sticknology.jani2.base_operations.AssetsHandler;
 import com.sticknology.jani2.base_operations.ListPicker;
 import com.sticknology.jani2.databinding.FragmentWorkshopEEditBinding;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 public class EEditFragment extends Fragment {
