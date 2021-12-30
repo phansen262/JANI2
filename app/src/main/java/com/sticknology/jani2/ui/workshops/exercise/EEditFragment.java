@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.sticknology.jani2.R;
 import com.sticknology.jani2.app_objects.trainingplan.Exercise;
+import com.sticknology.jani2.base_objects.Carrier;
 import com.sticknology.jani2.base_operations.AssetsHandler;
 import com.sticknology.jani2.base_operations.ListPicker;
 import com.sticknology.jani2.base_operations.UserDataHandler;
@@ -102,7 +103,7 @@ public class EEditFragment extends Fragment {
             binding.setDescription(mExercise.getDescription());
             binding.setType(ListPicker.matchListIndex(exerciseTypes, mExercise.getType()));
 
-            if(mExercise.getMuscleGroups() != null && !mExercise.getMuscleGroups()[0].equals("")) {
+            if(mExercise.getMuscleGroups() != null) {
                 binding.setGroup(ListPicker.matchListIndex(muscleGroups, mExercise.getMuscleGroups()[0]));
                 binding.setGroupVisible(View.VISIBLE);
             }
@@ -152,7 +153,13 @@ public class EEditFragment extends Fragment {
             String eName = binding.nameFwee.getText().toString();
             String eDescription = binding.descriptionFwee.getText().toString();
             String eType = binding.typeFwee.getSelectedItem().toString();
-            Exercise saveExercise = new Exercise(eName, eDescription, eType, null);
+            String mGroup = binding.groupFwee.getSelectedItem().toString();
+
+            ArrayList<Carrier> attributes = new ArrayList<Carrier>();
+            Carrier mGroups = new Carrier("MGROUP", mGroup);
+            attributes.add(mGroups);
+
+            Exercise saveExercise = new Exercise(eName, eDescription, eType, attributes);
 
             if(mHasInputExercise) {
                 EListFragment.userExercises.set(mInputExerciseIndex, saveExercise);
