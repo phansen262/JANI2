@@ -54,7 +54,7 @@ public class SListFragment extends Fragment {
 
         //Set recyclerview for list
         RecyclerView recyclerView = mBinding.revListFwsl;
-        SListAdapter sListAdapter = new SListAdapter(sessionList);
+        SListAdapter sListAdapter = new SListAdapter(null);
         recyclerView.setAdapter(sListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

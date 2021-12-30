@@ -1,6 +1,8 @@
 package com.sticknology.jani2.base_objects;
 
-public class Carrier {
+import java.io.Serializable;
+
+public class Carrier implements Serializable {
 
     private String mKey;
     private Object mPayload;

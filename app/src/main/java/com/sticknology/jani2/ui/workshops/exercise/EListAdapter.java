@@ -22,7 +22,7 @@ public class EListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private final List<Exercise> mExerciseList;
 
-    private static int flippedIndex = -1;
+    public static int flippedIndex = -1;
 
     public EListAdapter(List<Exercise> exerciseList){
 
@@ -96,9 +96,9 @@ public class EListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
                     //No idea why, but need to reset setContentView, potentially because of setcontentview above with data binding?
                     ((AppCompatActivity)vh2.mContext).setContentView(R.layout.activity_workshop_exercise);
-                    EEditFragment frag = EEditFragment.newInstance(mExerciseList.get(mPosition), true);
+                    EEditFragment frag = EEditFragment.newInstance(mExerciseList.get(mPosition), mPosition);
                     FragmentManager manager = ((AppCompatActivity)vh2.mContext).getSupportFragmentManager();
-                    manager.beginTransaction().addToBackStack("").replace(R.id.frag_container_awe, frag).commit();
+                    manager.beginTransaction().replace(R.id.frag_container_awe, frag).commit();
                 }
             });
 

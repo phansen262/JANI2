@@ -25,26 +25,37 @@ import java.util.ArrayList;
 
 public class EEditFragment extends Fragment {
 
+    //Class inputs
     private static Exercise mExercise;
-    private boolean mHasInputExercise;
+    private static boolean mHasInputExercise;
+    private static int mInputExerciseIndex;
 
+    //Class Variables
+    private FragmentWorkshopEEditBinding binding;
+
+    //Required empty constructor
     public EEditFragment() {
 
     }
 
-    public static EEditFragment newInstance(Exercise inputExercise, boolean hasInputExercise) {
+    //Default constructor without input exercise
+    public static EEditFragment newInstance(){
+        mHasInputExercise = false;
+        return new EEditFragment();
+    }
+
+    //Constructor to use if edit as opposed to new
+    public static EEditFragment newInstance(Exercise inputExercise, int inputIndex) {
         mExercise = inputExercise;
+        mHasInputExercise = true;
+        mInputExerciseIndex = inputIndex;
         EEditFragment fragment = new EEditFragment();
-        Bundle args = new Bundle();
-        args.putBoolean("hasInputExercise", hasInputExercise);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-        mHasInputExercise = getArguments().getBoolean("hasInputExercise");
         super.onCreate(savedInstanceState);
     }
 
@@ -64,7 +75,7 @@ public class EEditFragment extends Fragment {
         EWorkshopActivity.actionBar.setDisplayHomeAsUpEnabled(true);
 
         //Settup class binding
-        FragmentWorkshopEEditBinding binding = DataBindingUtil.setContentView(getActivity(),
+        binding = DataBindingUtil.setContentView(getActivity(),
                 R.layout.fragment_workshop_e_edit);
 
         //Set up spinner for type
@@ -90,7 +101,7 @@ public class EEditFragment extends Fragment {
             binding.setDescription(mExercise.getDescription());
             binding.setType(ListPicker.matchListIndex(exerciseTypes, mExercise.getType()));
 
-            if(!mExercise.getMuscleGroups()[0].equals("")) {
+            if(mExercise.getMuscleGroups() != null && !mExercise.getMuscleGroups()[0].equals("")) {
                 binding.setGroup(ListPicker.matchListIndex(muscleGroups, mExercise.getMuscleGroups()[0]));
                 binding.setGroupVisible(View.VISIBLE);
             }
@@ -133,11 +144,32 @@ public class EEditFragment extends Fragment {
             //Backwards navigation
             getActivity().setContentView(R.layout.activity_workshop_exercise);
             EListFragment frag = EListFragment.newInstance();
-            getActivity().getSupportFragmentManager().beginTransaction().addToBackStack("").replace(R.id.frag_container_awe, frag).commit();
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frag_container_awe, frag).commit();
 
         } else if(item.getItemId() == R.id.single_item){
 
             //Perform save function
+            if(mHasInputExercise){
+
+                //TODO: Add persistance so that save actually affects saved file
+
+                String eName = binding.nameFwee.getText().toString();
+                String eDescription = binding.descriptionFwee.getText().toString();
+                String eType = binding.typeFwee.getSelectedItem().toString();
+                Exercise saveExercise = new Exercise(eName, eDescription, eType, null);
+                EListFragment.userExercises.set(mInputExerciseIndex, saveExercise);
+
+                EListAdapter.flippedIndex = -1;
+
+                getActivity().setContentView(R.layout.activity_workshop_exercise);
+                EListFragment frag = EListFragment.newInstance();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frag_container_awe, frag).commit();
+
+            } else {
+
+                //TODO:  Add functionality for saving new exercise
+
+            }
 
         }
 

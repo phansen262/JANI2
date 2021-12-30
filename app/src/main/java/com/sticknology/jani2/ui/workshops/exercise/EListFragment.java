@@ -15,12 +15,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sticknology.jani2.R;
 import com.sticknology.jani2.app_objects.trainingplan.Exercise;
 import com.sticknology.jani2.base_operations.AssetsHandler;
+import com.sticknology.jani2.base_operations.UserDataHandler;
 import com.sticknology.jani2.databinding.FragmentWorkshopEListBinding;
 import com.sticknology.jani2.ui.workshops.session.SWorkshopActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EListFragment extends Fragment {
+
+    public static ArrayList<Exercise> userExercises;
+
+    public static EListAdapter eListAdapter;
 
     public EListFragment() {
         // Required empty public constructor
@@ -54,12 +60,15 @@ public class EListFragment extends Fragment {
         FragmentWorkshopEListBinding mBinding = DataBindingUtil.setContentView(getActivity(),
                 R.layout.fragment_workshop_e_list);
 
-        //Add default exercise list to list
-        List<Exercise> exerciseList =  AssetsHandler.getDefaultExercises(getContext());
+        //Add exercise list to list
+        if(userExercises == null) {
+            userExercises = new UserDataHandler().getUserExercises(getContext());
+        }
+        //List<Exercise> exerciseList =  AssetsHandler.getDefaultExercises(getContext());
 
         //Set up rev for list of exercises
         RecyclerView recyclerView = mBinding.revListFwel;
-        EListAdapter eListAdapter = new EListAdapter(exerciseList);
+        eListAdapter = new EListAdapter(userExercises);
         recyclerView.setAdapter(eListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -70,8 +79,8 @@ public class EListFragment extends Fragment {
 
                 //No idea why, but need to reset setContentView, potentially because of setcontentview above with data binding?
                 getActivity().setContentView(R.layout.activity_workshop_exercise);
-                EEditFragment frag = EEditFragment.newInstance(null, false);
-                getActivity().getSupportFragmentManager().beginTransaction().addToBackStack("").replace(R.id.frag_container_awe, frag).commit();
+                EEditFragment frag = EEditFragment.newInstance();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frag_container_awe, frag).commit();
             }
         });
     }
