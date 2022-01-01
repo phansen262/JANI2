@@ -68,7 +68,7 @@ public class EListFragment extends Fragment {
 
         //Set up rev for list of exercises
         RecyclerView recyclerView = mBinding.revListFwel;
-        eListAdapter = new EListAdapter(userExercises);
+        eListAdapter = new EListAdapter(userExercises, getActivity(), getContext());
         recyclerView.setAdapter(eListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

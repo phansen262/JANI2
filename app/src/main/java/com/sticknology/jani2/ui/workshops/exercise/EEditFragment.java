@@ -167,8 +167,6 @@ public class EEditFragment extends Fragment {
                 EListFragment.userExercises.add(saveExercise);
             }
 
-            EListAdapter.flippedIndex = -1;
-
             UserDataHandler.saveExercises(EListFragment.userExercises, getContext());
 
             getActivity().setContentView(R.layout.activity_workshop_exercise);
