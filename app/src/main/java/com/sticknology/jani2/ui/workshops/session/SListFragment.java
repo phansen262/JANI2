@@ -65,7 +65,7 @@ public class SListFragment extends Fragment {
 
                 //No idea why, but need to reset setContentView, potentially because of setcontentview above with data binding?
                 getActivity().setContentView(R.layout.activity_workshop_session);
-                SEditFragment frag = SEditFragment.newInstance(null, false);
+                SEditFragment frag = SEditFragment.newInstance();
                 getActivity().getSupportFragmentManager().beginTransaction().addToBackStack("").replace(R.id.frag_container_aws, frag).commit();
             }
         });

@@ -11,11 +11,11 @@ public class Session {
   private String mDescription;
   private String mType;
   
-  private List<Exercise> mExerciseList = new ArrayList();
-  private List<Carrier> mAttributes = new ArrayList();
+  private ArrayList<Exercise> mExerciseList = new ArrayList();
+  private ArrayList<Carrier> mAttributes = new ArrayList();
   
   //Base Constructor
-  public Session(String name, String description, String type, List<Exercise> exerciseList, List<Carrier> attributes){
+  public Session(String name, String description, String type, ArrayList<Exercise> exerciseList, ArrayList<Carrier> attributes){
     
     mName = name;
     mDescription = description;

@@ -1,9 +1,7 @@
 package com.sticknology.jani2.app_objects.trainingplan;
 
-import com.sticknology.jani2.base_objects.Carrier;
-
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Exercise implements Serializable {
 
@@ -11,16 +9,14 @@ public class Exercise implements Serializable {
     private String mDescription;
     private String mType;
 
-    private ArrayList<Carrier> mAttributes = new ArrayList<>();
+    private HashMap<String, Object> mAttributes;
 
-    private ArrayList<Carrier> mData = new ArrayList<>();
-
-    public Exercise(String name, String description, String type, ArrayList<Carrier> carrierList){
+    public Exercise(String name, String description, String type, HashMap<String, Object> attributes){
 
         mName = name;
         mDescription = description;
         mType = type;
-        mAttributes = carrierList;
+        mAttributes = attributes;
     }
 
     //Baseline get methods
@@ -32,34 +28,14 @@ public class Exercise implements Serializable {
 
     public String getType(){return mType;}
 
-    public String[] getMuscleGroups(){
-
-        String inter = "";
-
-        if(mAttributes != null) {
-            for (int i = 0; i < mAttributes.size(); i++) {
-
-                if (mAttributes.get(i).getKey().matches("MGROUP")) {
-                    inter += (String) mAttributes.get(i).getPayload() + "@!@";
-                }
-            }
-            return inter.split("@!@");
-        }
-
-        return null;
-    }
-
     //Interact with Attributes
-    public void addAttributes(ArrayList<Carrier> newAttributes){mAttributes = newAttributes;}
-
-    public ArrayList<Carrier> getAttributes(){return mAttributes;}
-
-    //Interact with exercise data
-    public void addData(ArrayList<Carrier> newData){
-        mData = newData;
+    public void addAttribute(String key, Object payload){
+        mAttributes.put(key, payload);
     }
 
-    public ArrayList<Carrier> getData(){
-        return mData;
+    public HashMap<String, Object> getAttributes(){return mAttributes;}
+
+    public Object getAttributeItem(String key){
+        return mAttributes.get(key);
     }
 }

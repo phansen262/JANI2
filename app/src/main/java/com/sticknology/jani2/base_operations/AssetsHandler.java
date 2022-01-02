@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class AssetsHandler {
 
@@ -24,13 +25,16 @@ public class AssetsHandler {
 
                 String[] splitExercise = fileLines[i].split("@!@");
 
-                ArrayList<Carrier> attributes = new ArrayList<>();
+                HashMap<String, Object> attributes = new HashMap<String, Object>();
                 if(splitExercise.length != 3) {
-                    attributes.add(new Carrier("MGROUP", splitExercise[3]));
+                    String[] mGroups = new String[1];
+                    mGroups[0] = splitExercise[3];
+                    attributes.put("MGROUP", mGroups);
                 }
                 outputList.add(new Exercise(splitExercise[0], splitExercise[1], splitExercise[2], attributes));
             }
         }
+
         return  outputList;
     }
 
@@ -44,9 +48,6 @@ public class AssetsHandler {
 
                 String[] sessionDetails = fileLines[i].split("@!@");
                 String[] sessionAttributes = fileLines[i+1].split("@!@");
-
-
-
             }
         }
 

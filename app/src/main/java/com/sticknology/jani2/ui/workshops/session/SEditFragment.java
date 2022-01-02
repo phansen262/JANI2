@@ -30,19 +30,23 @@ import java.util.ArrayList;
 public class SEditFragment extends Fragment {
 
     private static Session mSession;
-    private boolean mHasInputSession;
+    private static boolean mHasInputSession;
+    private static int mIndex;
 
     public SEditFragment() {
 
     }
 
-    public static SEditFragment newInstance(Session inputSession, boolean hasInputSession) {
+    public static SEditFragment newInstance(Session inputSession, int index) {
         mSession = inputSession;
-        SEditFragment fragment = new SEditFragment();
-        Bundle args = new Bundle();
-        args.putBoolean("hasInputSession", hasInputSession);
-        fragment.setArguments(args);
-        return fragment;
+        mHasInputSession = true;
+        mIndex = index;
+        return new SEditFragment();
+    }
+
+    public static SEditFragment newInstance(){
+        mHasInputSession = false;
+        return new SEditFragment();
     }
 
     @Override

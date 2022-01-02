@@ -24,6 +24,7 @@ import com.sticknology.jani2.base_operations.UserDataHandler;
 import com.sticknology.jani2.databinding.FragmentWorkshopEEditBinding;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class EEditFragment extends Fragment {
 
@@ -103,8 +104,8 @@ public class EEditFragment extends Fragment {
             binding.setDescription(mExercise.getDescription());
             binding.setType(ListPicker.matchListIndex(exerciseTypes, mExercise.getType()));
 
-            if(mExercise.getMuscleGroups() != null) {
-                binding.setGroup(ListPicker.matchListIndex(muscleGroups, mExercise.getMuscleGroups()[0]));
+            if(mExercise.getAttributeItem("MGROUP") != null) {
+                binding.setGroup(ListPicker.matchListIndex(muscleGroups, ((String[]) mExercise.getAttributeItem("MGROUP"))[0]));
                 binding.setGroupVisible(View.VISIBLE);
             }
 
@@ -153,11 +154,12 @@ public class EEditFragment extends Fragment {
             String eName = binding.nameFwee.getText().toString();
             String eDescription = binding.descriptionFwee.getText().toString();
             String eType = binding.typeFwee.getSelectedItem().toString();
-            String mGroup = binding.groupFwee.getSelectedItem().toString();
+            String[] mGroup = new String[1];
+            mGroup[0] = binding.groupFwee.getSelectedItem().toString();
 
-            ArrayList<Carrier> attributes = new ArrayList<Carrier>();
+            HashMap<String, Object> attributes = new HashMap<>();
             Carrier mGroups = new Carrier("MGROUP", mGroup);
-            attributes.add(mGroups);
+            attributes.put("MGROUP", mGroups);
 
             Exercise saveExercise = new Exercise(eName, eDescription, eType, attributes);
 

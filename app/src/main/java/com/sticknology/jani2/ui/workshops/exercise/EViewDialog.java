@@ -30,9 +30,9 @@ public class EViewDialog{
         type.setText(exercise.getType());
         TextView description = dialogView.findViewById(R.id.dialog_tv_description_dev);
         description.setText(exercise.getDescription());
-        if(exercise.getMuscleGroups() != null) {
+        if(exercise.getAttributeItem("MGROUP") != null) {
             TextView mgroup = dialogView.findViewById(R.id.dialog_tv_mgroup_dev);
-            mgroup.setText(exercise.getMuscleGroups()[0]);
+            mgroup.setText(((String[]) exercise.getAttributeItem("MGROUP"))[0]);
         }
 
         //Set button behavior
