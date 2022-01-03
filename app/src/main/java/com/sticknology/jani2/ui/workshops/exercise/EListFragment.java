@@ -2,6 +2,9 @@ package com.sticknology.jani2.ui.workshops.exercise;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -13,32 +16,40 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sticknology.jani2.R;
-import com.sticknology.jani2.app_objects.trainingplan.Exercise;
-import com.sticknology.jani2.base_operations.AssetsHandler;
-import com.sticknology.jani2.base_operations.UserDataHandler;
+import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
+import com.sticknology.jani2.base_operations.SaveHandler;
 import com.sticknology.jani2.databinding.FragmentWorkshopEListBinding;
 import com.sticknology.jani2.ui.workshops.session.SWorkshopActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class EListFragment extends Fragment {
 
     public static ArrayList<Exercise> userExercises;
 
-    public static EListAdapter eListAdapter;
+    public static boolean fromSession;
 
     public EListFragment() {
         // Required empty public constructor
     }
 
+    //Default behavior of fragment
     public static EListFragment newInstance() {
 
-        EListFragment fragment = new EListFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
+        fromSession = false;
+        return new EListFragment();
+    }
 
-        return fragment;
+    //For including whether or not this is coming from a session workshop request
+    public static EListFragment newInstance(boolean session){
+
+        if(session) {
+            fromSession = true;
+        } else {
+            fromSession = false;
+        }
+
+        return new EListFragment();
     }
 
     @Override
@@ -53,8 +64,13 @@ public class EListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setHasOptionsMenu(false);
-        EWorkshopActivity.actionBar.setDisplayHomeAsUpEnabled(false);
+        if(!fromSession) {
+            setHasOptionsMenu(false);
+            EWorkshopActivity.actionBar.setDisplayHomeAsUpEnabled(false);
+        } else {
+            setHasOptionsMenu(true);
+            SWorkshopActivity.actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         //Set up binding for class use
         FragmentWorkshopEListBinding mBinding = DataBindingUtil.setContentView(getActivity(),
@@ -62,13 +78,13 @@ public class EListFragment extends Fragment {
 
         //Add exercise list to list
         if(userExercises == null) {
-            userExercises = new UserDataHandler().getUserExercises(getContext());
+            userExercises = (ArrayList<Exercise>) new SaveHandler().getObjectPayload(getContext(), "user_exercises.ecf");
         }
         //List<Exercise> exerciseList =  AssetsHandler.getDefaultExercises(getContext());
 
         //Set up rev for list of exercises
         RecyclerView recyclerView = mBinding.revListFwel;
-        eListAdapter = new EListAdapter(userExercises, getActivity(), getContext());
+        EListAdapter eListAdapter = new EListAdapter(userExercises, getActivity(), getContext());
         recyclerView.setAdapter(eListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -83,5 +99,25 @@ public class EListFragment extends Fragment {
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frag_container_awe, frag).commit();
             }
         });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.single_item, menu);
+        menu.getItem(0).setTitle("Done");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+
+        if(item.getItemId() == android.R.id.home || item.getItemId() == R.id.single_item){
+
+            //Backwards navigation :  Only from session type
+            getActivity().setContentView(R.layout.activity_workshop_session);
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

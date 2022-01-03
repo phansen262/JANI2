@@ -1,7 +1,8 @@
-package com.sticknology.jani2.app_objects.trainingplan;
+package com.sticknology.jani2.app_objects.trainingplan.exercises;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 
 public class Exercise implements Serializable {
 
@@ -9,9 +10,9 @@ public class Exercise implements Serializable {
     private String mDescription;
     private String mType;
 
-    private HashMap<String, Object> mAttributes;
+    private HashMap<String, List<String>> mAttributes;
 
-    public Exercise(String name, String description, String type, HashMap<String, Object> attributes){
+    public Exercise(String name, String description, String type, HashMap<String, List<String>> attributes){
 
         mName = name;
         mDescription = description;
@@ -29,13 +30,13 @@ public class Exercise implements Serializable {
     public String getType(){return mType;}
 
     //Interact with Attributes
-    public void addAttribute(String key, Object payload){
+    public void addAttribute(String key, List<String> payload){
         mAttributes.put(key, payload);
     }
 
-    public HashMap<String, Object> getAttributes(){return mAttributes;}
+    public HashMap<String, List<String>> getAttributes(){return mAttributes;}
 
-    public Object getAttributeItem(String key){
+    public List<String> getAttributeItem(String key){
         return mAttributes.get(key);
     }
 }

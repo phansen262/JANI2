@@ -7,8 +7,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,43 +14,39 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.sticknology.jani2.R;
-import com.sticknology.jani2.app_objects.trainingplan.Session;
-import com.sticknology.jani2.base_operations.AssetsHandler;
-import com.sticknology.jani2.base_operations.ListPicker;
-import com.sticknology.jani2.databinding.FragmentWorkshopEEditBinding;
-import com.sticknology.jani2.databinding.FragmentWorkshopSEditBinding;
-import com.sticknology.jani2.databinding.FragmentWorkshopSListBinding;
-import com.sticknology.jani2.ui.workshops.exercise.EListFragment;
-import com.sticknology.jani2.ui.workshops.exercise.EWorkshopActivity;
+import com.sticknology.jani2.app_objects.trainingplan.sessions.Session;
+import com.sticknology.jani2.databinding.FragmentWorkshopSEditLandingBinding;
 
-import java.util.ArrayList;
+public class SEditFragLanding extends Fragment {
 
-public class SEditFragment extends Fragment {
+    public static Session mSession;
+    protected static boolean mHasInputSession;
+    protected static int mIndex;
 
-    private static Session mSession;
-    private static boolean mHasInputSession;
-    private static int mIndex;
+    private FragmentWorkshopSEditLandingBinding mBinding;
 
-    public SEditFragment() {
+    public SEditFragLanding() {
 
     }
 
-    public static SEditFragment newInstance(Session inputSession, int index) {
+    public static SEditFragLanding newInstance(Session inputSession, int index) {
         mSession = inputSession;
         mHasInputSession = true;
         mIndex = index;
-        return new SEditFragment();
+        return new SEditFragLanding();
     }
 
-    public static SEditFragment newInstance(){
+    public static SEditFragLanding newInstance(){
         mHasInputSession = false;
-        return new SEditFragment();
+        if(mSession == null) {
+            mSession = new Session(null, null, null, null, null);
+        }
+        return new SEditFragLanding();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-        mHasInputSession = getArguments().getBoolean("hasInputSession");
         super.onCreate(savedInstanceState);
     }
 
@@ -60,7 +54,7 @@ public class SEditFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_workshop_s_edit, container, false);
+        return inflater.inflate(R.layout.fragment_workshop_s_edit_landing, container, false);
     }
 
     @Override
@@ -72,8 +66,14 @@ public class SEditFragment extends Fragment {
         SWorkshopActivity.actionBar.setDisplayHomeAsUpEnabled(true);
 
         //Settup class binding
-        FragmentWorkshopSEditBinding binding = DataBindingUtil.setContentView(getActivity(),
-                R.layout.fragment_workshop_s_edit);
+        mBinding = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_workshop_s_edit_landing);
+
+        if(mSession.getName() != null && !mSession.getName().equals("")){
+            mBinding.setName(mSession.getName());
+        }
+        if(mSession.getDescription() != null && !mSession.getDescription().equals("")){
+            mBinding.setDescription(mSession.getDescription());
+        }
 
     }
 
@@ -82,7 +82,7 @@ public class SEditFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.single_item, menu);
-        menu.getItem(0).setTitle("Save");
+        menu.getItem(0).setTitle("Next");
     }
 
     @Override
@@ -97,7 +97,12 @@ public class SEditFragment extends Fragment {
 
         } else if(item.getItemId() == R.id.single_item){
 
-            //Perform save function
+            mSession.setName(mBinding.nameFwsel.getText().toString());
+            mSession.setDescription(mBinding.descriptionFwsel.getText().toString());
+
+            getActivity().setContentView(R.layout.activity_workshop_session);
+            SEditFragComps frag = new SEditFragComps();
+            getActivity().getSupportFragmentManager().beginTransaction().addToBackStack("").replace(R.id.frag_container_aws, frag).commit();
 
         }
 

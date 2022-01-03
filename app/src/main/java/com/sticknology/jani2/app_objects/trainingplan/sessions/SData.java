@@ -1,10 +1,8 @@
-package com.sticknology.jani2.app_objects.trainingplan;
+package com.sticknology.jani2.app_objects.trainingplan.sessions;
 
 import com.sticknology.jani2.base_objects.MTimeDay;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class SData {
 

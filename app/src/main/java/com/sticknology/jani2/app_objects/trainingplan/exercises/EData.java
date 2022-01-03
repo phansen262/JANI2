@@ -1,4 +1,4 @@
-package com.sticknology.jani2.app_objects.trainingplan;
+package com.sticknology.jani2.app_objects.trainingplan.exercises;
 
 import java.util.HashMap;
 

@@ -13,10 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sticknology.jani2.R;
+import com.sticknology.jani2.app_objects.trainingplan.sessions.Session;
+import com.sticknology.jani2.base_operations.SaveHandler;
 import com.sticknology.jani2.databinding.FragmentWorkshopSListBinding;
-import com.sticknology.jani2.ui.workshops.exercise.EEditFragment;
-import com.sticknology.jani2.ui.workshops.exercise.EListAdapter;
-import com.sticknology.jani2.ui.workshops.exercise.EWorkshopActivity;
+
+import java.util.List;
 
 public class SListFragment extends Fragment {
 
@@ -53,10 +54,15 @@ public class SListFragment extends Fragment {
                 R.layout.fragment_workshop_s_list);
 
         //Set recyclerview for list
-        RecyclerView recyclerView = mBinding.revListFwsl;
-        SListAdapter sListAdapter = new SListAdapter(null);
-        recyclerView.setAdapter(sListAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        if(getContext().getFileStreamPath("user_sessions.scf").exists()) {
+
+            List<Session> sessionList = (List<Session>) new SaveHandler().getObjectPayload(getContext(), "user_sessions.scf");
+
+            RecyclerView recyclerView = mBinding.revListFwsl;
+            SListAdapter sListAdapter = new SListAdapter(sessionList);
+            recyclerView.setAdapter(sListAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        }
 
         //Set listener for new session floating button
         mBinding.buttonNewSessionFwsl.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +71,7 @@ public class SListFragment extends Fragment {
 
                 //No idea why, but need to reset setContentView, potentially because of setcontentview above with data binding?
                 getActivity().setContentView(R.layout.activity_workshop_session);
-                SEditFragment frag = SEditFragment.newInstance();
+                SEditFragLanding frag = SEditFragLanding.newInstance();
                 getActivity().getSupportFragmentManager().beginTransaction().addToBackStack("").replace(R.id.frag_container_aws, frag).commit();
             }
         });

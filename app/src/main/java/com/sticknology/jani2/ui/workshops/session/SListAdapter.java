@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sticknology.jani2.app_objects.trainingplan.Session;
+import com.sticknology.jani2.app_objects.trainingplan.sessions.Session;
 import com.sticknology.jani2.databinding.ReviWorkshopEListBinding;
 import com.sticknology.jani2.databinding.ReviWorkshopSListBinding;
 import com.sticknology.jani2.ui.workshops.exercise.EListAdapter;

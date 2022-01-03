@@ -15,8 +15,9 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        //Use Below Line to Clear User Generated Exercises and reset to default exercise list
-        this.deleteFile("user_exercises.ecf");
+        //Use Below Lines to Clear User Generated Files
+        //this.deleteFile("user_exercises.ecf");
+        //this.deleteFile("user_sessions.ecf");
 
         //TODO: Need to move initialization of files to actual main activity when active
         UserFileInitializer.initExerciseUserFile(this);

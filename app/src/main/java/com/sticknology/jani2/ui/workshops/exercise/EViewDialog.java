@@ -8,12 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentActivity;
 
 import com.sticknology.jani2.R;
-import com.sticknology.jani2.app_objects.trainingplan.Exercise;
-import com.sticknology.jani2.databinding.DialogEViewBinding;
+import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
 
 public class EViewDialog{
 
@@ -32,7 +30,7 @@ public class EViewDialog{
         description.setText(exercise.getDescription());
         if(exercise.getAttributeItem("MGROUP") != null) {
             TextView mgroup = dialogView.findViewById(R.id.dialog_tv_mgroup_dev);
-            mgroup.setText(((String[]) exercise.getAttributeItem("MGROUP"))[0]);
+            mgroup.setText(exercise.getAttributeItem("MGROUP").get(0));
         }
 
         //Set button behavior

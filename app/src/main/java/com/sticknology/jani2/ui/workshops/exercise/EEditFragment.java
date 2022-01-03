@@ -16,15 +16,16 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.sticknology.jani2.R;
-import com.sticknology.jani2.app_objects.trainingplan.Exercise;
+import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
 import com.sticknology.jani2.base_objects.Carrier;
 import com.sticknology.jani2.base_operations.AssetsHandler;
 import com.sticknology.jani2.base_operations.ListPicker;
-import com.sticknology.jani2.base_operations.UserDataHandler;
+import com.sticknology.jani2.base_operations.SaveHandler;
 import com.sticknology.jani2.databinding.FragmentWorkshopEEditBinding;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class EEditFragment extends Fragment {
 
@@ -105,7 +106,7 @@ public class EEditFragment extends Fragment {
             binding.setType(ListPicker.matchListIndex(exerciseTypes, mExercise.getType()));
 
             if(mExercise.getAttributeItem("MGROUP") != null) {
-                binding.setGroup(ListPicker.matchListIndex(muscleGroups, ((String[]) mExercise.getAttributeItem("MGROUP"))[0]));
+                binding.setGroup(ListPicker.matchListIndex(muscleGroups, mExercise.getAttributeItem("MGROUP").get(0)));
                 binding.setGroupVisible(View.VISIBLE);
             }
 
@@ -154,12 +155,11 @@ public class EEditFragment extends Fragment {
             String eName = binding.nameFwee.getText().toString();
             String eDescription = binding.descriptionFwee.getText().toString();
             String eType = binding.typeFwee.getSelectedItem().toString();
-            String[] mGroup = new String[1];
-            mGroup[0] = binding.groupFwee.getSelectedItem().toString();
+            List<String> mGroup = new ArrayList<String>();
+            mGroup.add(binding.groupFwee.getSelectedItem().toString());
 
-            HashMap<String, Object> attributes = new HashMap<>();
-            Carrier mGroups = new Carrier("MGROUP", mGroup);
-            attributes.put("MGROUP", mGroups);
+            HashMap<String, List<String>> attributes = new HashMap<>();
+            attributes.put("MGROUP", mGroup);
 
             Exercise saveExercise = new Exercise(eName, eDescription, eType, attributes);
 
@@ -169,7 +169,7 @@ public class EEditFragment extends Fragment {
                 EListFragment.userExercises.add(saveExercise);
             }
 
-            UserDataHandler.saveExercises(EListFragment.userExercises, getContext());
+            SaveHandler.saveExercises(EListFragment.userExercises, getContext());
 
             getActivity().setContentView(R.layout.activity_workshop_exercise);
             EListFragment frag = EListFragment.newInstance();

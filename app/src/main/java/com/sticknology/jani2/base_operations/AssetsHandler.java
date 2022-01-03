@@ -2,16 +2,14 @@ package com.sticknology.jani2.base_operations;
 
 import android.content.Context;
 
-import com.sticknology.jani2.app_objects.trainingplan.Exercise;
-import com.sticknology.jani2.app_objects.trainingplan.Session;
-import com.sticknology.jani2.base_objects.Carrier;
-import com.sticknology.jani2.base_objects.Tuple;
+import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class AssetsHandler {
 
@@ -25,10 +23,10 @@ public class AssetsHandler {
 
                 String[] splitExercise = fileLines[i].split("@!@");
 
-                HashMap<String, Object> attributes = new HashMap<String, Object>();
+                HashMap<String, List<String>> attributes = new HashMap<String, List<String>>();
                 if(splitExercise.length != 3) {
-                    String[] mGroups = new String[1];
-                    mGroups[0] = splitExercise[3];
+                    List<String> mGroups = new ArrayList<>();
+                    mGroups.add(splitExercise[3]);
                     attributes.put("MGROUP", mGroups);
                 }
                 outputList.add(new Exercise(splitExercise[0], splitExercise[1], splitExercise[2], attributes));
@@ -37,23 +35,6 @@ public class AssetsHandler {
 
         return  outputList;
     }
-
-    public static ArrayList<Session> getDefaultSessions(Context context) {
-
-        //Reads default sessions file
-        String[] fileLines = readAsset(context, "default_info/exercises.ecf");
-        ArrayList<Session> outputList = new ArrayList<Session>();
-        if(fileLines[1].equals("VERSION1.1")){
-            for(int i = 3; i < fileLines.length; i = i + 2){
-
-                String[] sessionDetails = fileLines[i].split("@!@");
-                String[] sessionAttributes = fileLines[i+1].split("@!@");
-            }
-        }
-
-        return null;
-    }
-
 
     public static ArrayList<String> getExerciseTypes(Context context) {
 
