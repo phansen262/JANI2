@@ -12,6 +12,12 @@ public class Exercise implements Serializable {
 
     private HashMap<String, List<String>> mAttributes;
 
+    //Empty constructor to use add/set functions to build instead of constructor
+    public Exercise(){
+
+        mAttributes = new HashMap<String, List<String>>();
+    }
+
     public Exercise(String name, String description, String type, HashMap<String, List<String>> attributes){
 
         mName = name;
@@ -28,6 +34,11 @@ public class Exercise implements Serializable {
     public String getDescription(){return mDescription;}
 
     public String getType(){return mType;}
+
+    //Baseline set methods
+    public void setName(String name){mName = name;}
+    public void setDescription(String description){mDescription = description;}
+    public void setType(String type){mType = type;}
 
     //Interact with Attributes
     public void addAttribute(String key, List<String> payload){

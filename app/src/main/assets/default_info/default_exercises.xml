@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<default_exercises>
+    <default_exercises name="Run" edescription="test running description" type="Cardio"/>
+    <default_exercises name="Bike" edescription="test biking description" type="Cardio"/>
+    <default_exercises name="Bench" edescription="test bench descirption" type="Weights" mGroups="Chest"/>
+    <default_exercises name="Situp" edescription="test situp description" type="Strength" mGroups="Abs"/>
+</default_exercises>
