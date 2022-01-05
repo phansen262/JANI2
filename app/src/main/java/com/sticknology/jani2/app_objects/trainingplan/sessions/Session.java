@@ -1,7 +1,7 @@
 package com.sticknology.jani2.app_objects.trainingplan.sessions;
 
+import com.sticknology.jani2.app_objects.trainingplan.exercises.EData;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
-import com.sticknology.jani2.base_objects.Carrier;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,11 +13,11 @@ public class Session {
   private String mDescription;
   private String mType;
   
-  private ArrayList<Exercise> mExerciseList = new ArrayList();
+  private ArrayList<EData> mExerciseList = new ArrayList();
   private HashMap<String, List<String>> mAttributes = new HashMap<>();
   
   //Base Constructor
-  public Session(String name, String description, String type, ArrayList<Exercise> exerciseList, HashMap<String, List<String>> attributes){
+  public Session(String name, String description, String type, ArrayList<EData> exerciseList, HashMap<String, List<String>> attributes){
     
     mName = name;
     mDescription = description;
@@ -31,13 +31,16 @@ public class Session {
   public String getName(){return mName;}
   public String getDescription(){return mDescription;}
   public String getType(){return mType;}
-  public ArrayList<Exercise> getExerciseList(){return mExerciseList;}
+  public ArrayList<EData> getExerciseList(){return mExerciseList;}
   
   public void setName(String name){mName = name;}
   public void setDescription(String description){mDescription = description;}
   public void setType(String type){mType = type;}
-  public void setExerciseList(ArrayList<Exercise> newList){mExerciseList = newList;}
+  public void setExerciseList(ArrayList<EData> newList){mExerciseList = newList;}
 
   //Adders
-  public void addExercise(Exercise newExercise){mExerciseList.add(newExercise);}
+  public void addExercise(Exercise newExercise){
+    mExerciseList.add(new EData(newExercise, new HashMap<String, String>()));
+  }
+  public void addExercise(EData eData){mExerciseList.add(eData);}
 }

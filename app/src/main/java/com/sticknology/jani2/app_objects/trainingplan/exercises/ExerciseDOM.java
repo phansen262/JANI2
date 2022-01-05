@@ -38,6 +38,18 @@ public class ExerciseDOM {
         }
     }
 
+    public enum Tags {
+        USER_EXERCISES("user_exercises"),
+        EXERCISE("exercise"),
+        NAME("name"),
+        EDESCRIPTION("edescription"),
+        TYPE("type"),
+        MGROUPS("mGroups");
+
+        public final String tag;
+        Tags(String tag){this.tag = tag;}
+    }
+
     public static void writeUserExercises(Context context, List<Exercise> exerciseList){
 
         try {
@@ -46,32 +58,32 @@ public class ExerciseDOM {
             Document doc = dBuilder.newDocument();
 
             //Root Element
-            Element default_exercises = doc.createElement("user_exercises");
+            Element default_exercises = doc.createElement(Tags.USER_EXERCISES.tag);
             doc.appendChild(default_exercises);
 
             for(int i = 0; i < exerciseList.size(); i++) {
 
                 //Root Element
-                Element exercise = doc.createElement("exercise");
+                Element exercise = doc.createElement(Tags.EXERCISE.tag);
                 default_exercises.appendChild(exercise);
 
                 //Name attr
-                Attr name = doc.createAttribute("name");
+                Attr name = doc.createAttribute(Tags.NAME.tag);
                 name.setValue(exerciseList.get(i).getName());
                 exercise.setAttributeNode(name);
                 //Description attr
-                Attr description = doc.createAttribute("edescription");
+                Attr description = doc.createAttribute(Tags.EDESCRIPTION.tag);
                 description.setValue(exerciseList.get(i).getDescription());
                 exercise.setAttributeNode(description);
                 //Type attr
-                Attr type = doc.createAttribute("type");
+                Attr type = doc.createAttribute(Tags.TYPE.tag);
                 type.setValue(exerciseList.get(i).getType());
                 exercise.setAttributeNode(type);
 
                 //mGroup attr
-                if(exerciseList.get(i).getAttributeItem("MGROUP") != null) {
-                    Attr mGroups = doc.createAttribute("mGroups");
-                    mGroups.setValue(exerciseList.get(i).getAttributeItem("MGROUP").get(0));
+                if(exerciseList.get(i).getAttributeItem(EAttributeKeys.MGROUP.getKey()) != null) {
+                    Attr mGroups = doc.createAttribute(Tags.MGROUPS.tag);
+                    mGroups.setValue(exerciseList.get(i).getAttributeItem(EAttributeKeys.MGROUP.getKey()).get(0));
                     exercise.setAttributeNode(mGroups);
                 }
             }
@@ -116,24 +128,22 @@ public class ExerciseDOM {
             doc.getDocumentElement().normalize();
 
             Element rootNode = doc.getDocumentElement();
-            NodeList nodeList = rootNode.getElementsByTagName("exercise");
+            NodeList nodeList = rootNode.getElementsByTagName(Tags.EXERCISE.tag);
 
             for(int i = 0; i < nodeList.getLength(); i++){
 
                 NamedNodeMap attributeMap = nodeList.item(i).getAttributes();
                 Exercise exerciseObject = new Exercise();
-                exerciseObject.setName(attributeMap.getNamedItem("name").getNodeValue());
-                exerciseObject.setDescription(attributeMap.getNamedItem("edescription").getNodeValue());
-                exerciseObject.setType(attributeMap.getNamedItem("type").getNodeValue());
-                if(attributeMap.getNamedItem("mGroups") != null){
+                exerciseObject.setName(attributeMap.getNamedItem(Tags.NAME.tag).getNodeValue());
+                exerciseObject.setDescription(attributeMap.getNamedItem(Tags.EDESCRIPTION.tag).getNodeValue());
+                exerciseObject.setType(attributeMap.getNamedItem(Tags.TYPE.tag).getNodeValue());
+                if(attributeMap.getNamedItem(Tags.MGROUPS.tag) != null){
                     List<String> eAttributes = new ArrayList<String>();
-                    eAttributes.add(attributeMap.getNamedItem("mGroups").getNodeValue());
-                    exerciseObject.addAttribute("MGROUP", eAttributes);
+                    eAttributes.add(attributeMap.getNamedItem(Tags.MGROUPS.tag).getNodeValue());
+                    exerciseObject.addAttribute(EAttributeKeys.MGROUP.getKey(), eAttributes);
                 }
                 exerciseList.add(exerciseObject);
             }
-
-            System.out.println("THIS IS SIZE OF NODES: " + nodeList.getLength());
 
         } catch (ParserConfigurationException | SAXException | IOException e){
 
@@ -144,7 +154,7 @@ public class ExerciseDOM {
         if(exerciseList.size() != 0) {
             return exerciseList;
         } else {
-            System.out.println("ExerciseDOM.java line 145 ----------------- Returning null list");
+            System.out.println("ExerciseDOM.java getExerciseList ------------ Returning null list");
             return null;
         }
     }

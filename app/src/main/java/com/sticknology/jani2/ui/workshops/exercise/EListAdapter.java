@@ -10,9 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sticknology.jani2.app_objects.trainingplan.exercises.EData;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
 import com.sticknology.jani2.databinding.ReviWorkshopEListBinding;
-import com.sticknology.jani2.ui.workshops.session.SEditFragComps;
 import com.sticknology.jani2.ui.workshops.session.SEditFragLanding;
 
 import java.util.ArrayList;
@@ -66,19 +66,19 @@ public class EListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         });
 
         if(EListFragment.fromSession){
-            vh1.mBinding.setAddButton(View.VISIBLE);
+            vh1.mBinding.addButtonRwel.setVisibility(View.VISIBLE);
             vh1.mBinding.addButtonRwel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
                     if(SEditFragLanding.mSession.getExerciseList() == null){
-                        SEditFragLanding.mSession.setExerciseList(new ArrayList<Exercise>());
+                        SEditFragLanding.mSession.setExerciseList(new ArrayList<EData>());
                     }
                     SEditFragLanding.mSession.addExercise(EListFragment.userExercises.get(mPosition));
                 }
             });
         } else {
-            vh1.mBinding.setAddButton(View.GONE);
+            vh1.mBinding.addButtonRwel.setVisibility(View.GONE);
         }
     }
 

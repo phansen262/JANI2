@@ -9,9 +9,6 @@
         <variable
             name="description"
             type="String" />
-        <variable
-            name="add_button"
-            type="int" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -56,7 +53,7 @@
                 android:background="#005FFD"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="10dp"
-                android:visibility="@{add_button}"
+                android:visibility="gone"
                 android:id="@+id/add_button_rwel"
                 android:clickable="true"
                 android:focusable="true"

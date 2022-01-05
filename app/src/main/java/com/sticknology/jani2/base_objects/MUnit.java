@@ -1,17 +1,29 @@
 package com.sticknology.jani2.base_objects;
 
-public class MUnitValue {
+public class MUnit {
 
     //Private Variables Stored Inside Objects
     private double mValue;
     private MUnitsList mUnit;
 
     //Basic Constructors
-    //Public constructor for general outside use
-    public MUnitValue(double value, MUnitsList unit){
+    public MUnit(double value, MUnitsList unit){
 
         mValue = value;
         mUnit = unit;
+    }
+
+    //Constructor for display string entering
+    public MUnit(String stringValue){
+
+        String[] comps = stringValue.split(" ");
+        mValue = Double.parseDouble(comps[1]);
+
+        for(MUnitsList mUnit : MUnitsList.values()){
+            if(comps[1].equals(mUnit.mLabel) || comps[1].equals(mUnit.mFullName)){
+                this.mUnit = mUnit;
+            }
+        }
     }
 
     //TODO:  Convert to allow any number of specified decimals??
