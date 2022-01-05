@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sticknology.jani2.R;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.ExerciseDOM;
-import com.sticknology.jani2.base_operations.SaveHandler;
 import com.sticknology.jani2.databinding.FragmentWorkshopEListBinding;
 import com.sticknology.jani2.ui.workshops.session.SWorkshopActivity;
 
@@ -79,7 +78,7 @@ public class EListFragment extends Fragment {
 
         //Add exercise list to list
         if(userExercises == null) {
-            userExercises = (ArrayList<Exercise>) new SaveHandler().getObjectPayload(getContext(), "user_exercises.ecf");
+            userExercises = ExerciseDOM.getExerciseList(getContext(), ExerciseDOM.ExerciseFilePath.USER.path);
         }
         //List<Exercise> exerciseList =  AssetsHandler.getDefaultExercises(getContext());
 

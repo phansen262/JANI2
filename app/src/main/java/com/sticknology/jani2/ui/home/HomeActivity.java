@@ -6,9 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.sticknology.jani2.R;
-import com.sticknology.jani2.app_objects.trainingplan.exercises.ExerciseDOM;
-import com.sticknology.jani2.base_operations.AssetsHandler;
+import com.sticknology.jani2.app_objects.trainingplan.exercises.EType;
 import com.sticknology.jani2.base_operations.UserFileInitializer;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Set;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -26,8 +31,5 @@ public class HomeActivity extends AppCompatActivity {
 
         Fragment workshopFragment = WorkshopFragment.newInstance();
         getSupportFragmentManager().beginTransaction().add(R.id.frag_container_ah, workshopFragment, null).commit();
-
-        //ExerciseDOM.makeExerciseXML(this, AssetsHandler.getDefaultExercises(this));
-        //ExerciseDOM.getUserExercises(this);
     }
 }

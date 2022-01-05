@@ -16,11 +16,11 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.sticknology.jani2.R;
+import com.sticknology.jani2.app_objects.other.Muscle;
+import com.sticknology.jani2.app_objects.trainingplan.exercises.EType;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
-import com.sticknology.jani2.base_objects.Carrier;
-import com.sticknology.jani2.base_operations.AssetsHandler;
+import com.sticknology.jani2.app_objects.trainingplan.exercises.ExerciseDOM;
 import com.sticknology.jani2.base_operations.ListPicker;
-import com.sticknology.jani2.base_operations.SaveHandler;
 import com.sticknology.jani2.databinding.FragmentWorkshopEEditBinding;
 
 import java.util.ArrayList;
@@ -53,8 +53,7 @@ public class EEditFragment extends Fragment {
         mExercise = inputExercise;
         mHasInputExercise = true;
         mInputExerciseIndex = inputIndex;
-        EEditFragment fragment = new EEditFragment();
-        return fragment;
+        return new EEditFragment();
     }
 
     @Override
@@ -83,7 +82,10 @@ public class EEditFragment extends Fragment {
                 R.layout.fragment_workshop_e_edit);
 
         //Set up spinner for type
-        ArrayList<String> exerciseTypes = AssetsHandler.getExerciseTypes(getContext());
+        ArrayList<String> exerciseTypes = new ArrayList<>();
+        for(EType type : EType.values()){
+            exerciseTypes.add(type.getName());
+        }
         ArrayAdapter<String> typeAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item, exerciseTypes);
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -91,7 +93,10 @@ public class EEditFragment extends Fragment {
         binding.setType(ListPicker.matchListIndex(exerciseTypes, "None"));
 
         //Set up spinner for muscle group initial
-        ArrayList<String> muscleGroups = AssetsHandler.getMuscleTypes(getContext());
+        ArrayList<String> muscleGroups = new ArrayList<>();
+        for(Muscle.MGroup group : Muscle.MGroup.values()){
+            muscleGroups.add(group.getName());
+        }
         ArrayAdapter<String> groupAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item, muscleGroups);
         groupAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -169,7 +174,7 @@ public class EEditFragment extends Fragment {
                 EListFragment.userExercises.add(saveExercise);
             }
 
-            SaveHandler.saveExercises(EListFragment.userExercises, getContext());
+            ExerciseDOM.writeUserExercises(getContext(), EListFragment.userExercises);
 
             getActivity().setContentView(R.layout.activity_workshop_exercise);
             EListFragment frag = EListFragment.newInstance();

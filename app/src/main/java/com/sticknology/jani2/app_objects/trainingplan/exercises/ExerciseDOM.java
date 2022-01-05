@@ -12,6 +12,7 @@ import org.xml.sax.SAXException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,17 @@ import javax.xml.transform.stream.StreamResult;
 
 public class ExerciseDOM {
 
-    public static void makeExerciseXML(Context context, List<Exercise> exerciseList){
+    public enum ExerciseFilePath {
+        USER("user_exercises.xml"),
+        DEFAULT("default_info/default_exercises.xml");
+
+        public final String path;
+        ExerciseFilePath(String path){
+            this.path = path;
+        }
+    }
+
+    public static void writeUserExercises(Context context, List<Exercise> exerciseList){
 
         try {
 
@@ -70,7 +81,7 @@ public class ExerciseDOM {
             transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(context.openFileOutput("user_exercises.xml", Context.MODE_PRIVATE));
+            StreamResult result = new StreamResult(context.openFileOutput(ExerciseFilePath.USER.path, Context.MODE_PRIVATE));
             transformer.transform(source, result);
 
             StreamResult consoleResult = new StreamResult(System.out);
@@ -82,16 +93,26 @@ public class ExerciseDOM {
         }
     }
 
-    public static ArrayList<Exercise> getUserExercises(Context context){
+    public static ArrayList<Exercise> getExerciseList(Context context, String path){
 
         ArrayList<Exercise> exerciseList = new ArrayList<Exercise>();
 
         try {
-
-            File inputFile = context.getFileStreamPath("user_exercises.xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(inputFile);
+
+            Object docObj = new Object();
+
+            if(path.equals(ExerciseFilePath.USER.path)){
+                File inputFile = context.getFileStreamPath(ExerciseFilePath.USER.path);
+                docObj = dBuilder.parse(inputFile);
+            } else if (path.equals(ExerciseFilePath.DEFAULT.path)){
+                InputStream input = context.getAssets().open(ExerciseFilePath.DEFAULT.path);
+                docObj = dBuilder.parse(input);
+            }
+            assert docObj instanceof Document;
+            Document doc = (Document) docObj;
+
             doc.getDocumentElement().normalize();
 
             Element rootNode = doc.getDocumentElement();
@@ -112,6 +133,8 @@ public class ExerciseDOM {
                 exerciseList.add(exerciseObject);
             }
 
+            System.out.println("THIS IS SIZE OF NODES: " + nodeList.getLength());
+
         } catch (ParserConfigurationException | SAXException | IOException e){
 
             e.printStackTrace();
@@ -121,6 +144,7 @@ public class ExerciseDOM {
         if(exerciseList.size() != 0) {
             return exerciseList;
         } else {
+            System.out.println("ExerciseDOM.java line 145 ----------------- Returning null list");
             return null;
         }
     }

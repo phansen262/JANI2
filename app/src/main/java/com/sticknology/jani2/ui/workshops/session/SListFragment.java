@@ -9,15 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.sticknology.jani2.R;
-import com.sticknology.jani2.app_objects.trainingplan.sessions.Session;
-import com.sticknology.jani2.base_operations.SaveHandler;
 import com.sticknology.jani2.databinding.FragmentWorkshopSListBinding;
-
-import java.util.List;
 
 public class SListFragment extends Fragment {
 
@@ -54,14 +48,9 @@ public class SListFragment extends Fragment {
                 R.layout.fragment_workshop_s_list);
 
         //Set recyclerview for list
-        if(getContext().getFileStreamPath("user_sessions.scf").exists()) {
+        if(getContext().getFileStreamPath("user_sessions.xml").exists()) {
 
-            List<Session> sessionList = (List<Session>) new SaveHandler().getObjectPayload(getContext(), "user_sessions.scf");
 
-            RecyclerView recyclerView = mBinding.revListFwsl;
-            SListAdapter sListAdapter = new SListAdapter(sessionList);
-            recyclerView.setAdapter(sListAdapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
 
         //Set listener for new session floating button
