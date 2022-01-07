@@ -14,6 +14,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -42,9 +44,12 @@ public class ExerciseDOM {
         USER_EXERCISES("user_exercises"),
         EXERCISE("exercise"),
         NAME("name"),
-        EDESCRIPTION("edescription"),
+        DESCRIPTION("description"),
         TYPE("type"),
-        MGROUPS("mGroups");
+        ATTRIBUTE_List("attributes_list"),
+        ATTRIBUTE("attribute"),
+        ATTRIBUTE_KEY("attribute_key"),
+        ATTRIBUTE_PAYLOAD("attribute_payload");
 
         public final String tag;
         Tags(String tag){this.tag = tag;}
@@ -72,7 +77,7 @@ public class ExerciseDOM {
                 name.setValue(exerciseList.get(i).getName());
                 exercise.setAttributeNode(name);
                 //Description attr
-                Attr description = doc.createAttribute(Tags.EDESCRIPTION.tag);
+                Attr description = doc.createAttribute(Tags.DESCRIPTION.tag);
                 description.setValue(exerciseList.get(i).getDescription());
                 exercise.setAttributeNode(description);
                 //Type attr
@@ -80,11 +85,29 @@ public class ExerciseDOM {
                 type.setValue(exerciseList.get(i).getType());
                 exercise.setAttributeNode(type);
 
-                //mGroup attr
-                if(exerciseList.get(i).getAttributeItem(EAttributeKeys.MGROUP.getKey()) != null) {
-                    Attr mGroups = doc.createAttribute(Tags.MGROUPS.tag);
-                    mGroups.setValue(exerciseList.get(i).getAttributeItem(EAttributeKeys.MGROUP.getKey()).get(0));
-                    exercise.setAttributeNode(mGroups);
+                //Attributes element
+                Element attributes = doc.createElement(Tags.ATTRIBUTE_List.tag);
+                exercise.appendChild(attributes);
+
+                //Adds all items in attributes
+                for(EAttributeKeys attributeKey : EAttributeKeys.values()){
+
+                    if(exerciseList.get(i).getAttributeItem(attributeKey.getKey()) != null){
+
+                        Element attribute = doc.createElement(Tags.ATTRIBUTE.tag);
+
+                        String build = "";
+                        for(int u  = 0; u < exerciseList.get(i).getAttributeItem(attributeKey.getKey()).size(); u++){
+                            build += exerciseList.get(i).getAttributeItem(attributeKey.getKey()).get(u);
+                            if(u != (exerciseList.get(i).getAttributeItem(attributeKey.getKey()).size() - 2)){
+                                build += "@!@";
+                            }
+                        }
+
+                        attribute.setAttribute(attributeKey.getKey(), build);
+
+                        attributes.appendChild(attribute);
+                    }
                 }
             }
 
@@ -96,8 +119,9 @@ public class ExerciseDOM {
             StreamResult result = new StreamResult(context.openFileOutput(ExerciseFilePath.USER.path, Context.MODE_PRIVATE));
             transformer.transform(source, result);
 
-            StreamResult consoleResult = new StreamResult(System.out);
-            transformer.transform(source, consoleResult);
+            //To print output file to console
+            //StreamResult consoleResult = new StreamResult(System.out);
+            //transformer.transform(source, consoleResult);
 
         } catch (ParserConfigurationException | FileNotFoundException | TransformerException e){
 
@@ -132,15 +156,24 @@ public class ExerciseDOM {
 
             for(int i = 0; i < nodeList.getLength(); i++){
 
-                NamedNodeMap attributeMap = nodeList.item(i).getAttributes();
                 Exercise exerciseObject = new Exercise();
-                exerciseObject.setName(attributeMap.getNamedItem(Tags.NAME.tag).getNodeValue());
-                exerciseObject.setDescription(attributeMap.getNamedItem(Tags.EDESCRIPTION.tag).getNodeValue());
-                exerciseObject.setType(attributeMap.getNamedItem(Tags.TYPE.tag).getNodeValue());
-                if(attributeMap.getNamedItem(Tags.MGROUPS.tag) != null){
-                    List<String> eAttributes = new ArrayList<String>();
-                    eAttributes.add(attributeMap.getNamedItem(Tags.MGROUPS.tag).getNodeValue());
-                    exerciseObject.addAttribute(EAttributeKeys.MGROUP.getKey(), eAttributes);
+
+                NamedNodeMap eAttrMap = nodeList.item(i).getAttributes();
+
+                exerciseObject.setName(eAttrMap.getNamedItem(Tags.NAME.tag).getNodeValue());
+                exerciseObject.setDescription(eAttrMap.getNamedItem(Tags.DESCRIPTION.tag).getNodeValue());
+                exerciseObject.setType(eAttrMap.getNamedItem(Tags.TYPE.tag).getNodeValue());
+
+                for(int u = 0; u < nodeList.item(i).getNextSibling().getChildNodes().getLength(); u++){
+                      String keyString = nodeList.item(i).getChildNodes().item(u).getAttributes().getNamedItem(Tags.ATTRIBUTE_KEY.tag).getNodeValue();
+
+                      for(EAttributeKeys attributeKey : EAttributeKeys.values()){
+                          if(attributeKey.getKey().equals(keyString)){
+                              String payloadString = nodeList.item(i).getChildNodes().item(u).getAttributes().getNamedItem(Tags.ATTRIBUTE_PAYLOAD.tag).getNodeValue();
+                              List<String> payload = Arrays.asList(payloadString.split("@!@"));
+                              exerciseObject.addAttribute(attributeKey.getKey(), payload);
+                          }
+                      }
                 }
                 exerciseList.add(exerciseObject);
             }

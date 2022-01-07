@@ -45,6 +45,8 @@ public class Exercise implements Serializable {
         mAttributes.put(key, payload);
     }
 
+    public void addAttributeMap(HashMap<String, List<String>> attributeMap){mAttributes = attributeMap;}
+
     public HashMap<String, List<String>> getAttributes(){return mAttributes;}
 
     public List<String> getAttributeItem(String key){

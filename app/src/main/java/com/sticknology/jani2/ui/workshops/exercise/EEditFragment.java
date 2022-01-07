@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.sticknology.jani2.R;
 import com.sticknology.jani2.app_objects.other.Muscle;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EAttributeKeys;
+import com.sticknology.jani2.app_objects.trainingplan.exercises.EData;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EType;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.ExerciseDOM;
@@ -25,6 +27,7 @@ import com.sticknology.jani2.base_operations.ListPicker;
 import com.sticknology.jani2.databinding.FragmentWorkshopEEditBinding;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -105,15 +108,38 @@ public class EEditFragment extends Fragment {
         binding.setGroup(ListPicker.matchListIndex(muscleGroups, "None"));
         binding.setGroupVisible(View.GONE);
 
+        //Set up radio group for record type
+        binding.typeRadiogroupFwee.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+
+                switch (i){
+                    case 0:
+                        List<String> recordPayload = Arrays.asList(EData.EDataKeys.SET.getKey(), EData.EDataKeys.REPS.getKey());
+                        mExercise.addAttribute(EAttributeKeys.RECORD_TYPE.getKey(), recordPayload);
+                        break;
+                    case 1:
+                        recordPayload = Arrays.asList(EData.EDataKeys.SET.getKey(), EData.EDataKeys.REPS.getKey(), EData.EDataKeys.WEIGHT.getKey());
+                        mExercise.addAttribute(EAttributeKeys.RECORD_TYPE.getKey(), recordPayload);
+                        break;
+                    case 2:
+                        recordPayload = Arrays.asList(EData.EDataKeys.SET.getKey(), EData.EDataKeys.DURATION.getKey());
+                        mExercise.addAttribute(EAttributeKeys.RECORD_TYPE.getKey(), recordPayload);
+                        break;
+                }
+            }
+        });
+
+
         //Set behavior for filling it edit information from selected exercise
         if(mHasInputExercise){
             binding.setName(mExercise.getName());
             binding.setDescription(mExercise.getDescription());
             binding.setType(ListPicker.matchListIndex(exerciseTypes, mExercise.getType()));
 
-            if(mExercise.getAttributeItem(EAttributeKeys.MGROUP.getKey()) != null) {
+            if(mExercise.getAttributeItem(EAttributeKeys.MUSCLE_GROUP.getKey()) != null) {
                 binding.setGroup(ListPicker.matchListIndex(muscleGroups,
-                        mExercise.getAttributeItem(EAttributeKeys.MGROUP.getKey()).get(0)));
+                        mExercise.getAttributeItem(EAttributeKeys.MUSCLE_GROUP.getKey()).get(0)));
                 binding.setGroupVisible(View.VISIBLE);
             }
 
@@ -162,11 +188,14 @@ public class EEditFragment extends Fragment {
             String eName = binding.nameFwee.getText().toString();
             String eDescription = binding.descriptionFwee.getText().toString();
             String eType = binding.typeFwee.getSelectedItem().toString();
-            List<String> mGroup = new ArrayList<String>();
-            mGroup.add(binding.groupFwee.getSelectedItem().toString());
 
             HashMap<String, List<String>> attributes = new HashMap<>();
-            attributes.put(EAttributeKeys.MGROUP.getKey(), mGroup);
+
+            if(!binding.groupFwee.getSelectedItem().toString().equals("None")) {
+                List<String> mGroup = new ArrayList<String>();
+                mGroup.add(binding.groupFwee.getSelectedItem().toString());
+                attributes.put(EAttributeKeys.MUSCLE_GROUP.getKey(), mGroup);
+            }
 
             Exercise saveExercise = new Exercise(eName, eDescription, eType, attributes);
 

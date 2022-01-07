@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?><user_exercises>
-<exercise name="Run" edescription="test running description" type="Cardio"/>
-<exercise name="Bike" edescription="test biking description" type="Cardio"/>
-<exercise name="Bench" edescription="test bench descirption" type="Weights" mGroups="Chest"/>
-<exercise name="Situp" edescription="test situp description" type="Strength" mGroups="Abs"/>
+<exercise name="Run" description="test running description" type="Cardio">
+<attributes_list/>
+</exercise>
+<exercise name="Bike" description="test biking description" type="Cardio">
+<attributes_list/>
+</exercise>
+<exercise name="Bench" description="test bench descirption" type="Weights">
+<attributes_list/>
+</exercise>
+<exercise name="Situp" description="test situp description" type="Strength">
+<attributes_list/>
+</exercise>
 </user_exercises>

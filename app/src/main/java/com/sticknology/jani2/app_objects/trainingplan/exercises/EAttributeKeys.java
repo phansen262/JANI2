@@ -2,8 +2,8 @@ package com.sticknology.jani2.app_objects.trainingplan.exercises;
 
 public enum EAttributeKeys {
 
-    MGROUP("MGROUP"),
-    RECORD_TYPE("Record_Type");
+    MUSCLE_GROUP("muscle_group"),
+    RECORD_TYPE("record_type");
 
     private String key;
     EAttributeKeys(String key){this.key = key;}

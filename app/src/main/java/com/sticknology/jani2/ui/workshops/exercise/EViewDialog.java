@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.fragment.app.FragmentActivity;
 
 import com.sticknology.jani2.R;
+import com.sticknology.jani2.app_objects.trainingplan.exercises.EAttributeKeys;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
 
 public class EViewDialog{
@@ -28,9 +29,9 @@ public class EViewDialog{
         type.setText(exercise.getType());
         TextView description = dialogView.findViewById(R.id.dialog_tv_description_dev);
         description.setText(exercise.getDescription());
-        if(exercise.getAttributeItem("MGROUP") != null) {
+        if(exercise.getAttributeItem(EAttributeKeys.MUSCLE_GROUP.getKey()) != null) {
             TextView mgroup = dialogView.findViewById(R.id.dialog_tv_mgroup_dev);
-            mgroup.setText(exercise.getAttributeItem("MGROUP").get(0));
+            mgroup.setText(exercise.getAttributeItem(EAttributeKeys.MUSCLE_GROUP.getKey()).get(0));
         }
 
         //Set button behavior

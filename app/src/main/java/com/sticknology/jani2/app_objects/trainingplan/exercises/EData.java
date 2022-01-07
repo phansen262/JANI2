@@ -12,14 +12,16 @@ public class EData {
 
     public enum EDataKeys {
 
-        SET("Set"),
-        REPS("Reps"),
-        DURATION("Duration"),
-        WEIGHT("weight");
+        SET("set", "Sets"),
+        REPS("reps", "Reps"),
+        DURATION("duration", "Duration"),
+        WEIGHT("weight", "Weight");
 
-        private String key;
-        EDataKeys(String key){this.key = key;}
+        private final String key;
+        private final String display;
+        EDataKeys(String key, String display){this.key = key; this.display = display;}
         public String getKey(){return this.key;}
+        public String getDisplay(){return this.display;}
     }
 
     private Exercise key;
@@ -31,17 +33,13 @@ public class EData {
         payload = dataMap;
     }
 
-    public void addStrengthData(int sets, int reps){
-        List<String> recordPayload = Arrays.asList(EDataKeys.SET.key, EDataKeys.REPS.key);
-        key.addAttribute(EAttributeKeys.RECORD_TYPE.getKey(), recordPayload);
+    public void addSetRepData(int sets, int reps){
 
         payload.put(EDataKeys.SET.key, String.valueOf(sets));
         payload.put(EDataKeys.REPS.key, String.valueOf(reps));
     }
 
-    public void addWeightsData(int sets, int reps, List<MUnit> weights){
-        List<String> recordPayload = Arrays.asList(EDataKeys.SET.key, EDataKeys.REPS.key, EDataKeys.WEIGHT.key);
-        key.addAttribute(EAttributeKeys.RECORD_TYPE.getKey(), recordPayload);
+    public void addSetRepWeightData(int sets, int reps, List<MUnit> weights){
 
         payload.put(EDataKeys.SET.key, String.valueOf(sets));
         payload.put(EDataKeys.REPS.key, String.valueOf(reps));
@@ -56,16 +54,10 @@ public class EData {
     }
 
     public void addDuration(MTime duration){
-        List<String> recordPayload = Arrays.asList(EDataKeys.DURATION.key);
-        key.addAttribute(EAttributeKeys.RECORD_TYPE.getKey(), recordPayload);
-
         payload.put(EDataKeys.DURATION.key, duration.getDispString());
     }
 
-    public void addDuration(int sets, List<MTime> durations){
-        List<String> recordPayload = Arrays.asList(EDataKeys.SET.key, EDataKeys.DURATION.key);
-        key.addAttribute(EAttributeKeys.RECORD_TYPE.getKey(), recordPayload);
-
+    public void addSetDuration(int sets, List<MTime> durations){
         payload.put(EDataKeys.SET.key, String.valueOf(sets));
         payload.put(EDataKeys.DURATION.key, String.valueOf(getDuration().getTotalSeconds()));
     }

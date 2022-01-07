@@ -16,9 +16,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sticknology.jani2.R;
+import com.sticknology.jani2.app_objects.trainingplan.exercises.EData;
+import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
 import com.sticknology.jani2.databinding.FragmentWorkshopSEditCompsBinding;
 import com.sticknology.jani2.ui.workshops.exercise.EListAdapter;
 import com.sticknology.jani2.ui.workshops.exercise.EListFragment;
+
+import java.util.ArrayList;
 
 public class SEditFragComps extends Fragment {
 
@@ -49,7 +53,9 @@ public class SEditFragComps extends Fragment {
         //Set up rev
         if(SEditFragLanding.mSession.getExerciseList() != null) {
             RecyclerView recyclerView = mBinding.revListFwsec;
-            EListAdapter eListAdapter = new EListAdapter(SEditFragLanding.mSession.getExerciseList(), getActivity(), getContext());
+            //TODO remove filler and make work
+            ArrayList<Exercise> filler = new ArrayList<Exercise>();
+            EListAdapter eListAdapter = new EListAdapter(filler, getActivity(), getContext());
             recyclerView.setAdapter(eListAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
