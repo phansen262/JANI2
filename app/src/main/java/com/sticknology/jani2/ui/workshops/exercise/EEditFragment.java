@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EEditFragment extends Fragment {
 
@@ -133,6 +135,7 @@ public class EEditFragment extends Fragment {
 
         //Set behavior for filling it edit information from selected exercise
         if(mHasInputExercise){
+
             binding.setName(mExercise.getName());
             binding.setDescription(mExercise.getDescription());
             binding.setType(ListPicker.matchListIndex(exerciseTypes, mExercise.getType()));
@@ -143,6 +146,16 @@ public class EEditFragment extends Fragment {
                 binding.setGroupVisible(View.VISIBLE);
             }
 
+            if(mExercise.getAttributeItem(EAttributeKeys.RECORD_TYPE.getKey()) != null){
+                List<String> recordTypes = mExercise.getAttributeItem(EAttributeKeys.RECORD_TYPE.getKey());
+                if(recordTypes.size() == 3){
+                    binding.rtypeSetsRepsWeightsFwee.setChecked(true);
+                } else if(recordTypes.contains(EData.EDataKeys.DURATION.getKey())){
+                    binding.rtypeSetsDurationFwee.setChecked(true);
+                } else {
+                    binding.rtypeSetsRepsFwee.setChecked(true);
+                }
+            }
         }
 
         //Listener for type to trigger visibility
@@ -195,6 +208,21 @@ public class EEditFragment extends Fragment {
                 List<String> mGroup = new ArrayList<String>();
                 mGroup.add(binding.groupFwee.getSelectedItem().toString());
                 attributes.put(EAttributeKeys.MUSCLE_GROUP.getKey(), mGroup);
+            }
+
+            int id = binding.typeRadiogroupFwee.getCheckedRadioButtonId();
+
+            RadioButton selected = getView().findViewById(id);
+            String selectedText = String.valueOf(selected.getText());
+            if(selectedText.equals("Sets and Reps")){
+                List<String> payload = Arrays.asList(EData.EDataKeys.SET.getKey(), EData.EDataKeys.REPS.getKey());
+                attributes.put(EAttributeKeys.RECORD_TYPE.getKey(), payload);
+            } else if(selectedText.equals("Sets and Reps with Weights")){
+                List<String> payload = Arrays.asList(EData.EDataKeys.SET.getKey(), EData.EDataKeys.REPS.getKey(), EData.EDataKeys.WEIGHT.getKey());
+                attributes.put(EAttributeKeys.RECORD_TYPE.getKey(), payload);
+            } else if(selectedText.equals("Sets and Duration")){
+                List<String> payload = Arrays.asList(EData.EDataKeys.SET.getKey(), EData.EDataKeys.DURATION.getKey());
+                attributes.put(EAttributeKeys.RECORD_TYPE.getKey(), payload);
             }
 
             Exercise saveExercise = new Exercise(eName, eDescription, eType, attributes);

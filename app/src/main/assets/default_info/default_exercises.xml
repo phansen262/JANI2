@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?><user_exercises>
 <exercise name="Run" description="test running description" type="Cardio">
-<attributes_list/>
+<attributes_list>
+<attribute record_type="set@!@duration"/>
+</attributes_list>
 </exercise>
 <exercise name="Bike" description="test biking description" type="Cardio">
-<attributes_list/>
+<attributes_list>
+<attribute record_type="set@!@duration"/>
+</attributes_list>
 </exercise>
 <exercise name="Bench" description="test bench descirption" type="Weights">
-<attributes_list/>
+<attributes_list>
+<attribute record_type="set@!@reps@!@weight"/>
+</attributes_list>
 </exercise>
 <exercise name="Situp" description="test situp description" type="Strength">
-<attributes_list/>
+<attributes_list>
+<attribute record_type="set@!@reps"/>
+</attributes_list>
 </exercise>
 </user_exercises>

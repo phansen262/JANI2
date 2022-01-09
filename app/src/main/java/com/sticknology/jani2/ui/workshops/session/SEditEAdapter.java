@@ -2,7 +2,6 @@ package com.sticknology.jani2.ui.workshops.session;
 
 import android.app.AlertDialog;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -34,13 +33,10 @@ public class SEditEAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         EData eData = SEditFragLanding.mSession.getEDataList().get(position);
 
         vh.mBinding.setName(eData.getKey().getName());
-        vh.mBinding.nameRwel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = EViewDialog.EViewDialog(eData.getKey(), vh.mParent.getContext());
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
+        vh.mBinding.nameRwel.setOnClickListener(view -> {
+            AlertDialog.Builder builder = EViewDialog.EViewDialog(eData.getKey(), vh.mParent.getContext());
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
     }
 

@@ -45,7 +45,7 @@ public class ExerciseDOM {
         NAME("name"),
         DESCRIPTION("description"),
         TYPE("type"),
-        ATTRIBUTE_List("attributes_list"),
+        ATTRIBUTE_LIST("attributes_list"),
         ATTRIBUTE("attribute"),
         ATTRIBUTE_KEY("attribute_key"),
         ATTRIBUTE_PAYLOAD("attribute_payload");
@@ -85,7 +85,7 @@ public class ExerciseDOM {
                 exercise.setAttributeNode(type);
 
                 //Attributes element
-                Element attributes = doc.createElement(Tags.ATTRIBUTE_List.tag);
+                Element attributes = doc.createElement(Tags.ATTRIBUTE_LIST.tag);
                 exercise.appendChild(attributes);
 
                 //Adds all items in attributes
@@ -98,7 +98,9 @@ public class ExerciseDOM {
                         String build = "";
                         for(int u  = 0; u < exerciseList.get(i).getAttributeItem(attributeKey.getKey()).size(); u++){
                             build += exerciseList.get(i).getAttributeItem(attributeKey.getKey()).get(u);
-                            if(u != (exerciseList.get(i).getAttributeItem(attributeKey.getKey()).size() - 2)){
+                            System.out.println("inside for loop for string build attribute e dom:  " + attributeKey.getKey());
+                            if(u < (exerciseList.get(i).getAttributeItem(attributeKey.getKey()).size() - 1)){
+                                System.out.println("got inside the iff");
                                 build += "@!@";
                             }
                         }
@@ -163,16 +165,20 @@ public class ExerciseDOM {
                 exerciseObject.setDescription(eAttrMap.getNamedItem(Tags.DESCRIPTION.tag).getNodeValue());
                 exerciseObject.setType(eAttrMap.getNamedItem(Tags.TYPE.tag).getNodeValue());
 
-                for(int u = 0; u < nodeList.item(i).getNextSibling().getChildNodes().getLength(); u++){
-                      String keyString = nodeList.item(i).getChildNodes().item(u).getAttributes().getNamedItem(Tags.ATTRIBUTE_KEY.tag).getNodeValue();
+                Element exerciseElement = (Element) nodeList.item(i);
+                Element attributeListElement = (Element) exerciseElement.getElementsByTagName(Tags.ATTRIBUTE_LIST.tag).item(0);
 
-                      for(EAttributeKeys attributeKey : EAttributeKeys.values()){
-                          if(attributeKey.getKey().equals(keyString)){
-                              String payloadString = nodeList.item(i).getChildNodes().item(u).getAttributes().getNamedItem(Tags.ATTRIBUTE_PAYLOAD.tag).getNodeValue();
-                              List<String> payload = Arrays.asList(payloadString.split("@!@"));
-                              exerciseObject.addAttribute(attributeKey.getKey(), payload);
-                          }
-                      }
+                for(int u = 0; u < attributeListElement.getElementsByTagName(Tags.ATTRIBUTE.tag).getLength(); u++){
+
+                    Element attribute = (Element) attributeListElement.getElementsByTagName(Tags.ATTRIBUTE.tag).item(u);
+
+                    for(EAttributeKeys attributeKey : EAttributeKeys.values()){
+                        if(attribute.hasAttribute(attributeKey.getKey())){
+
+                            List<String> payload = Arrays.asList(attribute.getAttribute(attributeKey.getKey()).split("@!@"));
+                            exerciseObject.addAttribute(attributeKey.getKey(), payload);
+                        }
+                    }
                 }
                 exerciseList.add(exerciseObject);
             }

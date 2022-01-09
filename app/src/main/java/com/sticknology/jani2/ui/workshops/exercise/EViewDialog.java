@@ -29,6 +29,10 @@ public class EViewDialog{
             TextView mgroup = dialogView.findViewById(R.id.dialog_tv_mgroup_dev);
             mgroup.setText(exercise.getAttributeItem(EAttributeKeys.MUSCLE_GROUP.getKey()).get(0));
         }
+        if(exercise.getAttributeItem(EAttributeKeys.RECORD_TYPE.getKey()) != null){
+            TextView recordType = dialogView.findViewById(R.id.dialog_tv_rectype_dev);
+            recordType.setText(exercise.getAttributeItem(EAttributeKeys.RECORD_TYPE.getKey()).get(0));
+        }
 
         return d;
     }
