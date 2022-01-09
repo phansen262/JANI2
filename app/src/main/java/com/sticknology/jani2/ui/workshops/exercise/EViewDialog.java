@@ -1,14 +1,10 @@
 package com.sticknology.jani2.ui.workshops.exercise;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-
-import androidx.fragment.app.FragmentActivity;
 
 import com.sticknology.jani2.R;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EAttributeKeys;
@@ -16,7 +12,7 @@ import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
 
 public class EViewDialog{
 
-    public static AlertDialog EViewDialog(Exercise exercise, int position, FragmentActivity activity, Context context){
+    public static AlertDialog.Builder EViewDialog(Exercise exercise, Context context){
 
         //build alert dialog
         final AlertDialog.Builder d = new AlertDialog.Builder(context);
@@ -34,18 +30,6 @@ public class EViewDialog{
             mgroup.setText(exercise.getAttributeItem(EAttributeKeys.MUSCLE_GROUP.getKey()).get(0));
         }
 
-        //Set button behavior
-        d.setPositiveButton("Edit", new DialogInterface.OnClickListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-                activity.setContentView(R.layout.activity_workshop_exercise);
-                EEditFragment frag = EEditFragment.newInstance(exercise, position);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.frag_container_awe, frag).commit();
-            }
-        });
-
-        return d.create();
+        return d;
     }
 }

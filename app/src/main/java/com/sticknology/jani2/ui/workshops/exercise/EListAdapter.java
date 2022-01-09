@@ -1,7 +1,9 @@
 package com.sticknology.jani2.ui.workshops.exercise;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sticknology.jani2.R;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EData;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
 import com.sticknology.jani2.databinding.ReviWorkshopEListBinding;
@@ -38,17 +41,12 @@ public class EListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         ReviWorkshopEListBinding binding = ReviWorkshopEListBinding.inflate(layoutInflater, parent, false);
-        RecyclerView.ViewHolder viewHolder = new ViewHolder1(binding);
 
-        return viewHolder;
+        return new ViewHolder1(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
-        //required for some reason otherwise yells at me
-        int mPosition = position;
-
 
         ViewHolder1 vh1 = (ViewHolder1) holder;
         vh1.mBinding.executePendingBindings();
@@ -60,8 +58,19 @@ public class EListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             @Override
             public void onClick(View view) {
 
-                AlertDialog alertDialog = EViewDialog.EViewDialog(mExerciseList.get(mPosition), mPosition, mActivity, mContext);
-                alertDialog.show();
+                AlertDialog.Builder builder = EViewDialog.EViewDialog(mExerciseList.get(vh1.getAdapterPosition()), mContext);
+                builder.setPositiveButton("Edit", new DialogInterface.OnClickListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        mActivity.setContentView(R.layout.activity_workshop_exercise);
+                        EEditFragment frag = EEditFragment.newInstance(mExerciseList.get(vh1.getAdapterPosition()), vh1.getAdapterPosition());
+                        mActivity.getSupportFragmentManager().beginTransaction().replace(R.id.frag_container_awe, frag).commit();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 
@@ -71,10 +80,10 @@ public class EListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 @Override
                 public void onClick(View view) {
 
-                    if(SEditFragLanding.mSession.getExerciseList() == null){
-                        SEditFragLanding.mSession.setExerciseList(new ArrayList<EData>());
+                    if(SEditFragLanding.mSession.getEDataList() == null){
+                        SEditFragLanding.mSession.setEDataList(new ArrayList<>());
                     }
-                    SEditFragLanding.mSession.addExercise(EListFragment.userExercises.get(mPosition));
+                    SEditFragLanding.mSession.addExercise(EListFragment.userExercises.get(vh1.getAdapterPosition()));
                 }
             });
         } else {

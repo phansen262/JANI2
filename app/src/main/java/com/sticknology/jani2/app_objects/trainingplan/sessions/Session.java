@@ -13,7 +13,7 @@ public class Session {
   private String mDescription;
   private String mType;
   
-  private ArrayList<EData> mExerciseList = new ArrayList();
+  private List<EData> mEDataList = new ArrayList();
   private HashMap<String, List<String>> mAttributes = new HashMap<>();
   
   //Base Constructor
@@ -23,7 +23,7 @@ public class Session {
     mDescription = description;
     mType = type;
     
-    mExerciseList = exerciseList;
+    mEDataList = exerciseList;
     mAttributes = attributes;
   }
   
@@ -31,16 +31,17 @@ public class Session {
   public String getName(){return mName;}
   public String getDescription(){return mDescription;}
   public String getType(){return mType;}
-  public ArrayList<EData> getExerciseList(){return mExerciseList;}
+  public List<EData> getEDataList(){return mEDataList;}
   
   public void setName(String name){mName = name;}
   public void setDescription(String description){mDescription = description;}
   public void setType(String type){mType = type;}
-  public void setExerciseList(ArrayList<EData> newList){mExerciseList = newList;}
+  public void setEDataList(List<EData> newList){mEDataList = newList;}
 
   //Adders
   public void addExercise(Exercise newExercise){
-    mExerciseList.add(new EData(newExercise, new HashMap<String, String>()));
+    mEDataList.add(new EData(newExercise, new HashMap<String, String>()));
   }
-  public void addExercise(EData eData){mExerciseList.add(eData);}
+  public void addEData(EData eData){
+    mEDataList.add(eData);}
 }

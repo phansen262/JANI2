@@ -15,10 +15,9 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        //TODO: Below delete lines now out of date
         //Use Below Lines to Clear User Generated Files
-        this.deleteFile("user_exercises.xml");
-        //this.deleteFile("user_sessions.ecf");
+        //this.deleteFile("user_exercises.xml");
+        //this.deleteFile("user_sessions.xml");
 
         //TODO: Need to move initialization of files to actual main activity when active
         UserFileInitializer.initExerciseUserFile(this);

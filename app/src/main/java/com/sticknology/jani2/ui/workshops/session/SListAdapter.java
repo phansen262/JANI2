@@ -34,14 +34,12 @@ public class SListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-
     }
 
     @Override
     public int getItemCount() {
         return mSessionList.size();
     }
-
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 

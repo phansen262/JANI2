@@ -20,6 +20,7 @@ import com.sticknology.jani2.databinding.FragmentWorkshopSEditLandingBinding;
 public class SEditFragLanding extends Fragment {
 
     public static Session mSession;
+
     protected static boolean mHasInputSession;
     protected static int mIndex;
 

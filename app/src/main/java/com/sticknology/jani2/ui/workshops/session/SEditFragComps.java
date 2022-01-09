@@ -16,13 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sticknology.jani2.R;
-import com.sticknology.jani2.app_objects.trainingplan.exercises.EData;
-import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
 import com.sticknology.jani2.databinding.FragmentWorkshopSEditCompsBinding;
 import com.sticknology.jani2.ui.workshops.exercise.EListAdapter;
 import com.sticknology.jani2.ui.workshops.exercise.EListFragment;
-
-import java.util.ArrayList;
 
 public class SEditFragComps extends Fragment {
 
@@ -51,12 +47,11 @@ public class SEditFragComps extends Fragment {
         mBinding = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_workshop_s_edit_comps);
 
         //Set up rev
-        if(SEditFragLanding.mSession.getExerciseList() != null) {
+        if(SEditFragLanding.mSession.getEDataList() != null) {
+
             RecyclerView recyclerView = mBinding.revListFwsec;
-            //TODO remove filler and make work
-            ArrayList<Exercise> filler = new ArrayList<Exercise>();
-            EListAdapter eListAdapter = new EListAdapter(filler, getActivity(), getContext());
-            recyclerView.setAdapter(eListAdapter);
+            SEditEAdapter sEditEAdapter = new SEditEAdapter();
+            recyclerView.setAdapter(sEditEAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
 
@@ -73,7 +68,7 @@ public class SEditFragComps extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.single_item, menu);
