@@ -8,7 +8,11 @@ import android.widget.TextView;
 
 import com.sticknology.jani2.R;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EAttributeKeys;
+import com.sticknology.jani2.app_objects.trainingplan.exercises.EData;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EViewDialog{
 
@@ -30,8 +34,23 @@ public class EViewDialog{
             mgroup.setText(exercise.getAttributeItem(EAttributeKeys.MUSCLE_GROUP.getKey()).get(0));
         }
         if(exercise.getAttributeItem(EAttributeKeys.RECORD_TYPE.getKey()) != null){
-            TextView recordType = dialogView.findViewById(R.id.dialog_tv_rectype_dev);
-            recordType.setText(exercise.getAttributeItem(EAttributeKeys.RECORD_TYPE.getKey()).get(0));
+            TextView textView = dialogView.findViewById(R.id.dialog_tv_rectype_dev);
+            List<String> recordTypes = exercise.getAttributeItem(EAttributeKeys.RECORD_TYPE.getKey());
+            List<String> build = new ArrayList<>();
+            String display = "";
+            for(String keystring : recordTypes){
+                for(EData.EDataKeys dataKey : EData.EDataKeys.values()){
+                    if(keystring.equals(dataKey.getKey())){
+                        build.add(dataKey.getDisplay());
+                    }
+                }
+            }
+            if(recordTypes.size() == 2){
+                display = build.get(0) + " and " + build.get(1);
+            } else {
+                display = build.get(0) + ", " + build.get(1) + ", and " + build.get(2);
+            }
+            textView.setText(display);
         }
 
         return d;
