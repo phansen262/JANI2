@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sticknology.jani2.R;
 import com.sticknology.jani2.databinding.FragmentWorkshopSEditCompsBinding;
-import com.sticknology.jani2.ui.workshops.exercise.EListAdapter;
 import com.sticknology.jani2.ui.workshops.exercise.EListFragment;
 
 public class SEditFragComps extends Fragment {
@@ -44,7 +43,7 @@ public class SEditFragComps extends Fragment {
         setHasOptionsMenu(true);
         SWorkshopActivity.actionBar.setDisplayHomeAsUpEnabled(true);
 
-        mBinding = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_workshop_s_edit_comps);
+        mBinding = DataBindingUtil.setContentView(requireActivity(), R.layout.fragment_workshop_s_edit_comps);
 
         //Set up rev
         if(SEditFragLanding.mSession.getEDataList() != null) {
@@ -56,14 +55,11 @@ public class SEditFragComps extends Fragment {
         }
 
         //Listener for add exercise button
-        mBinding.addExerciseFwsec.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        mBinding.addExerciseFwsec.setOnClickListener(view1 -> {
 
-                getActivity().setContentView(R.layout.activity_workshop_session);
-                EListFragment frag = EListFragment.newInstance(true);
-                getActivity().getSupportFragmentManager().beginTransaction().addToBackStack("").replace(R.id.frag_container_aws, frag).commit();
-            }
+            requireActivity().setContentView(R.layout.activity_workshop_session);
+            EListFragment frag = EListFragment.newInstance(true);
+            requireActivity().getSupportFragmentManager().beginTransaction().addToBackStack("").replace(R.id.frag_container_aws, frag).commit();
         });
     }
 
@@ -81,13 +77,14 @@ public class SEditFragComps extends Fragment {
         if(item.getItemId() == android.R.id.home){
 
             //Backwards navigation
-            getActivity().setContentView(R.layout.activity_workshop_session);
+            requireActivity().setContentView(R.layout.activity_workshop_session);
             SEditFragLanding frag = SEditFragLanding.newInstance();
-            getActivity().getSupportFragmentManager().beginTransaction().addToBackStack("").replace(R.id.frag_container_aws, frag).commit();
+            requireActivity().getSupportFragmentManager().beginTransaction().addToBackStack("").replace(R.id.frag_container_aws, frag).commit();
 
         } else if(item.getItemId() == R.id.single_item){
 
             //Perform save function
+
 
         }
 

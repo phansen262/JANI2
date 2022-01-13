@@ -2,14 +2,18 @@ package com.sticknology.jani2.ui.workshops.session;
 
 import android.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sticknology.jani2.app_objects.trainingplan.exercises.EAttributeKeys;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EData;
 import com.sticknology.jani2.databinding.ReviWorkshopSEItemBinding;
 import com.sticknology.jani2.ui.workshops.exercise.EViewDialog;
+
+import java.util.List;
 
 public class SEditEAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -34,10 +38,28 @@ public class SEditEAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         vh.mBinding.setName(eData.getKey().getName());
         vh.mBinding.nameRwel.setOnClickListener(view -> {
-            AlertDialog.Builder builder = EViewDialog.EViewDialog(eData.getKey(), vh.mParent.getContext());
+            AlertDialog.Builder builder = EViewDialog.BuildEViewDialog(eData.getKey(), vh.mParent.getContext());
             AlertDialog dialog = builder.create();
             dialog.show();
         });
+
+        List<String> typeList = eData.getKey().getAttributeItem(EAttributeKeys.RECORD_TYPE.getKey());
+        vh.mBinding.setLabel1(EData.getDisplayFromKey(typeList.get(0)));
+        vh.mBinding.field1Rwsei.setOnClickListener(view -> {
+
+        });
+        vh.mBinding.setLabel2(EData.getDisplayFromKey(typeList.get(1)));
+        vh.mBinding.field2Rwsei.setOnClickListener(view -> {
+
+        });
+        if(typeList.size() == 2){
+            vh.mBinding.field3Rwsei.setVisibility(View.GONE);
+        } else {
+            vh.mBinding.setLabel3(EData.getDisplayFromKey(typeList.get(2)));
+            vh.mBinding.field3Rwsei.setOnClickListener(view -> {
+
+            });
+        }
     }
 
     @Override

@@ -95,17 +95,17 @@ public class ExerciseDOM {
 
                         Element attribute = doc.createElement(Tags.ATTRIBUTE.tag);
 
-                        String build = "";
+                        StringBuilder build = new StringBuilder();
                         for(int u  = 0; u < exerciseList.get(i).getAttributeItem(attributeKey.getKey()).size(); u++){
-                            build += exerciseList.get(i).getAttributeItem(attributeKey.getKey()).get(u);
+                            build.append(exerciseList.get(i).getAttributeItem(attributeKey.getKey()).get(u));
                             System.out.println("inside for loop for string build attribute e dom:  " + attributeKey.getKey());
                             if(u < (exerciseList.get(i).getAttributeItem(attributeKey.getKey()).size() - 1)){
                                 System.out.println("got inside the iff");
-                                build += "@!@";
+                                build.append("@!@");
                             }
                         }
 
-                        attribute.setAttribute(attributeKey.getKey(), build);
+                        attribute.setAttribute(attributeKey.getKey(), build.toString());
 
                         attributes.appendChild(attribute);
                     }
@@ -132,7 +132,7 @@ public class ExerciseDOM {
 
     public static ArrayList<Exercise> getExerciseList(Context context, String path){
 
-        ArrayList<Exercise> exerciseList = new ArrayList<Exercise>();
+        ArrayList<Exercise> exerciseList = new ArrayList<>();
 
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();

@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.sticknology.jani2.R;
-import com.sticknology.jani2.ui.workshops.exercise.EListFragment;
 
 public class SWorkshopActivity extends AppCompatActivity {
 

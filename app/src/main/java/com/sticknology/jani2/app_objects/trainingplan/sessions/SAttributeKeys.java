@@ -4,7 +4,7 @@ public enum SAttributeKeys {
 
     LOCATION("location");
 
-    private String key;
+    private final String key;
     SAttributeKeys(String key){this.key = key;}
     public String getKey(){return this.key;}
 }

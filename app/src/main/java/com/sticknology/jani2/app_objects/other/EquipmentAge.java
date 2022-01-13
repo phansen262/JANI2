@@ -6,8 +6,8 @@ public class EquipmentAge extends Equipment {
 
     private int mLifeSpan;
     private int mAge;
-    private boolean mIsConsumable;
-    private String mLifeLabel;
+    private final boolean mIsConsumable;
+    private final String mLifeLabel;
 
     public EquipmentAge(String name, int lifespan, int age, boolean isConsumable, String lifeLabel,
                      String description, Image image){

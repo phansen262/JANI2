@@ -1,9 +1,7 @@
 package com.sticknology.jani2.ui.workshops.exercise;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +11,6 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sticknology.jani2.R;
-import com.sticknology.jani2.app_objects.trainingplan.exercises.EData;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
 import com.sticknology.jani2.databinding.ReviWorkshopEListBinding;
 import com.sticknology.jani2.ui.workshops.session.SEditFragLanding;
@@ -54,37 +51,27 @@ public class EListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         //Show basic details of Exercises
         vh1.mBinding.setName(mExerciseList.get(position).getName());
         vh1.mBinding.setDescription(mExerciseList.get(position).getDescription());
-        vh1.mBinding.cardviewRwel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        vh1.mBinding.cardviewRwel.setOnClickListener(view -> {
 
-                AlertDialog.Builder builder = EViewDialog.EViewDialog(mExerciseList.get(vh1.getAdapterPosition()), mContext);
-                builder.setPositiveButton("Edit", new DialogInterface.OnClickListener() {
-                    @SuppressLint("SetTextI18n")
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+            AlertDialog.Builder builder = EViewDialog.BuildEViewDialog(mExerciseList.get(vh1.getAdapterPosition()), mContext);
+            builder.setPositiveButton("Edit", (dialogInterface, i) -> {
 
-                        mActivity.setContentView(R.layout.activity_workshop_exercise);
-                        EEditFragment frag = EEditFragment.newInstance(mExerciseList.get(vh1.getAdapterPosition()), vh1.getAdapterPosition());
-                        mActivity.getSupportFragmentManager().beginTransaction().replace(R.id.frag_container_awe, frag).commit();
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
+                mActivity.setContentView(R.layout.activity_workshop_exercise);
+                EEditFragment frag = EEditFragment.newInstance(mExerciseList.get(vh1.getAdapterPosition()), vh1.getAdapterPosition());
+                mActivity.getSupportFragmentManager().beginTransaction().replace(R.id.frag_container_awe, frag).commit();
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
 
         if(EListFragment.fromSession){
             vh1.mBinding.addButtonRwel.setVisibility(View.VISIBLE);
-            vh1.mBinding.addButtonRwel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            vh1.mBinding.addButtonRwel.setOnClickListener(view -> {
 
-                    if(SEditFragLanding.mSession.getEDataList() == null){
-                        SEditFragLanding.mSession.setEDataList(new ArrayList<>());
-                    }
-                    SEditFragLanding.mSession.addExercise(EListFragment.userExercises.get(vh1.getAdapterPosition()));
+                if(SEditFragLanding.mSession.getEDataList() == null){
+                    SEditFragLanding.mSession.setEDataList(new ArrayList<>());
                 }
+                SEditFragLanding.mSession.addExercise(EListFragment.userExercises.get(vh1.getAdapterPosition()));
             });
         } else {
             vh1.mBinding.addButtonRwel.setVisibility(View.GONE);

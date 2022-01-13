@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class EEditFragment extends Fragment {
 
@@ -84,7 +82,7 @@ public class EEditFragment extends Fragment {
         EWorkshopActivity.actionBar.setDisplayHomeAsUpEnabled(true);
 
         //Settup class binding
-        binding = DataBindingUtil.setContentView(getActivity(),
+        binding = DataBindingUtil.setContentView(requireActivity(),
                 R.layout.fragment_workshop_e_edit);
 
         //Set up spinner for type
@@ -92,7 +90,7 @@ public class EEditFragment extends Fragment {
         for(EType type : EType.values()){
             exerciseTypes.add(type.getName());
         }
-        ArrayAdapter<String> typeAdapter = new ArrayAdapter<String>(getActivity(),
+        ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_item, exerciseTypes);
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.typeFwee.setAdapter(typeAdapter);
@@ -103,7 +101,7 @@ public class EEditFragment extends Fragment {
         for(Muscle.MGroup group : Muscle.MGroup.values()){
             muscleGroups.add(group.getName());
         }
-        ArrayAdapter<String> groupAdapter = new ArrayAdapter<String>(getActivity(),
+        ArrayAdapter<String> groupAdapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_item, muscleGroups);
         groupAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.groupFwee.setAdapter(groupAdapter);
@@ -111,24 +109,21 @@ public class EEditFragment extends Fragment {
         binding.setGroupVisible(View.GONE);
 
         //Set up radio group for record type
-        binding.typeRadiogroupFwee.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+        binding.typeRadiogroupFwee.setOnCheckedChangeListener((radioGroup, i) -> {
 
-                switch (i){
-                    case 0:
-                        List<String> recordPayload = Arrays.asList(EData.EDataKeys.SET.getKey(), EData.EDataKeys.REPS.getKey());
-                        mExercise.addAttribute(EAttributeKeys.RECORD_TYPE.getKey(), recordPayload);
-                        break;
-                    case 1:
-                        recordPayload = Arrays.asList(EData.EDataKeys.SET.getKey(), EData.EDataKeys.REPS.getKey(), EData.EDataKeys.WEIGHT.getKey());
-                        mExercise.addAttribute(EAttributeKeys.RECORD_TYPE.getKey(), recordPayload);
-                        break;
-                    case 2:
-                        recordPayload = Arrays.asList(EData.EDataKeys.SET.getKey(), EData.EDataKeys.DURATION.getKey());
-                        mExercise.addAttribute(EAttributeKeys.RECORD_TYPE.getKey(), recordPayload);
-                        break;
-                }
+            switch (i){
+                case 0:
+                    List<String> recordPayload = Arrays.asList(EData.EDataKeys.SET.getKey(), EData.EDataKeys.REPS.getKey());
+                    mExercise.addAttribute(EAttributeKeys.RECORD_TYPE.getKey(), recordPayload);
+                    break;
+                case 1:
+                    recordPayload = Arrays.asList(EData.EDataKeys.SET.getKey(), EData.EDataKeys.REPS.getKey(), EData.EDataKeys.WEIGHT.getKey());
+                    mExercise.addAttribute(EAttributeKeys.RECORD_TYPE.getKey(), recordPayload);
+                    break;
+                case 2:
+                    recordPayload = Arrays.asList(EData.EDataKeys.SET.getKey(), EData.EDataKeys.DURATION.getKey());
+                    mExercise.addAttribute(EAttributeKeys.RECORD_TYPE.getKey(), recordPayload);
+                    break;
             }
         });
 
@@ -163,7 +158,7 @@ public class EEditFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                if(binding.typeFwee.getSelectedItem().toString().matches("Strength||Weights")){
+                if(binding.typeFwee.getSelectedItem().toString().matches("Strength|Weights")){
                     binding.setGroupVisible(View.VISIBLE);
                 } else {
                     binding.setGroupVisible(View.GONE);
@@ -179,7 +174,7 @@ public class EEditFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.single_item, menu);
@@ -192,9 +187,9 @@ public class EEditFragment extends Fragment {
         if(item.getItemId() == android.R.id.home){
 
             //Backwards navigation
-            getActivity().setContentView(R.layout.activity_workshop_exercise);
+            requireActivity().setContentView(R.layout.activity_workshop_exercise);
             EListFragment frag = EListFragment.newInstance();
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frag_container_awe, frag).commit();
+            requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frag_container_awe, frag).commit();
 
         } else if(item.getItemId() == R.id.single_item){
 
@@ -205,24 +200,31 @@ public class EEditFragment extends Fragment {
             HashMap<String, List<String>> attributes = new HashMap<>();
 
             if(!binding.groupFwee.getSelectedItem().toString().equals("None")) {
-                List<String> mGroup = new ArrayList<String>();
+                List<String> mGroup = new ArrayList<>();
                 mGroup.add(binding.groupFwee.getSelectedItem().toString());
                 attributes.put(EAttributeKeys.MUSCLE_GROUP.getKey(), mGroup);
             }
 
             int id = binding.typeRadiogroupFwee.getCheckedRadioButtonId();
 
-            RadioButton selected = getView().findViewById(id);
+            RadioButton selected = requireView().findViewById(id);
             String selectedText = String.valueOf(selected.getText());
-            if(selectedText.equals("Sets and Reps")){
-                List<String> payload = Arrays.asList(EData.EDataKeys.SET.getKey(), EData.EDataKeys.REPS.getKey());
-                attributes.put(EAttributeKeys.RECORD_TYPE.getKey(), payload);
-            } else if(selectedText.equals("Sets and Reps with Weights")){
-                List<String> payload = Arrays.asList(EData.EDataKeys.SET.getKey(), EData.EDataKeys.REPS.getKey(), EData.EDataKeys.WEIGHT.getKey());
-                attributes.put(EAttributeKeys.RECORD_TYPE.getKey(), payload);
-            } else if(selectedText.equals("Sets and Duration")){
-                List<String> payload = Arrays.asList(EData.EDataKeys.SET.getKey(), EData.EDataKeys.DURATION.getKey());
-                attributes.put(EAttributeKeys.RECORD_TYPE.getKey(), payload);
+            switch (selectedText) {
+                case "Sets and Reps": {
+                    List<String> payload = Arrays.asList(EData.EDataKeys.SET.getKey(), EData.EDataKeys.REPS.getKey());
+                    attributes.put(EAttributeKeys.RECORD_TYPE.getKey(), payload);
+                    break;
+                }
+                case "Sets and Reps with Weights": {
+                    List<String> payload = Arrays.asList(EData.EDataKeys.SET.getKey(), EData.EDataKeys.REPS.getKey(), EData.EDataKeys.WEIGHT.getKey());
+                    attributes.put(EAttributeKeys.RECORD_TYPE.getKey(), payload);
+                    break;
+                }
+                case "Sets and Duration": {
+                    List<String> payload = Arrays.asList(EData.EDataKeys.SET.getKey(), EData.EDataKeys.DURATION.getKey());
+                    attributes.put(EAttributeKeys.RECORD_TYPE.getKey(), payload);
+                    break;
+                }
             }
 
             Exercise saveExercise = new Exercise(eName, eDescription, eType, attributes);
@@ -235,9 +237,9 @@ public class EEditFragment extends Fragment {
 
             ExerciseDOM.writeUserExercises(getContext(), EListFragment.userExercises);
 
-            getActivity().setContentView(R.layout.activity_workshop_exercise);
+            requireActivity().setContentView(R.layout.activity_workshop_exercise);
             EListFragment frag = EListFragment.newInstance();
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frag_container_awe, frag).commit();
+            requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frag_container_awe, frag).commit();
         }
 
         return super.onOptionsItemSelected(item);

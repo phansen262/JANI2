@@ -13,8 +13,8 @@ public class Session {
   private String mDescription;
   private String mType;
   
-  private List<EData> mEDataList = new ArrayList();
-  private HashMap<String, List<String>> mAttributes = new HashMap<>();
+  private List<EData> mEDataList;
+  private HashMap<String, List<String>> mAttributes;
   
   //Base Constructor
   public Session(String name, String description, String type, ArrayList<EData> exerciseList, HashMap<String, List<String>> attributes){
@@ -40,7 +40,7 @@ public class Session {
 
   //Adders
   public void addExercise(Exercise newExercise){
-    mEDataList.add(new EData(newExercise, new HashMap<String, String>()));
+    mEDataList.add(new EData(newExercise, new HashMap<>()));
   }
   public void addEData(EData eData){
     mEDataList.add(eData);}

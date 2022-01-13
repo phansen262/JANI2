@@ -6,9 +6,9 @@ import java.util.HashMap;
 
 public class SData {
 
-    private MTimeDay mSessionTime;
-    private Session mSession;
-    private HashMap<String, Object> mAttributes;
+    private final MTimeDay mSessionTime;
+    private final Session mSession;
+    private final HashMap<String, Object> mAttributes;
 
     public SData(MTimeDay timeDay, Session session, HashMap<String, Object> attributes){
 

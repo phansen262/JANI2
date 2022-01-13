@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment;
 import com.sticknology.jani2.R;
 import com.sticknology.jani2.databinding.FragmentWorkshopSListBinding;
 
+import java.util.Objects;
+
 public class SListFragment extends Fragment {
 
     public SListFragment() {
@@ -44,25 +46,21 @@ public class SListFragment extends Fragment {
         SWorkshopActivity.actionBar.setDisplayHomeAsUpEnabled(false);
 
         //Set up binding for class use
-        FragmentWorkshopSListBinding mBinding = DataBindingUtil.setContentView(getActivity(),
+        FragmentWorkshopSListBinding mBinding = DataBindingUtil.setContentView(requireActivity(),
                 R.layout.fragment_workshop_s_list);
 
         //Set recyclerview for list
-        if(getContext().getFileStreamPath("user_sessions.xml").exists()) {
-
+        if(requireContext().getFileStreamPath("user_sessions.xml").exists()) {
 
         }
 
         //Set listener for new session floating button
-        mBinding.buttonNewSessionFwsl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        mBinding.buttonNewSessionFwsl.setOnClickListener(view1 -> {
 
-                //No idea why, but need to reset setContentView, potentially because of setcontentview above with data binding?
-                getActivity().setContentView(R.layout.activity_workshop_session);
-                SEditFragLanding frag = SEditFragLanding.newInstance();
-                getActivity().getSupportFragmentManager().beginTransaction().addToBackStack("").replace(R.id.frag_container_aws, frag).commit();
-            }
+            //No idea why, but need to reset setContentView, potentially because of setcontentview above with data binding?
+            requireActivity().setContentView(R.layout.activity_workshop_session);
+            SEditFragLanding frag = SEditFragLanding.newInstance();
+            requireActivity().getSupportFragmentManager().beginTransaction().addToBackStack("").replace(R.id.frag_container_aws, frag).commit();
         });
     }
 }

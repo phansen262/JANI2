@@ -4,9 +4,9 @@ import com.sticknology.jani2.base_objects.MTime;
 import com.sticknology.jani2.base_objects.MUnit;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class EData {
 
@@ -24,6 +24,19 @@ public class EData {
         public String getDisplay(){return this.display;}
     }
 
+    //Class Enum Functions
+    public static String getDisplayFromKey(String inputKey){
+
+        for(EDataKeys key : EDataKeys.values()){
+            if(key.key.equals(inputKey)){return key.display;}
+        }
+
+        System.out.println("Did not find matching key request");
+        return "";
+    }
+
+    //Class Start
+
     private Exercise key;
     private HashMap<String, String> payload;
 
@@ -33,28 +46,25 @@ public class EData {
         payload = dataMap;
     }
 
-    public void addSetRepData(int sets, int reps){
+    public void addIntData(String key, int data){
 
-        payload.put(EDataKeys.SET.key, String.valueOf(sets));
-        payload.put(EDataKeys.REPS.key, String.valueOf(reps));
+        payload.put(key, String.valueOf(data));
     }
 
-    public void addSetRepWeightData(int sets, int reps, List<MUnit> weights){
+    public void addMUnitData(String key, List<MUnit> data){
 
-        payload.put(EDataKeys.SET.key, String.valueOf(sets));
-        payload.put(EDataKeys.REPS.key, String.valueOf(reps));
-        String build = "";
-        for(int i = 0; i < weights.size(); i++){
-            build += weights.get(i).toDispString(0);
-            if(i < weights.size() - 1){
-                build += "@!@";
+        StringBuilder build = new StringBuilder();
+        for(int i = 0; i < data.size(); i++){
+            build.append(data.get(i).toDispString(0));
+            if(i < data.size() - 1){
+                build.append("@!@");
             }
         }
-        payload.put(EDataKeys.WEIGHT.key, build);
+        payload.put(key, build.toString());
     }
 
-    public void addDuration(MTime duration){
-        payload.put(EDataKeys.DURATION.key, duration.getDispString());
+    public void addTimeData(String key, MTime data){
+        payload.put(key, data.getDispString());
     }
 
     public void addSetDuration(int sets, List<MTime> durations){
@@ -64,16 +74,16 @@ public class EData {
 
     public int getSets(){
 
-        return Integer.parseInt(payload.get(EDataKeys.SET.key));
+        return Integer.parseInt(Objects.requireNonNull(payload.get(EDataKeys.SET.key)));
     }
 
     public int getReps(){
 
-        return Integer.parseInt(payload.get(EDataKeys.REPS.key));
+        return Integer.parseInt(Objects.requireNonNull(payload.get(EDataKeys.REPS.key)));
     }
 
     public List<MUnit> getWeights(){
-        List<String> values = Arrays.asList(payload.get(EDataKeys.WEIGHT.key).split("@!@"));
+        String[] values = Objects.requireNonNull(payload.get(EDataKeys.WEIGHT.key)).split("@!@");
         List<MUnit> weights = new ArrayList<>();
 
         for(String value : values){
@@ -85,7 +95,7 @@ public class EData {
 
     public MTime getDuration(){
 
-        return new MTime(Integer.parseInt(payload.get(EDataKeys.DURATION.key)));
+        return new MTime(Integer.parseInt(Objects.requireNonNull(payload.get(EDataKeys.DURATION.key))));
     }
 
     //Base getters and setters

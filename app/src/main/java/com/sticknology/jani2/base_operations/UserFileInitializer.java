@@ -8,6 +8,7 @@ import com.sticknology.jani2.app_objects.trainingplan.exercises.ExerciseDOM;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class UserFileInitializer {
 
@@ -24,7 +25,7 @@ public class UserFileInitializer {
             //Attempt to write default exercises to xml file if not currently exist
             System.out.println("user_exercises.xml  :  not currently in files, adding now");
             ArrayList<Exercise> defaultExercises = ExerciseDOM.getExerciseList(context, ExerciseDOM.ExerciseFilePath.DEFAULT.path);
-            ExerciseDOM.writeUserExercises(context, defaultExercises);
+            ExerciseDOM.writeUserExercises(context, Objects.requireNonNull(defaultExercises));
         }
     }
 }

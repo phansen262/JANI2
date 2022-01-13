@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.sticknology.jani2.R;
 import com.sticknology.jani2.databinding.FragmentHomeWorkshopBinding;
+import com.sticknology.jani2.ui.common.SNumberPicker;
 import com.sticknology.jani2.ui.workshops.exercise.EWorkshopActivity;
 import com.sticknology.jani2.ui.workshops.session.SWorkshopActivity;
 
@@ -48,25 +49,21 @@ public class WorkshopFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //Settup class binding
-        FragmentHomeWorkshopBinding binding = DataBindingUtil.setContentView(getActivity(),
+        FragmentHomeWorkshopBinding binding = DataBindingUtil.setContentView(requireActivity(),
                 R.layout.fragment_home_workshop);
 
-        binding.exercisesFhw.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        binding.exercisesFhw.setOnClickListener(view1 -> {
 
-                Intent intent = new Intent(getActivity(), EWorkshopActivity.class);
-                startActivity(intent);
-            }
+            Intent intent = new Intent(getActivity(), EWorkshopActivity.class);
+            startActivity(intent);
         });
 
-        binding.sessionsFhw.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        binding.sessionsFhw.setOnClickListener(view12 -> {
 
-                Intent intent = new Intent(getActivity(), SWorkshopActivity.class);
-                startActivity(intent);
-            }
+            Intent intent = new Intent(getActivity(), SWorkshopActivity.class);
+            startActivity(intent);
         });
+
+
     }
 }

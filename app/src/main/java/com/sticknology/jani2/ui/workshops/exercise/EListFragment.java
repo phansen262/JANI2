@@ -43,11 +43,7 @@ public class EListFragment extends Fragment {
     //For including whether or not this is coming from a session workshop request
     public static EListFragment newInstance(boolean session){
 
-        if(session) {
-            fromSession = true;
-        } else {
-            fromSession = false;
-        }
+        fromSession = session;
 
         return new EListFragment();
     }
@@ -73,7 +69,7 @@ public class EListFragment extends Fragment {
         }
 
         //Set up binding for class use
-        FragmentWorkshopEListBinding mBinding = DataBindingUtil.setContentView(getActivity(),
+        FragmentWorkshopEListBinding mBinding = DataBindingUtil.setContentView(requireActivity(),
                 R.layout.fragment_workshop_e_list);
 
         //Add exercise list to list
@@ -89,20 +85,17 @@ public class EListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //Set listener for new exercise floating button
-        mBinding.buttonNewExerciseFwel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        mBinding.buttonNewExerciseFwel.setOnClickListener(view1 -> {
 
-                //No idea why, but need to reset setContentView, potentially because of setcontentview above with data binding?
-                getActivity().setContentView(R.layout.activity_workshop_exercise);
-                EEditFragment frag = EEditFragment.newInstance();
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frag_container_awe, frag).commit();
-            }
+            //No idea why, but need to reset setContentView, potentially because of setcontentview above with data binding?
+            requireActivity().setContentView(R.layout.activity_workshop_exercise);
+            EEditFragment frag = EEditFragment.newInstance();
+            requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frag_container_awe, frag).commit();
         });
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.single_item, menu);
         menu.getItem(0).setTitle("Done");
@@ -114,8 +107,8 @@ public class EListFragment extends Fragment {
         if(item.getItemId() == android.R.id.home || item.getItemId() == R.id.single_item){
 
             //Backwards navigation :  Only from session type
-            getActivity().setContentView(R.layout.activity_workshop_session);
-            getActivity().getSupportFragmentManager().popBackStack();
+            requireActivity().setContentView(R.layout.activity_workshop_session);
+            requireActivity().getSupportFragmentManager().popBackStack();
         }
 
         return super.onOptionsItemSelected(item);

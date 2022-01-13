@@ -16,7 +16,7 @@ import java.util.List;
 
 public class EViewDialog{
 
-    public static AlertDialog.Builder EViewDialog(Exercise exercise, Context context){
+    public static AlertDialog.Builder BuildEViewDialog(Exercise exercise, Context context){
 
         //build alert dialog
         final AlertDialog.Builder d = new AlertDialog.Builder(context);
@@ -37,13 +37,9 @@ public class EViewDialog{
             TextView textView = dialogView.findViewById(R.id.dialog_tv_rectype_dev);
             List<String> recordTypes = exercise.getAttributeItem(EAttributeKeys.RECORD_TYPE.getKey());
             List<String> build = new ArrayList<>();
-            String display = "";
+            String display;
             for(String keystring : recordTypes){
-                for(EData.EDataKeys dataKey : EData.EDataKeys.values()){
-                    if(keystring.equals(dataKey.getKey())){
-                        build.add(dataKey.getDisplay());
-                    }
-                }
+                build.add(EData.getDisplayFromKey(keystring));
             }
             if(recordTypes.size() == 2){
                 display = build.get(0) + " and " + build.get(1);

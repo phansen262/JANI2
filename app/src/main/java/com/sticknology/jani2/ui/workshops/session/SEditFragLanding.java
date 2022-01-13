@@ -67,7 +67,7 @@ public class SEditFragLanding extends Fragment {
         SWorkshopActivity.actionBar.setDisplayHomeAsUpEnabled(true);
 
         //Settup class binding
-        mBinding = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_workshop_s_edit_landing);
+        mBinding = DataBindingUtil.setContentView(requireActivity(), R.layout.fragment_workshop_s_edit_landing);
 
         if(mSession.getName() != null && !mSession.getName().equals("")){
             mBinding.setName(mSession.getName());
@@ -92,18 +92,18 @@ public class SEditFragLanding extends Fragment {
         if(item.getItemId() == android.R.id.home){
 
             //Backwards navigation
-            getActivity().setContentView(R.layout.activity_workshop_session);
+            requireActivity().setContentView(R.layout.activity_workshop_session);
             SListFragment frag = SListFragment.newInstance();
-            getActivity().getSupportFragmentManager().beginTransaction().addToBackStack("").replace(R.id.frag_container_aws, frag).commit();
+            requireActivity().getSupportFragmentManager().beginTransaction().addToBackStack("").replace(R.id.frag_container_aws, frag).commit();
 
         } else if(item.getItemId() == R.id.single_item){
 
             mSession.setName(mBinding.nameFwsel.getText().toString());
             mSession.setDescription(mBinding.descriptionFwsel.getText().toString());
 
-            getActivity().setContentView(R.layout.activity_workshop_session);
+            requireActivity().setContentView(R.layout.activity_workshop_session);
             SEditFragComps frag = new SEditFragComps();
-            getActivity().getSupportFragmentManager().beginTransaction().addToBackStack("").replace(R.id.frag_container_aws, frag).commit();
+            requireActivity().getSupportFragmentManager().beginTransaction().addToBackStack("").replace(R.id.frag_container_aws, frag).commit();
 
         }
 

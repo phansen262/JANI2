@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public class Carrier implements Serializable {
 
-    private String mKey;
-    private Object mPayload;
+    private final String mKey;
+    private final Object mPayload;
 
     public Carrier(String key, Object payload){
 

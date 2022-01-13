@@ -15,7 +15,7 @@ public class Exercise implements Serializable {
     //Empty constructor to use add/set functions to build instead of constructor
     public Exercise(){
 
-        mAttributes = new HashMap<String, List<String>>();
+        mAttributes = new HashMap<>();
     }
 
     public Exercise(String name, String description, String type, HashMap<String, List<String>> attributes){

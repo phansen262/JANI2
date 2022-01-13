@@ -4,9 +4,9 @@ import android.media.Image;
 
 public class Equipment {
 
-    private String mName;
-    private String mDescription;
-    private Image mImage;
+    private final String mName;
+    private final String mDescription;
+    private final Image mImage;
 
     //Base Constructor for has age
     public Equipment(String name, String description, Image image){
@@ -24,4 +24,6 @@ public class Equipment {
     public String getDescription(){
         return mDescription;
     }
+
+    public Image getImage(){return mImage;}
 }
