@@ -8,7 +8,9 @@ import com.sticknology.jani2.databinding.DialogCommonSnumberpickerBinding;
 
 public class SNumberPicker {
 
-    public static AlertDialog.Builder SNumberPicker(Context context, String title){
+    public static int selectedValue;
+
+    public static AlertDialog.Builder SNumberPicker(Context context, String title, int min, int max){
 
         //build alert dialog
         final AlertDialog.Builder d = new AlertDialog.Builder(context);
@@ -16,11 +18,16 @@ public class SNumberPicker {
         d.setTitle(title);
         d.setView(mBinding.getRoot());
 
-        mBinding.pickerDcs.setMinValue(0);
-        mBinding.pickerDcs.setMaxValue(25);
+        mBinding.pickerDcs.setMinValue(min);
+        mBinding.pickerDcs.setMaxValue(max);
 
+        selectedValue = min;
+
+        mBinding.pickerDcs.setOnValueChangedListener((numberPicker, i, i1) -> {
+
+            selectedValue = numberPicker.getValue();
+        });
 
         return d;
-
     }
 }

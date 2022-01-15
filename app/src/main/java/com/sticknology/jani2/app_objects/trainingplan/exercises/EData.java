@@ -67,19 +67,8 @@ public class EData {
         payload.put(key, data.getDispString());
     }
 
-    public void addSetDuration(int sets, List<MTime> durations){
-        payload.put(EDataKeys.SET.key, String.valueOf(sets));
-        payload.put(EDataKeys.DURATION.key, String.valueOf(getDuration().getTotalSeconds()));
-    }
-
-    public int getSets(){
-
-        return Integer.parseInt(Objects.requireNonNull(payload.get(EDataKeys.SET.key)));
-    }
-
-    public int getReps(){
-
-        return Integer.parseInt(Objects.requireNonNull(payload.get(EDataKeys.REPS.key)));
+    public void addDuration(List<MTime> durations){
+        payload.put(EDataKeys.DURATION.key, durations.get(0).getDispString());
     }
 
     public List<MUnit> getWeights(){
@@ -91,11 +80,6 @@ public class EData {
         }
 
         return weights;
-    }
-
-    public MTime getDuration(){
-
-        return new MTime(Integer.parseInt(Objects.requireNonNull(payload.get(EDataKeys.DURATION.key))));
     }
 
     //Base getters and setters

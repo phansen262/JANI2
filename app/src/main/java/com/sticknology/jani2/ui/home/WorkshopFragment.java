@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment;
 
 import com.sticknology.jani2.R;
 import com.sticknology.jani2.databinding.FragmentHomeWorkshopBinding;
-import com.sticknology.jani2.ui.common.SNumberPicker;
 import com.sticknology.jani2.ui.workshops.exercise.EWorkshopActivity;
 import com.sticknology.jani2.ui.workshops.session.SWorkshopActivity;
 

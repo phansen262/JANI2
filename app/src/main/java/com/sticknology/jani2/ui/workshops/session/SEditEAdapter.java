@@ -10,7 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EAttributeKeys;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EData;
+import com.sticknology.jani2.base_objects.MTime;
 import com.sticknology.jani2.databinding.ReviWorkshopSEItemBinding;
+import com.sticknology.jani2.ui.common.DNumberPicker;
+import com.sticknology.jani2.ui.common.SNumberPicker;
 import com.sticknology.jani2.ui.workshops.exercise.EViewDialog;
 
 import java.util.List;
@@ -46,19 +49,75 @@ public class SEditEAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         List<String> typeList = eData.getKey().getAttributeItem(EAttributeKeys.RECORD_TYPE.getKey());
         vh.mBinding.setLabel1(EData.getDisplayFromKey(typeList.get(0)));
         vh.mBinding.field1Rwsei.setOnClickListener(view -> {
-
+            setEditDialogs(typeList.get(0), EData.getDisplayFromKey(typeList.get(0)), vh, eData, typeList);
         });
         vh.mBinding.setLabel2(EData.getDisplayFromKey(typeList.get(1)));
         vh.mBinding.field2Rwsei.setOnClickListener(view -> {
-
+            setEditDialogs(typeList.get(1), EData.getDisplayFromKey(typeList.get(1)), vh, eData, typeList);
         });
         if(typeList.size() == 2){
             vh.mBinding.field3Rwsei.setVisibility(View.GONE);
         } else {
             vh.mBinding.setLabel3(EData.getDisplayFromKey(typeList.get(2)));
             vh.mBinding.field3Rwsei.setOnClickListener(view -> {
-
+                setEditDialogs(typeList.get(2), EData.getDisplayFromKey(typeList.get(2)), vh, eData, typeList);
             });
+        }
+
+        setDataDisplays(vh, eData, typeList);
+    }
+
+    public void setDataDisplays(ViewHolder vh, EData eData, List<String> typeList){
+
+        System.out.println("This is position:  " + vh.getAdapterPosition());
+
+        vh.mBinding.setData1(eData.getData().get(typeList.get(0)));
+        vh.mBinding.setData2(eData.getData().get(typeList.get(1)));
+        if(typeList.size() == 3) {
+            vh.mBinding.setData3(eData.getData().get(typeList.get(2)));
+        }
+    }
+
+    public void setEditDialogs(String key, String title, ViewHolder vh, EData eData, List<String> typeList){
+
+        switch (key){
+            case "set":
+                AlertDialog.Builder setBuilder = SNumberPicker.
+                        SNumberPicker(vh.mParent.getContext(), title, 1, 10);
+                setBuilder.setPositiveButton("Enter", (dialogInterface, i) -> {
+                    eData.addIntData(EData.EDataKeys.SET.getKey(), SNumberPicker.selectedValue);
+                    setDataDisplays(vh, eData, typeList);
+                });
+                setBuilder.create().show();
+                break;
+            case "reps":
+                AlertDialog.Builder repBuilder = SNumberPicker.
+                        SNumberPicker(vh.mParent.getContext(), title, 1, 50);
+                repBuilder.setPositiveButton("Enter", (dialogInterface, i) -> {
+                    eData.addIntData(EData.EDataKeys.REPS.getKey(), SNumberPicker.selectedValue);
+                    setDataDisplays(vh, eData, typeList);
+                });
+                repBuilder.create().show();
+                break;
+            case "duration":
+                AlertDialog.Builder durationBuilder = DNumberPicker.DNumberPicker(vh.mParent.getContext(), title);
+                durationBuilder.setPositiveButton("Enter", ((dialogInterface, i) -> {
+                    eData.addTimeData(EData.EDataKeys.DURATION.getKey(), new MTime(0, DNumberPicker.selectedValueOne, DNumberPicker.selectedValueTwo));
+                    setDataDisplays(vh, eData, typeList);
+                }));
+                durationBuilder.create().show();
+                break;
+            case "weight":
+                AlertDialog.Builder weightBuilder = SNumberPicker.
+                        SNumberPicker(vh.mParent.getContext(), title, 5, 50);
+                weightBuilder.setPositiveButton("Enter", (dialogInterface, i) -> {
+                    eData.addIntData(EData.EDataKeys.WEIGHT.getKey(), SNumberPicker.selectedValue);
+                    setDataDisplays(vh, eData, typeList);
+                });
+                weightBuilder.create().show();
+                break;
+            default:
+                System.out.println("Error:  key not found to display set dialog for setEditDialogs in SEditEAdapter");
         }
     }
 
