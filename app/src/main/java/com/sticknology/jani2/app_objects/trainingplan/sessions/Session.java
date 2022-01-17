@@ -16,7 +16,9 @@ public class Session {
   private List<EData> mEDataList;
   private HashMap<String, List<String>> mAttributes;
   
-  //Base Constructor
+  //Base Constructors
+  public Session(){}
+
   public Session(String name, String description, String type, ArrayList<EData> exerciseList, HashMap<String, List<String>> attributes){
     
     mName = name;
@@ -31,6 +33,7 @@ public class Session {
   public String getName(){return mName;}
   public String getDescription(){return mDescription;}
   public String getType(){return mType;}
+  public HashMap<String, List<String>> getAttributes(){return mAttributes;}
   public List<EData> getEDataList(){return mEDataList;}
   
   public void setName(String name){mName = name;}
@@ -43,5 +46,9 @@ public class Session {
     mEDataList.add(new EData(newExercise, new HashMap<>()));
   }
   public void addEData(EData eData){
-    mEDataList.add(eData);}
+    mEDataList.add(eData);
+  }
+  public void addAttribute(String key, List<String> payload){
+    mAttributes.put(key, payload);
+  }
 }

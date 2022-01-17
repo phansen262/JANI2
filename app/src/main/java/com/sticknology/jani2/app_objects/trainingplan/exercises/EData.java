@@ -4,6 +4,7 @@ import com.sticknology.jani2.base_objects.MTime;
 import com.sticknology.jani2.base_objects.MUnit;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -38,57 +39,48 @@ public class EData {
     //Class Start
 
     private Exercise key;
-    private HashMap<String, String> payload;
+    private HashMap<String, List<String>> payload;
 
-    public EData(Exercise exercise, HashMap<String, String> dataMap){
+    public EData(Exercise exercise, HashMap<String, List<String>> dataMap){
 
         key = exercise;
         payload = dataMap;
     }
 
-    public void addIntData(String key, int data){
+    public void addIntData(String key, int[] data){
 
-        payload.put(key, String.valueOf(data));
-    }
-
-    public void addMUnitData(String key, List<MUnit> data){
-
-        StringBuilder build = new StringBuilder();
-        for(int i = 0; i < data.size(); i++){
-            build.append(data.get(i).toDispString(0));
-            if(i < data.size() - 1){
-                build.append("@!@");
-            }
+        List<String> intData = new ArrayList<>();
+        for(int i : data){
+            intData.add(String.valueOf(i));
         }
-        payload.put(key, build.toString());
+        payload.put(key, intData);
     }
 
-    public void addTimeData(String key, MTime data){
-        payload.put(key, data.getDispString());
-    }
+    public void addMUnitData(String key, List<MUnit> data, int decimals){
 
-    public void addDuration(List<MTime> durations){
-        payload.put(EDataKeys.DURATION.key, durations.get(0).getDispString());
-    }
-
-    public List<MUnit> getWeights(){
-        String[] values = Objects.requireNonNull(payload.get(EDataKeys.WEIGHT.key)).split("@!@");
-        List<MUnit> weights = new ArrayList<>();
-
-        for(String value : values){
-            weights.add(new MUnit(value));
+        List<String> mUnitData = new ArrayList<>();
+        for(MUnit mUnit : data){
+            mUnitData.add(mUnit.toDispString(decimals));
         }
 
-        return weights;
+        payload.put(key, mUnitData);
+    }
+
+    public void addTimeData(String key, List<MTime> data){
+        List<String> mTimeData = new ArrayList<>();
+        for(MTime mTime : data){
+            mTimeData.add(mTime.getDispString());
+        }
+        payload.put(key, mTimeData);
     }
 
     //Base getters and setters
     public Exercise getKey(){
         return key;
     }
-    public HashMap<String, String> getData(){
+    public HashMap<String, List<String>> getData(){
         return payload;
     }
     public void setKey(Exercise newExercise){key = newExercise;}
-    public void setPayload(HashMap<String, String> newPayload){payload = newPayload;}
+    public void setPayload(HashMap<String, List<String>> newPayload){payload = newPayload;}
 }

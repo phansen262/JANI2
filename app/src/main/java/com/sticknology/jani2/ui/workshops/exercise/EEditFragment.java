@@ -23,7 +23,7 @@ import com.sticknology.jani2.app_objects.trainingplan.exercises.EData;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EType;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.ExerciseDOM;
-import com.sticknology.jani2.base_operations.ListPicker;
+import com.sticknology.jani2.base_operations.ListMethods;
 import com.sticknology.jani2.databinding.FragmentWorkshopEEditBinding;
 
 import java.util.ArrayList;
@@ -94,7 +94,7 @@ public class EEditFragment extends Fragment {
                 android.R.layout.simple_spinner_item, exerciseTypes);
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.typeFwee.setAdapter(typeAdapter);
-        binding.setType(ListPicker.matchListIndex(exerciseTypes, "None"));
+        binding.setType(ListMethods.matchListIndex(exerciseTypes, "None"));
 
         //Set up spinner for muscle group initial
         ArrayList<String> muscleGroups = new ArrayList<>();
@@ -105,7 +105,7 @@ public class EEditFragment extends Fragment {
                 android.R.layout.simple_spinner_item, muscleGroups);
         groupAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.groupFwee.setAdapter(groupAdapter);
-        binding.setGroup(ListPicker.matchListIndex(muscleGroups, "None"));
+        binding.setGroup(ListMethods.matchListIndex(muscleGroups, "None"));
         binding.setGroupVisible(View.GONE);
 
         //Set up radio group for record type
@@ -133,10 +133,10 @@ public class EEditFragment extends Fragment {
 
             binding.setName(mExercise.getName());
             binding.setDescription(mExercise.getDescription());
-            binding.setType(ListPicker.matchListIndex(exerciseTypes, mExercise.getType()));
+            binding.setType(ListMethods.matchListIndex(exerciseTypes, mExercise.getType()));
 
             if(mExercise.getAttributeItem(EAttributeKeys.MUSCLE_GROUP.getKey()) != null) {
-                binding.setGroup(ListPicker.matchListIndex(muscleGroups,
+                binding.setGroup(ListMethods.matchListIndex(muscleGroups,
                         mExercise.getAttributeItem(EAttributeKeys.MUSCLE_GROUP.getKey()).get(0)));
                 binding.setGroupVisible(View.VISIBLE);
             }
