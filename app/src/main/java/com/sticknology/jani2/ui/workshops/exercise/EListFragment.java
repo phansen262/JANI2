@@ -17,15 +17,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sticknology.jani2.R;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
-import com.sticknology.jani2.app_objects.trainingplan.exercises.ExerciseDOM;
+import com.sticknology.jani2.data.ExerciseServer;
 import com.sticknology.jani2.databinding.FragmentWorkshopEListBinding;
 import com.sticknology.jani2.ui.workshops.session.SWorkshopActivity;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class EListFragment extends Fragment {
 
-    public static ArrayList<Exercise> userExercises;
+    public static List<Exercise> displayExercises;
 
     public static boolean fromSession;
 
@@ -44,7 +44,6 @@ public class EListFragment extends Fragment {
     public static EListFragment newInstance(boolean session){
 
         fromSession = session;
-
         return new EListFragment();
     }
 
@@ -73,14 +72,13 @@ public class EListFragment extends Fragment {
                 R.layout.fragment_workshop_e_list);
 
         //Add exercise list to list
-        if(userExercises == null) {
-            userExercises = ExerciseDOM.getExerciseList(getContext(), ExerciseDOM.ExerciseFilePath.USER.path);
-        }
+        displayExercises = ExerciseServer.getExerciseList();
+
         //List<Exercise> exerciseList =  AssetsHandler.getDefaultExercises(getContext());
 
         //Set up rev for list of exercises
         RecyclerView recyclerView = mBinding.revListFwel;
-        EListAdapter eListAdapter = new EListAdapter(userExercises, getActivity(), getContext());
+        EListAdapter eListAdapter = new EListAdapter(displayExercises, getActivity(), getContext());
         recyclerView.setAdapter(eListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

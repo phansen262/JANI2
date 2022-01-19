@@ -57,7 +57,7 @@ public class EListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             builder.setPositiveButton("Edit", (dialogInterface, i) -> {
 
                 mActivity.setContentView(R.layout.activity_workshop_exercise);
-                EEditFragment frag = EEditFragment.newInstance(mExerciseList.get(vh1.getAdapterPosition()), vh1.getAdapterPosition());
+                EEditFragment frag = EEditFragment.newInstance(mExerciseList.get(vh1.getAdapterPosition()));
                 mActivity.getSupportFragmentManager().beginTransaction().replace(R.id.frag_container_awe, frag).commit();
             });
             AlertDialog dialog = builder.create();
@@ -71,7 +71,7 @@ public class EListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 if(SEditFragLanding.mSession.getEDataList() == null){
                     SEditFragLanding.mSession.setEDataList(new ArrayList<>());
                 }
-                SEditFragLanding.mSession.addExercise(EListFragment.userExercises.get(vh1.getAdapterPosition()));
+                SEditFragLanding.mSession.addExercise(EListFragment.displayExercises.get(vh1.getAdapterPosition()));
             });
         } else {
             vh1.mBinding.addButtonRwel.setVisibility(View.GONE);

@@ -24,6 +24,7 @@ import com.sticknology.jani2.app_objects.trainingplan.exercises.EType;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.ExerciseDOM;
 import com.sticknology.jani2.base_operations.ListMethods;
+import com.sticknology.jani2.data.ExerciseServer;
 import com.sticknology.jani2.databinding.FragmentWorkshopEEditBinding;
 
 import java.util.ArrayList;
@@ -36,7 +37,6 @@ public class EEditFragment extends Fragment {
     //Class inputs
     private static Exercise mExercise;
     private static boolean mHasInputExercise;
-    private static int mInputExerciseIndex;
 
     //Class Variables
     private FragmentWorkshopEEditBinding binding;
@@ -53,10 +53,9 @@ public class EEditFragment extends Fragment {
     }
 
     //Constructor to use if edit as opposed to new
-    public static EEditFragment newInstance(Exercise inputExercise, int inputIndex) {
+    public static EEditFragment newInstance(Exercise inputExercise) {
         mExercise = inputExercise;
         mHasInputExercise = true;
-        mInputExerciseIndex = inputIndex;
         return new EEditFragment();
     }
 
@@ -230,12 +229,10 @@ public class EEditFragment extends Fragment {
             Exercise saveExercise = new Exercise(eName, eDescription, eType, attributes);
 
             if(mHasInputExercise) {
-                EListFragment.userExercises.set(mInputExerciseIndex, saveExercise);
+                ExerciseServer.replaceExercise(mExercise, saveExercise, requireContext());
             } else {
-                EListFragment.userExercises.add(saveExercise);
+                ExerciseServer.addNewExercise(saveExercise, requireContext());
             }
-
-            ExerciseDOM.writeUserExercises(getContext(), EListFragment.userExercises);
 
             requireActivity().setContentView(R.layout.activity_workshop_exercise);
             EListFragment frag = EListFragment.newInstance();

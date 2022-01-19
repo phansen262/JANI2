@@ -6,8 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.sticknology.jani2.R;
-import com.sticknology.jani2.base_operations.UserFileInitializer;
-import com.sticknology.jani2.ui.common.SNumberPicker;
+import com.sticknology.jani2.data.ExerciseServer;
+import com.sticknology.jani2.data.UserFileInitializer;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -20,8 +20,9 @@ public class HomeActivity extends AppCompatActivity {
         //this.deleteFile("user_exercises.xml");
         //this.deleteFile("user_sessions.xml");
 
-        //TODO: Need to move initialization of files to actual main activity when active
+        //TODO: Need to move initialization of files and servers to actual main activity/loading screen when active
         UserFileInitializer.initExerciseUserFile(this);
+        ExerciseServer.initializeEServer(this);
 
         Fragment workshopFragment = WorkshopFragment.newInstance();
         getSupportFragmentManager().beginTransaction().add(R.id.frag_container_ah, workshopFragment, null).commit();
