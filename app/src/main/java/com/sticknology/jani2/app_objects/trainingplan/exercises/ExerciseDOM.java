@@ -2,6 +2,8 @@ package com.sticknology.jani2.app_objects.trainingplan.exercises;
 
 import android.content.Context;
 
+import com.sticknology.jani2.base_operations.ListMethods;
+
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -84,32 +86,23 @@ public class ExerciseDOM {
                 type.setValue(exerciseList.get(i).getType());
                 exercise.setAttributeNode(type);
 
-                //Attributes element
-                Element attributes = doc.createElement(Tags.ATTRIBUTE_LIST.tag);
-                exercise.appendChild(attributes);
+                //Attribute list element
+                Element attributeList = doc.createElement(Tags.ATTRIBUTE_LIST.tag);
 
-                //Adds all items in attributes
+
+                //Adds all items in attributes as attr
                 for(EAttributeKeys attributeKey : EAttributeKeys.values()){
 
                     if(exerciseList.get(i).getAttributeItem(attributeKey.getKey()) != null){
 
-                        Element attribute = doc.createElement(Tags.ATTRIBUTE.tag);
-
-                        StringBuilder build = new StringBuilder();
-                        for(int u  = 0; u < exerciseList.get(i).getAttributeItem(attributeKey.getKey()).size(); u++){
-                            build.append(exerciseList.get(i).getAttributeItem(attributeKey.getKey()).get(u));
-                            System.out.println("inside for loop for string build attribute e dom:  " + attributeKey.getKey());
-                            if(u < (exerciseList.get(i).getAttributeItem(attributeKey.getKey()).size() - 1)){
-                                System.out.println("got inside the iff");
-                                build.append("@!@");
-                            }
-                        }
-
-                        attribute.setAttribute(attributeKey.getKey(), build.toString());
-
-                        attributes.appendChild(attribute);
+                        Attr attribute = doc.createAttribute(attributeKey.getKey());
+                        String payload = ListMethods.joinList(exerciseList.get(i).getAttributeItem(attributeKey.getKey()), "@!@");
+                        attribute.setValue(payload);
+                        attributeList.setAttributeNode(attribute);
                     }
                 }
+
+                exercise.appendChild(attributeList);
             }
 
             //Write into xml file
@@ -168,14 +161,12 @@ public class ExerciseDOM {
                 Element exerciseElement = (Element) nodeList.item(i);
                 Element attributeListElement = (Element) exerciseElement.getElementsByTagName(Tags.ATTRIBUTE_LIST.tag).item(0);
 
-                for(int u = 0; u < attributeListElement.getElementsByTagName(Tags.ATTRIBUTE.tag).getLength(); u++){
-
-                    Element attribute = (Element) attributeListElement.getElementsByTagName(Tags.ATTRIBUTE.tag).item(u);
+                for(int u = 0; u < attributeListElement.getAttributes().getLength(); u++){
 
                     for(EAttributeKeys attributeKey : EAttributeKeys.values()){
-                        if(attribute.hasAttribute(attributeKey.getKey())){
+                        if(attributeListElement.hasAttribute(attributeKey.getKey())){
 
-                            List<String> payload = Arrays.asList(attribute.getAttribute(attributeKey.getKey()).split("@!@"));
+                            List<String> payload = Arrays.asList(attributeListElement.getAttribute(attributeKey.getKey()).split("@!@"));
                             exerciseObject.addAttribute(attributeKey.getKey(), payload);
                         }
                     }
