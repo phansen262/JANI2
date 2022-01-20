@@ -81,6 +81,7 @@ public class EData {
     public HashMap<String, List<String>> getData(){
         return payload;
     }
+    public String getExerciseName(){return key.getName();}
     public void setKey(Exercise newExercise){key = newExercise;}
     public void setPayload(HashMap<String, List<String>> newPayload){payload = newPayload;}
 }

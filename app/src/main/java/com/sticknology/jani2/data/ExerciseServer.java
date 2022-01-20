@@ -25,6 +25,17 @@ public class ExerciseServer {
         return false;
     }
 
+    //Return Exercise object requested with name
+    public static Exercise getNamedExercise(String name){
+        for(Exercise exercise : mExerciseList){
+            if(name.equals(exercise.getName())){
+                return exercise;
+            }
+        }
+        System.out.println("Returning null exercise from getNamedExercise in Exercise Server");
+        return null;
+    }
+
     //Modification methods
     public static void addNewExercise(Exercise exercise, Context context){
         mExerciseList.add(exercise);
