@@ -2,7 +2,8 @@ package com.sticknology.jani2.app_objects.trainingplan.sessions;
 
 public enum SAttributeKeys {
 
-    LOCATION("location");
+    LOCATION("location"),
+    DESCRIPTION("");
 
     private final String key;
     SAttributeKeys(String key){this.key = key;}

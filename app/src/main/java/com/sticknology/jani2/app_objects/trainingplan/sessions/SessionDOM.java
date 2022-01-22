@@ -3,6 +3,7 @@ package com.sticknology.jani2.app_objects.trainingplan.sessions;
 import android.content.Context;
 
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EData;
+import com.sticknology.jani2.app_objects.trainingplan.exercises.EDataKeys;
 import com.sticknology.jani2.base_operations.ListMethods;
 
 import org.w3c.dom.Attr;
@@ -142,7 +143,7 @@ public class SessionDOM {
             for(int i = 0; i < sessionEData.getElementsByTagName(Tags.EDATA_ITEM.tag).getLength(); i++){
 
                 Element eData = (Element) sessionEData.getElementsByTagName(Tags.EDATA_ITEM.tag).item(i);
-                for(EData.EDataKeys key : EData.EDataKeys.values()){
+                for(EDataKeys key : EDataKeys.values()){
                     if(sessionAttributes.hasAttribute(key.getKey())){
                         //TODO:  Finish adding session attributes
                     }

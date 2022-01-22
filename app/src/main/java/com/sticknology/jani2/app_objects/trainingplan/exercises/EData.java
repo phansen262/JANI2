@@ -4,32 +4,16 @@ import com.sticknology.jani2.base_objects.MTime;
 import com.sticknology.jani2.base_objects.MUnit;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 public class EData extends Exercise{
-
-    public enum EDataKeys {
-
-        SET("set", "Sets"),
-        REPS("reps", "Reps"),
-        DURATION("duration", "Duration"),
-        WEIGHT("weight", "Weight");
-
-        private final String key;
-        private final String display;
-        EDataKeys(String key, String display){this.key = key; this.display = display;}
-        public String getKey(){return this.key;}
-        public String getDisplay(){return this.display;}
-    }
 
     //Class Enum Functions
     public static String getDisplayFromKey(String inputKey){
 
         for(EDataKeys key : EDataKeys.values()){
-            if(key.key.equals(inputKey)){return key.display;}
+            if(key.getKey().equals(inputKey)){return key.getDisplay();}
         }
 
         System.out.println("Did not find matching key request");
@@ -41,7 +25,7 @@ public class EData extends Exercise{
 
     public EData(Exercise e, HashMap<String, List<String>> dataMap){
 
-        super(e.getName(), e.getDescription(), e.getType(), e.getAttributes());
+        super(e.getName(), e.getAttributes());
         payload = dataMap;
     }
 

@@ -1,7 +1,5 @@
 package com.sticknology.jani2.base_operations;
 
-import org.w3c.dom.Attr;
-
 import java.util.List;
 
 public class ListMethods {
@@ -30,6 +28,27 @@ public class ListMethods {
             sb.append(inputList.get(i));
             if(i < inputList.size() -1){
                 sb.append(delimiter);
+            }
+        }
+        return sb.toString();
+    }
+
+    public static String joinList(List<String> inputList, String[] delimiters){
+
+        //Keys for index on delimiter string:
+        //  0: Primary
+        //  1: Last delimiter
+        //  2: Supporting different delimiter if only two items
+
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < inputList.size(); i++){
+            sb.append(inputList.get(i));
+            if(inputList.size() == 2 && i == 0){
+                sb.append(delimiters[2]);
+            } else if(i < inputList.size() -2){
+                sb.append(delimiters[0]);
+            } else if (i == inputList.size() - 2){
+                sb.append(delimiters[1]);
             }
         }
         return sb.toString();

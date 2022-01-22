@@ -79,11 +79,11 @@ public class ExerciseDOM {
                 exercise.setAttributeNode(name);
                 //Description attr
                 Attr description = doc.createAttribute(Tags.DESCRIPTION.tag);
-                description.setValue(exerciseList.get(i).getDescription());
+                description.setValue(exerciseList.get(i).getAttributeString(EAttributeKeys.DESCRIPTION.getKey()));
                 exercise.setAttributeNode(description);
                 //Type attr
                 Attr type = doc.createAttribute(Tags.TYPE.tag);
-                type.setValue(exerciseList.get(i).getType());
+                type.setValue(exerciseList.get(i).getAttributeString(EAttributeKeys.EXERCISE_TYPE.getKey()));
                 exercise.setAttributeNode(type);
 
                 //Attribute list element
@@ -155,8 +155,8 @@ public class ExerciseDOM {
                 NamedNodeMap eAttrMap = nodeList.item(i).getAttributes();
 
                 exerciseObject.setName(eAttrMap.getNamedItem(Tags.NAME.tag).getNodeValue());
-                exerciseObject.setDescription(eAttrMap.getNamedItem(Tags.DESCRIPTION.tag).getNodeValue());
-                exerciseObject.setType(eAttrMap.getNamedItem(Tags.TYPE.tag).getNodeValue());
+                exerciseObject.addAttribute(EAttributeKeys.DESCRIPTION.getKey(), Arrays.asList(eAttrMap.getNamedItem(Tags.DESCRIPTION.tag).getNodeValue()));
+                exerciseObject.addAttribute(EAttributeKeys.EXERCISE_TYPE.getKey(), Arrays.asList(eAttrMap.getNamedItem(Tags.TYPE.tag).getNodeValue()));
 
                 Element exerciseElement = (Element) nodeList.item(i);
                 Element attributeListElement = (Element) exerciseElement.getElementsByTagName(Tags.ATTRIBUTE_LIST.tag).item(0);

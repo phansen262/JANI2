@@ -10,13 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EAttributeKeys;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EData;
+import com.sticknology.jani2.app_objects.trainingplan.exercises.EDataKeys;
 import com.sticknology.jani2.base_objects.MTime;
 import com.sticknology.jani2.databinding.ReviWorkshopSEItemBinding;
 import com.sticknology.jani2.ui.common.DNumberPicker;
 import com.sticknology.jani2.ui.common.SNumberPicker;
 import com.sticknology.jani2.ui.workshops.exercise.EViewDialog;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -100,7 +100,7 @@ public class SEditEAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 AlertDialog.Builder setBuilder = SNumberPicker.
                         SNumberPicker(vh.mParent.getContext(), title, 1, 10);
                 setBuilder.setPositiveButton("Enter", (dialogInterface, i) -> {
-                    eData.addIntData(EData.EDataKeys.SET.getKey(), new int[]{SNumberPicker.selectedValue});
+                    eData.addIntData(EDataKeys.SET.getKey(), new int[]{SNumberPicker.selectedValue});
                     loopDataDisplays(vh, eData, typeList);
                 });
                 setBuilder.create().show();
@@ -109,7 +109,7 @@ public class SEditEAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 AlertDialog.Builder repBuilder = SNumberPicker.
                         SNumberPicker(vh.mParent.getContext(), title, 1, 50);
                 repBuilder.setPositiveButton("Enter", (dialogInterface, i) -> {
-                    eData.addIntData(EData.EDataKeys.REPS.getKey(), new int []{SNumberPicker.selectedValue});
+                    eData.addIntData(EDataKeys.REPS.getKey(), new int []{SNumberPicker.selectedValue});
                     loopDataDisplays(vh, eData, typeList);
                 });
                 repBuilder.create().show();
@@ -118,7 +118,7 @@ public class SEditEAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 AlertDialog.Builder durationBuilder = DNumberPicker.DNumberPicker(vh.mParent.getContext(), title);
                 durationBuilder.setPositiveButton("Enter", ((dialogInterface, i) -> {
                     List<MTime> timeData = Collections.singletonList(new MTime(0, DNumberPicker.selectedValueOne, DNumberPicker.selectedValueTwo));
-                    eData.addTimeData(EData.EDataKeys.DURATION.getKey(), timeData);
+                    eData.addTimeData(EDataKeys.DURATION.getKey(), timeData);
                     loopDataDisplays(vh, eData, typeList);
                 }));
                 durationBuilder.create().show();
@@ -127,7 +127,7 @@ public class SEditEAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 AlertDialog.Builder weightBuilder = SNumberPicker.
                         SNumberPicker(vh.mParent.getContext(), title, 5, 50);
                 weightBuilder.setPositiveButton("Enter", (dialogInterface, i) -> {
-                    eData.addIntData(EData.EDataKeys.WEIGHT.getKey(), new int[]{SNumberPicker.selectedValue});
+                    eData.addIntData(EDataKeys.WEIGHT.getKey(), new int[]{SNumberPicker.selectedValue});
                     loopDataDisplays(vh, eData, typeList);
                 });
                 weightBuilder.create().show();

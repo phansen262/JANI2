@@ -26,9 +26,9 @@ public class EViewDialog{
 
         //Set UI information
         TextView type = dialogView.findViewById(R.id.dialog_tv_type_dev);
-        type.setText(exercise.getType());
+        type.setText(exercise.getAttributeString(EAttributeKeys.EXERCISE_TYPE.getKey()));
         TextView description = dialogView.findViewById(R.id.dialog_tv_description_dev);
-        description.setText(exercise.getDescription());
+        description.setText(exercise.getAttributeString(EAttributeKeys.DESCRIPTION.getKey()));
         if(exercise.getAttributeItem(EAttributeKeys.MUSCLE_GROUP.getKey()) != null) {
             TextView mgroup = dialogView.findViewById(R.id.dialog_tv_mgroup_dev);
             mgroup.setText(exercise.getAttributeItem(EAttributeKeys.MUSCLE_GROUP.getKey()).get(0));

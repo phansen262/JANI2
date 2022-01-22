@@ -19,16 +19,16 @@ import androidx.fragment.app.Fragment;
 import com.sticknology.jani2.R;
 import com.sticknology.jani2.app_objects.other.Muscle;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EAttributeKeys;
-import com.sticknology.jani2.app_objects.trainingplan.exercises.EData;
+import com.sticknology.jani2.app_objects.trainingplan.exercises.EDataKeys;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EType;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
-import com.sticknology.jani2.app_objects.trainingplan.exercises.ExerciseDOM;
 import com.sticknology.jani2.base_operations.ListMethods;
 import com.sticknology.jani2.data.ExerciseServer;
 import com.sticknology.jani2.databinding.FragmentWorkshopEEditBinding;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -114,15 +114,15 @@ public class EEditFragment extends Fragment {
 
             switch (i){
                 case 0:
-                    List<String> recordPayload = Arrays.asList(EData.EDataKeys.SET.getKey(), EData.EDataKeys.REPS.getKey());
+                    List<String> recordPayload = Arrays.asList(EDataKeys.SET.getKey(), EDataKeys.REPS.getKey());
                     mExercise.addAttribute(EAttributeKeys.RECORD_TYPE.getKey(), recordPayload);
                     break;
                 case 1:
-                    recordPayload = Arrays.asList(EData.EDataKeys.SET.getKey(), EData.EDataKeys.REPS.getKey(), EData.EDataKeys.WEIGHT.getKey());
+                    recordPayload = Arrays.asList(EDataKeys.SET.getKey(), EDataKeys.REPS.getKey(), EDataKeys.WEIGHT.getKey());
                     mExercise.addAttribute(EAttributeKeys.RECORD_TYPE.getKey(), recordPayload);
                     break;
                 case 2:
-                    recordPayload = Arrays.asList(EData.EDataKeys.SET.getKey(), EData.EDataKeys.DURATION.getKey());
+                    recordPayload = Arrays.asList(EDataKeys.SET.getKey(), EDataKeys.DURATION.getKey());
                     mExercise.addAttribute(EAttributeKeys.RECORD_TYPE.getKey(), recordPayload);
                     break;
             }
@@ -133,8 +133,8 @@ public class EEditFragment extends Fragment {
         if(mHasInputExercise){
 
             binding.setName(mExercise.getName());
-            binding.setDescription(mExercise.getDescription());
-            binding.setType(ListMethods.matchListIndex(exerciseTypes, mExercise.getType()));
+            binding.setDescription(mExercise.getAttributeString(EAttributeKeys.DESCRIPTION.getKey()));
+            binding.setType(ListMethods.matchListIndex(exerciseTypes, mExercise.getAttributeString(EAttributeKeys.EXERCISE_TYPE.getKey())));
 
             if(mExercise.getAttributeItem(EAttributeKeys.MUSCLE_GROUP.getKey()) != null) {
                 binding.setGroup(ListMethods.matchListIndex(muscleGroups,
@@ -146,7 +146,7 @@ public class EEditFragment extends Fragment {
                 List<String> recordTypes = mExercise.getAttributeItem(EAttributeKeys.RECORD_TYPE.getKey());
                 if(recordTypes.size() == 3){
                     binding.rtypeSetsRepsWeightsFwee.setChecked(true);
-                } else if(recordTypes.contains(EData.EDataKeys.DURATION.getKey())){
+                } else if(recordTypes.contains(EDataKeys.DURATION.getKey())){
                     binding.rtypeSetsDurationFwee.setChecked(true);
                 } else {
                     binding.rtypeSetsRepsFwee.setChecked(true);
@@ -195,10 +195,14 @@ public class EEditFragment extends Fragment {
         } else if(item.getItemId() == R.id.single_item){
 
             String eName = binding.nameFwee.getText().toString();
+
+            HashMap<String, List<String>> attributes = new HashMap<>();
+
             String eDescription = binding.descriptionFwee.getText().toString();
             String eType = binding.typeFwee.getSelectedItem().toString();
 
-            HashMap<String, List<String>> attributes = new HashMap<>();
+            attributes.put(EAttributeKeys.DESCRIPTION.getKey(), Collections.singletonList(eDescription));
+            attributes.put(EAttributeKeys.EXERCISE_TYPE.getKey(), Collections.singletonList(eType));
 
             if(!binding.groupFwee.getSelectedItem().toString().equals("None")) {
                 List<String> mGroup = new ArrayList<>();
@@ -212,23 +216,23 @@ public class EEditFragment extends Fragment {
             String selectedText = String.valueOf(selected.getText());
             switch (selectedText) {
                 case "Sets and Reps": {
-                    List<String> payload = Arrays.asList(EData.EDataKeys.SET.getKey(), EData.EDataKeys.REPS.getKey());
+                    List<String> payload = Arrays.asList(EDataKeys.SET.getKey(), EDataKeys.REPS.getKey());
                     attributes.put(EAttributeKeys.RECORD_TYPE.getKey(), payload);
                     break;
                 }
                 case "Sets and Reps with Weights": {
-                    List<String> payload = Arrays.asList(EData.EDataKeys.SET.getKey(), EData.EDataKeys.REPS.getKey(), EData.EDataKeys.WEIGHT.getKey());
+                    List<String> payload = Arrays.asList(EDataKeys.SET.getKey(), EDataKeys.REPS.getKey(), EDataKeys.WEIGHT.getKey());
                     attributes.put(EAttributeKeys.RECORD_TYPE.getKey(), payload);
                     break;
                 }
                 case "Sets and Duration": {
-                    List<String> payload = Arrays.asList(EData.EDataKeys.SET.getKey(), EData.EDataKeys.DURATION.getKey());
+                    List<String> payload = Arrays.asList(EDataKeys.SET.getKey(), EDataKeys.DURATION.getKey());
                     attributes.put(EAttributeKeys.RECORD_TYPE.getKey(), payload);
                     break;
                 }
             }
 
-            Exercise saveExercise = new Exercise(eName, eDescription, eType, attributes);
+            Exercise saveExercise = new Exercise(eName, attributes);
 
             if(mHasInputExercise) {
                 ExerciseServer.replaceExercise(mExercise, saveExercise, requireContext());
