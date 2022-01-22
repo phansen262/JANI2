@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.sticknology.jani2.R;
+import com.sticknology.jani2.app_objects.trainingplan.exercises.EData;
 import com.sticknology.jani2.data.ExerciseServer;
 import com.sticknology.jani2.data.UserFileInitializer;
 

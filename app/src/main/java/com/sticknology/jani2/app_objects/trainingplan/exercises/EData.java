@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class EData {
+public class EData extends Exercise{
 
     public enum EDataKeys {
 
@@ -37,13 +37,11 @@ public class EData {
     }
 
     //Class Start
-
-    private Exercise key;
     private HashMap<String, List<String>> payload;
 
-    public EData(Exercise exercise, HashMap<String, List<String>> dataMap){
+    public EData(Exercise e, HashMap<String, List<String>> dataMap){
 
-        key = exercise;
+        super(e.getName(), e.getDescription(), e.getType(), e.getAttributes());
         payload = dataMap;
     }
 
@@ -75,13 +73,9 @@ public class EData {
     }
 
     //Base getters and setters
-    public Exercise getKey(){
-        return key;
-    }
     public HashMap<String, List<String>> getData(){
         return payload;
     }
-    public String getExerciseName(){return key.getName();}
-    public void setKey(Exercise newExercise){key = newExercise;}
+    public String getExerciseName(){return mName;}
     public void setPayload(HashMap<String, List<String>> newPayload){payload = newPayload;}
 }

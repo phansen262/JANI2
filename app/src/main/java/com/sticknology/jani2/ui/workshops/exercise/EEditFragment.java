@@ -34,6 +34,8 @@ import java.util.List;
 
 public class EEditFragment extends Fragment {
 
+    //TODO:  Fix entering this fragment from elist by way of session editor
+
     //Class inputs
     private static Exercise mExercise;
     private static boolean mHasInputExercise;

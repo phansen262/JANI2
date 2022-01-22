@@ -41,14 +41,14 @@ public class SEditEAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ViewHolder vh = (ViewHolder) holder;
         EData eData = SEditFragLanding.mSession.getEDataList().get(position);
 
-        vh.mBinding.setName(eData.getKey().getName());
+        vh.mBinding.setName(eData.getName());
         vh.mBinding.nameRwel.setOnClickListener(view -> {
-            AlertDialog.Builder builder = EViewDialog.BuildEViewDialog(eData.getKey(), vh.mParent.getContext());
+            AlertDialog.Builder builder = EViewDialog.BuildEViewDialog(eData, vh.mParent.getContext());
             AlertDialog dialog = builder.create();
             dialog.show();
         });
 
-        List<String> typeList = eData.getKey().getAttributeItem(EAttributeKeys.RECORD_TYPE.getKey());
+        List<String> typeList = eData.getAttributeItem(EAttributeKeys.RECORD_TYPE.getKey());
         vh.mBinding.setLabel1(EData.getDisplayFromKey(typeList.get(0)));
         vh.mBinding.field1Rwsei.setOnClickListener(view -> {
             setEditDialogs(typeList.get(0), EData.getDisplayFromKey(typeList.get(0)), vh, eData, typeList);
@@ -66,17 +66,30 @@ public class SEditEAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
         }
 
-        setDataDisplays(vh, eData, typeList);
+        loopDataDisplays(vh, eData, typeList);
     }
 
-    public void setDataDisplays(ViewHolder vh, EData eData, List<String> typeList){
+    public void loopDataDisplays(ViewHolder vh, EData eData, List<String> typeList){
 
-        System.out.println("This is position:  " + vh.getAdapterPosition());
+        for(int i = 0; i < typeList.size(); i++){
+            System.out.println("This is i:  " + i);
+            if(eData.getData().get(typeList.get(i)) != null){
+                setDataDisplays(vh, eData, typeList.get(i), i);
+            }
+        }
+    }
 
-        vh.mBinding.setData1(eData.getData().get(typeList.get(0)).get(0));
-        vh.mBinding.setData2(eData.getData().get(typeList.get(1)).get(0));
-        if(typeList.size() == 3) {
-            vh.mBinding.setData3(eData.getData().get(typeList.get(2)).get(0));
+    public void setDataDisplays(ViewHolder vh, EData eData, String type, int index){
+
+        System.out.println("This is type:  " + type);
+        System.out.println("This is data:  " + eData.getData().get(type).get(0));
+        switch (index){
+            case 0: vh.mBinding.setData1(eData.getData().get(type).get(0));
+                    break;
+            case 1: vh.mBinding.setData2(eData.getData().get(type).get(0));
+                    break;
+            case 2: vh.mBinding.setData3(eData.getData().get(type).get(0));
+                    break;
         }
     }
 
@@ -87,8 +100,8 @@ public class SEditEAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 AlertDialog.Builder setBuilder = SNumberPicker.
                         SNumberPicker(vh.mParent.getContext(), title, 1, 10);
                 setBuilder.setPositiveButton("Enter", (dialogInterface, i) -> {
-                    eData.addIntData(EData.EDataKeys.SET.getKey(), new int[SNumberPicker.selectedValue]);
-                    setDataDisplays(vh, eData, typeList);
+                    eData.addIntData(EData.EDataKeys.SET.getKey(), new int[]{SNumberPicker.selectedValue});
+                    loopDataDisplays(vh, eData, typeList);
                 });
                 setBuilder.create().show();
                 break;
@@ -96,8 +109,8 @@ public class SEditEAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 AlertDialog.Builder repBuilder = SNumberPicker.
                         SNumberPicker(vh.mParent.getContext(), title, 1, 50);
                 repBuilder.setPositiveButton("Enter", (dialogInterface, i) -> {
-                    eData.addIntData(EData.EDataKeys.REPS.getKey(), new int [SNumberPicker.selectedValue]);
-                    setDataDisplays(vh, eData, typeList);
+                    eData.addIntData(EData.EDataKeys.REPS.getKey(), new int []{SNumberPicker.selectedValue});
+                    loopDataDisplays(vh, eData, typeList);
                 });
                 repBuilder.create().show();
                 break;
@@ -106,7 +119,7 @@ public class SEditEAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 durationBuilder.setPositiveButton("Enter", ((dialogInterface, i) -> {
                     List<MTime> timeData = Collections.singletonList(new MTime(0, DNumberPicker.selectedValueOne, DNumberPicker.selectedValueTwo));
                     eData.addTimeData(EData.EDataKeys.DURATION.getKey(), timeData);
-                    setDataDisplays(vh, eData, typeList);
+                    loopDataDisplays(vh, eData, typeList);
                 }));
                 durationBuilder.create().show();
                 break;
@@ -114,8 +127,8 @@ public class SEditEAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 AlertDialog.Builder weightBuilder = SNumberPicker.
                         SNumberPicker(vh.mParent.getContext(), title, 5, 50);
                 weightBuilder.setPositiveButton("Enter", (dialogInterface, i) -> {
-                    eData.addIntData(EData.EDataKeys.WEIGHT.getKey(), new int[SNumberPicker.selectedValue]);
-                    setDataDisplays(vh, eData, typeList);
+                    eData.addIntData(EData.EDataKeys.WEIGHT.getKey(), new int[]{SNumberPicker.selectedValue});
+                    loopDataDisplays(vh, eData, typeList);
                 });
                 weightBuilder.create().show();
                 break;
