@@ -2,6 +2,7 @@ package com.sticknology.jani2.app_objects.trainingplan.exercises;
 
 import android.content.Context;
 
+import com.sticknology.jani2.base_objects.DataMap;
 import com.sticknology.jani2.base_operations.ListMethods;
 
 import org.w3c.dom.Attr;
@@ -150,13 +151,12 @@ public class ExerciseDOM {
 
             for(int i = 0; i < nodeList.getLength(); i++){
 
-                Exercise exerciseObject = new Exercise();
-
                 NamedNodeMap eAttrMap = nodeList.item(i).getAttributes();
 
-                exerciseObject.setName(eAttrMap.getNamedItem(Tags.NAME.tag).getNodeValue());
-                exerciseObject.addAttribute(EAttributeKeys.DESCRIPTION.getKey(), Arrays.asList(eAttrMap.getNamedItem(Tags.DESCRIPTION.tag).getNodeValue()));
-                exerciseObject.addAttribute(EAttributeKeys.EXERCISE_TYPE.getKey(), Arrays.asList(eAttrMap.getNamedItem(Tags.TYPE.tag).getNodeValue()));
+                Exercise exerciseObject = new Exercise(eAttrMap.getNamedItem(Tags.NAME.tag).getNodeValue(), new DataMap());
+
+                exerciseObject.putAttribute(EAttributeKeys.DESCRIPTION.getKey(), Arrays.asList(eAttrMap.getNamedItem(Tags.DESCRIPTION.tag).getNodeValue()));
+                exerciseObject.putAttribute(EAttributeKeys.EXERCISE_TYPE.getKey(), Arrays.asList(eAttrMap.getNamedItem(Tags.TYPE.tag).getNodeValue()));
 
                 Element exerciseElement = (Element) nodeList.item(i);
                 Element attributeListElement = (Element) exerciseElement.getElementsByTagName(Tags.ATTRIBUTE_LIST.tag).item(0);
@@ -167,7 +167,7 @@ public class ExerciseDOM {
                         if(attributeListElement.hasAttribute(attributeKey.getKey())){
 
                             List<String> payload = Arrays.asList(attributeListElement.getAttribute(attributeKey.getKey()).split("@!@"));
-                            exerciseObject.addAttribute(attributeKey.getKey(), payload);
+                            exerciseObject.putAttribute(attributeKey.getKey(), payload);
                         }
                     }
                 }

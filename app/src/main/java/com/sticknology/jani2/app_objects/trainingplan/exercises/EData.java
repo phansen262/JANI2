@@ -1,10 +1,10 @@
 package com.sticknology.jani2.app_objects.trainingplan.exercises;
 
+import com.sticknology.jani2.base_objects.DataMap;
 import com.sticknology.jani2.base_objects.MTime;
 import com.sticknology.jani2.base_objects.MUnit;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class EData extends Exercise{
@@ -21,11 +21,11 @@ public class EData extends Exercise{
     }
 
     //Class Start
-    private HashMap<String, List<String>> payload;
+    private DataMap payload;
 
-    public EData(Exercise e, HashMap<String, List<String>> dataMap){
+    public EData(Exercise e, DataMap dataMap){
 
-        super(e.getName(), e.getAttributes());
+        super(e);
         payload = dataMap;
     }
 
@@ -57,9 +57,7 @@ public class EData extends Exercise{
     }
 
     //Base getters and setters
-    public HashMap<String, List<String>> getData(){
+    public DataMap getData(){
         return payload;
     }
-    public String getExerciseName(){return mName;}
-    public void setPayload(HashMap<String, List<String>> newPayload){payload = newPayload;}
 }

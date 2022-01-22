@@ -14,8 +14,16 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.sticknology.jani2.R;
+import com.sticknology.jani2.app_objects.trainingplan.exercises.EData;
+import com.sticknology.jani2.app_objects.trainingplan.sessions.SAttributeKeys;
 import com.sticknology.jani2.app_objects.trainingplan.sessions.Session;
+import com.sticknology.jani2.base_objects.DataMap;
 import com.sticknology.jani2.databinding.FragmentWorkshopSEditLandingBinding;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 public class SEditFragLanding extends Fragment {
 
@@ -40,7 +48,7 @@ public class SEditFragLanding extends Fragment {
     public static SEditFragLanding newInstance(){
         mHasInputSession = false;
         if(mSession == null) {
-            mSession = new Session(null, null, null, null, null);
+            mSession = new Session("", "", new ArrayList<>(), new DataMap());
         }
         return new SEditFragLanding();
     }
@@ -72,8 +80,8 @@ public class SEditFragLanding extends Fragment {
         if(mSession.getName() != null && !mSession.getName().equals("")){
             mBinding.setName(mSession.getName());
         }
-        if(mSession.getDescription() != null && !mSession.getDescription().equals("")){
-            mBinding.setDescription(mSession.getDescription());
+        if(mSession.getAttributeItem(SAttributeKeys.DESCRIPTION.getKey()) != null && !mSession.getAttributeString(SAttributeKeys.DESCRIPTION.getKey()).equals("")){
+            mBinding.setDescription(mSession.getAttributeString(SAttributeKeys.DESCRIPTION.getKey()));
         }
 
     }
@@ -99,7 +107,7 @@ public class SEditFragLanding extends Fragment {
         } else if(item.getItemId() == R.id.single_item){
 
             mSession.setName(mBinding.nameFwsel.getText().toString());
-            mSession.setDescription(mBinding.descriptionFwsel.getText().toString());
+            mSession.putAttribute(SAttributeKeys.DESCRIPTION.getKey(), Collections.singletonList(mBinding.descriptionFwsel.getText().toString()));
 
             requireActivity().setContentView(R.layout.activity_workshop_session);
             SEditFragComps frag = new SEditFragComps();

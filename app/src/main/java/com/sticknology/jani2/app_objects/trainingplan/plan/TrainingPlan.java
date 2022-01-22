@@ -1,4 +1,4 @@
-package com.sticknology.jani2.app_objects.trainingplan;
+package com.sticknology.jani2.app_objects.trainingplan.plan;
 
 import com.sticknology.jani2.base_objects.Carrier;
 import com.sticknology.jani2.base_objects.MDay;

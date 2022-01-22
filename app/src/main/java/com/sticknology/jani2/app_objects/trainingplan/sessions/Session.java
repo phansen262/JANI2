@@ -1,54 +1,42 @@
 package com.sticknology.jani2.app_objects.trainingplan.sessions;
 
+import com.sticknology.jani2.app_objects.trainingplan.AppData;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EData;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
+import com.sticknology.jani2.base_objects.DataMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Session {
+public class Session extends AppData {
   
-  private String mName;
-  private String mDescription;
-  private String mType;
-  
+  private String mPath;
+
   private List<EData> mEDataList;
-  private HashMap<String, List<String>> mAttributes;
+
   
   //Base Constructors
-  public Session(){}
+  public Session(String name, String path, ArrayList<EData> eDataList, DataMap attributes){
 
-  public Session(String name, String description, String type, ArrayList<EData> exerciseList, HashMap<String, List<String>> attributes){
-    
-    mName = name;
-    mDescription = description;
-    mType = type;
-    
-    mEDataList = exerciseList;
-    mAttributes = attributes;
+    super(name, attributes);
+    mPath = path;
+    mEDataList = eDataList;
   }
   
   //Basic Getters and Setters
   public String getName(){return mName;}
-  public String getDescription(){return mDescription;}
-  public String getType(){return mType;}
-  public HashMap<String, List<String>> getAttributes(){return mAttributes;}
+  public String getPath(){return mPath;}
   public List<EData> getEDataList(){return mEDataList;}
   
   public void setName(String name){mName = name;}
-  public void setDescription(String description){mDescription = description;}
-  public void setType(String type){mType = type;}
   public void setEDataList(List<EData> newList){mEDataList = newList;}
 
   //Adders
   public void addExercise(Exercise newExercise){
-    mEDataList.add(new EData(newExercise, new HashMap<>()));
+    mEDataList.add(new EData(newExercise, new DataMap()));
   }
   public void addEData(EData eData){
     mEDataList.add(eData);
-  }
-  public void addAttribute(String key, List<String> payload){
-    mAttributes.put(key, payload);
   }
 }

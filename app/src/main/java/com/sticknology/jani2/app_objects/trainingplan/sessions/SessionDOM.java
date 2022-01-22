@@ -56,20 +56,20 @@ public class SessionDOM {
             sessionElement.setAttributeNode(name);
 
             Attr description = doc.createAttribute(Tags.SESSION_DESCRIPTION.tag);
-            description.setValue(session.getDescription());
+            description.setValue(session.getAttributeString(SAttributeKeys.DESCRIPTION.getKey()));
             sessionElement.setAttributeNode(description);
 
             Attr type = doc.createAttribute(Tags.SESSION_TYPE.tag);
-            type.setValue(session.getType());
+            type.setValue(session.getAttributeString(SAttributeKeys.DESCRIPTION.getKey()));
             sessionElement.setAttributeNode(type);
 
             doc.appendChild(sessionElement);
 
             //Session Attributes
             Element sessionAttributes = doc.createElement(Tags.ATTRIBUTES.tag);
-            for(String key : session.getAttributes().keySet()){
+            for(String key : session.getUsedAttributes()){
                 Attr attribute = doc.createAttribute(key);
-                attribute.setValue(ListMethods.joinList(session.getAttributes().get(key), "@!@"));
+                attribute.setValue(ListMethods.joinList(session.getAttributeItem(key), "@!@"));
                 sessionAttributes.setAttributeNode(attribute);
             }
             sessionElement.appendChild(sessionAttributes);
@@ -110,7 +110,7 @@ public class SessionDOM {
 
     public static Session readSession(Context context, String filepath){
 
-        Session session = new Session();
+        Session session = new Session(null, null, null, null);
 
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -122,8 +122,6 @@ public class SessionDOM {
             //Root node data (Session tag attributes)
             Element sessionNode = doc.getDocumentElement();
             session.setName(sessionNode.getAttributes().getNamedItem(Tags.SESSION_NAME.tag).getNodeValue());
-            session.setDescription(sessionNode.getAttributes().getNamedItem(Tags.SESSION_DESCRIPTION.tag).getNodeValue());
-            session.setType(sessionNode.getAttributes().getNamedItem(Tags.SESSION_TYPE.tag).getNodeValue());
 
             //Get Root node list from session
             NodeList rootNodeList = sessionNode.getElementsByTagName(Tags.SESSION.tag);
@@ -134,7 +132,7 @@ public class SessionDOM {
                 if(sessionAttributes.hasAttribute(key.getKey())){
                     List<String> payload = Arrays.asList(
                             sessionAttributes.getAttributes().getNamedItem(key.getKey()).getNodeValue().split("@!@"));
-                    session.addAttribute(key.getKey(), payload);
+                    session.putAttribute(key.getKey(), payload);
                 }
             }
 
@@ -163,5 +161,6 @@ public class SessionDOM {
             System.out.println("SessionDOM.java getSession ------------ Returning null Session");
             return null;
         }
+
     }
 }

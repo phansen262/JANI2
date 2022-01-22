@@ -22,6 +22,7 @@ import com.sticknology.jani2.app_objects.trainingplan.exercises.EAttributeKeys;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EDataKeys;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EType;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
+import com.sticknology.jani2.base_objects.DataMap;
 import com.sticknology.jani2.base_operations.ListMethods;
 import com.sticknology.jani2.data.ExerciseServer;
 import com.sticknology.jani2.databinding.FragmentWorkshopEEditBinding;
@@ -115,15 +116,15 @@ public class EEditFragment extends Fragment {
             switch (i){
                 case 0:
                     List<String> recordPayload = Arrays.asList(EDataKeys.SET.getKey(), EDataKeys.REPS.getKey());
-                    mExercise.addAttribute(EAttributeKeys.RECORD_TYPE.getKey(), recordPayload);
+                    mExercise.putAttribute(EAttributeKeys.RECORD_TYPE.getKey(), recordPayload);
                     break;
                 case 1:
                     recordPayload = Arrays.asList(EDataKeys.SET.getKey(), EDataKeys.REPS.getKey(), EDataKeys.WEIGHT.getKey());
-                    mExercise.addAttribute(EAttributeKeys.RECORD_TYPE.getKey(), recordPayload);
+                    mExercise.putAttribute(EAttributeKeys.RECORD_TYPE.getKey(), recordPayload);
                     break;
                 case 2:
                     recordPayload = Arrays.asList(EDataKeys.SET.getKey(), EDataKeys.DURATION.getKey());
-                    mExercise.addAttribute(EAttributeKeys.RECORD_TYPE.getKey(), recordPayload);
+                    mExercise.putAttribute(EAttributeKeys.RECORD_TYPE.getKey(), recordPayload);
                     break;
             }
         });
@@ -196,7 +197,7 @@ public class EEditFragment extends Fragment {
 
             String eName = binding.nameFwee.getText().toString();
 
-            HashMap<String, List<String>> attributes = new HashMap<>();
+            DataMap attributes = new DataMap();
 
             String eDescription = binding.descriptionFwee.getText().toString();
             String eType = binding.typeFwee.getSelectedItem().toString();
