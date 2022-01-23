@@ -29,13 +29,13 @@ public abstract class AppData {
     public void setName(String name){mName = name;}
 
     //Interact with Attributes
-    public void putAttribute(String key, List<String> payload){
+    public void putAttribute(Enum<?> key, List<String> payload){
         mAttributes.put(key, payload);
     }
-    public List<String> getAttributeItem(String key){
+    public List<String> getAttributeItem(Enum<?> key){
         return mAttributes.get(key);
     }
-    public Set<String> getUsedAttributes(){return mAttributes.keySet();}
+    public Set<Enum<?>> getUsedAttributes(){return mAttributes.keySet();}
 
     protected DataMap getAttributes(){return mAttributes;}
 
@@ -52,7 +52,7 @@ public abstract class AppData {
         }
     }
 
-    public String getAttributeString(String key){
+    public String getAttributeString(Enum<?> key){
 
         List<String> attribute = mAttributes.get(key);
         if(attribute == null){

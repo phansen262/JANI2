@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.sticknology.jani2.R;
-import com.sticknology.jani2.app_objects.trainingplan.exercises.EData;
 import com.sticknology.jani2.data.ExerciseServer;
 import com.sticknology.jani2.data.UserFileInitializer;
 
@@ -18,7 +17,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         //Use Below Lines to Clear User Generated Files
-        //this.deleteFile("user_exercises.xml");
+        this.deleteFile("user_exercises.xml");
         //this.deleteFile("user_sessions.xml");
 
         //TODO: Need to move initialization of files and servers to actual main activity/loading screen when active

@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.sticknology.jani2.R;
 import com.sticknology.jani2.app_objects.other.Muscle;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EAttributeKeys;
-import com.sticknology.jani2.app_objects.trainingplan.exercises.EDataKeys;
+import com.sticknology.jani2.app_objects.trainingplan.edata.EDataKeys;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EType;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
 import com.sticknology.jani2.base_objects.DataMap;
@@ -30,7 +30,6 @@ import com.sticknology.jani2.databinding.FragmentWorkshopEEditBinding;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 public class EEditFragment extends Fragment {
@@ -116,15 +115,15 @@ public class EEditFragment extends Fragment {
             switch (i){
                 case 0:
                     List<String> recordPayload = Arrays.asList(EDataKeys.SET.getKey(), EDataKeys.REPS.getKey());
-                    mExercise.putAttribute(EAttributeKeys.RECORD_TYPE.getKey(), recordPayload);
+                    mExercise.putAttribute(EAttributeKeys.RECORD_TYPE, recordPayload);
                     break;
                 case 1:
                     recordPayload = Arrays.asList(EDataKeys.SET.getKey(), EDataKeys.REPS.getKey(), EDataKeys.WEIGHT.getKey());
-                    mExercise.putAttribute(EAttributeKeys.RECORD_TYPE.getKey(), recordPayload);
+                    mExercise.putAttribute(EAttributeKeys.RECORD_TYPE, recordPayload);
                     break;
                 case 2:
                     recordPayload = Arrays.asList(EDataKeys.SET.getKey(), EDataKeys.DURATION.getKey());
-                    mExercise.putAttribute(EAttributeKeys.RECORD_TYPE.getKey(), recordPayload);
+                    mExercise.putAttribute(EAttributeKeys.RECORD_TYPE, recordPayload);
                     break;
             }
         });
@@ -134,17 +133,17 @@ public class EEditFragment extends Fragment {
         if(mHasInputExercise){
 
             binding.setName(mExercise.getName());
-            binding.setDescription(mExercise.getAttributeString(EAttributeKeys.DESCRIPTION.getKey()));
-            binding.setType(ListMethods.matchListIndex(exerciseTypes, mExercise.getAttributeString(EAttributeKeys.EXERCISE_TYPE.getKey())));
+            binding.setDescription(mExercise.getAttributeString(EAttributeKeys.DESCRIPTION));
+            binding.setType(ListMethods.matchListIndex(exerciseTypes, mExercise.getAttributeString(EAttributeKeys.EXERCISE_TYPE)));
 
-            if(mExercise.getAttributeItem(EAttributeKeys.MUSCLE_GROUP.getKey()) != null) {
+            if(mExercise.getAttributeItem(EAttributeKeys.MUSCLE_GROUP) != null) {
                 binding.setGroup(ListMethods.matchListIndex(muscleGroups,
-                        mExercise.getAttributeItem(EAttributeKeys.MUSCLE_GROUP.getKey()).get(0)));
+                        mExercise.getAttributeItem(EAttributeKeys.MUSCLE_GROUP).get(0)));
                 binding.setGroupVisible(View.VISIBLE);
             }
 
-            if(mExercise.getAttributeItem(EAttributeKeys.RECORD_TYPE.getKey()) != null){
-                List<String> recordTypes = mExercise.getAttributeItem(EAttributeKeys.RECORD_TYPE.getKey());
+            if(mExercise.getAttributeItem(EAttributeKeys.RECORD_TYPE) != null){
+                List<String> recordTypes = mExercise.getAttributeItem(EAttributeKeys.RECORD_TYPE);
                 if(recordTypes.size() == 3){
                     binding.rtypeSetsRepsWeightsFwee.setChecked(true);
                 } else if(recordTypes.contains(EDataKeys.DURATION.getKey())){
@@ -202,13 +201,13 @@ public class EEditFragment extends Fragment {
             String eDescription = binding.descriptionFwee.getText().toString();
             String eType = binding.typeFwee.getSelectedItem().toString();
 
-            attributes.put(EAttributeKeys.DESCRIPTION.getKey(), Collections.singletonList(eDescription));
-            attributes.put(EAttributeKeys.EXERCISE_TYPE.getKey(), Collections.singletonList(eType));
+            attributes.put(EAttributeKeys.DESCRIPTION, Collections.singletonList(eDescription));
+            attributes.put(EAttributeKeys.EXERCISE_TYPE, Collections.singletonList(eType));
 
             if(!binding.groupFwee.getSelectedItem().toString().equals("None")) {
                 List<String> mGroup = new ArrayList<>();
                 mGroup.add(binding.groupFwee.getSelectedItem().toString());
-                attributes.put(EAttributeKeys.MUSCLE_GROUP.getKey(), mGroup);
+                attributes.put(EAttributeKeys.MUSCLE_GROUP, mGroup);
             }
 
             int id = binding.typeRadiogroupFwee.getCheckedRadioButtonId();
@@ -218,17 +217,17 @@ public class EEditFragment extends Fragment {
             switch (selectedText) {
                 case "Sets and Reps": {
                     List<String> payload = Arrays.asList(EDataKeys.SET.getKey(), EDataKeys.REPS.getKey());
-                    attributes.put(EAttributeKeys.RECORD_TYPE.getKey(), payload);
+                    attributes.put(EAttributeKeys.RECORD_TYPE, payload);
                     break;
                 }
                 case "Sets and Reps with Weights": {
                     List<String> payload = Arrays.asList(EDataKeys.SET.getKey(), EDataKeys.REPS.getKey(), EDataKeys.WEIGHT.getKey());
-                    attributes.put(EAttributeKeys.RECORD_TYPE.getKey(), payload);
+                    attributes.put(EAttributeKeys.RECORD_TYPE, payload);
                     break;
                 }
                 case "Sets and Duration": {
                     List<String> payload = Arrays.asList(EDataKeys.SET.getKey(), EDataKeys.DURATION.getKey());
-                    attributes.put(EAttributeKeys.RECORD_TYPE.getKey(), payload);
+                    attributes.put(EAttributeKeys.RECORD_TYPE, payload);
                     break;
                 }
             }

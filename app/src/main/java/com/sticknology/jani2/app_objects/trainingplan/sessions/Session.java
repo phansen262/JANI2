@@ -1,12 +1,11 @@
 package com.sticknology.jani2.app_objects.trainingplan.sessions;
 
 import com.sticknology.jani2.app_objects.trainingplan.AppData;
-import com.sticknology.jani2.app_objects.trainingplan.exercises.EData;
+import com.sticknology.jani2.app_objects.trainingplan.edata.EData;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
 import com.sticknology.jani2.base_objects.DataMap;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Session extends AppData {

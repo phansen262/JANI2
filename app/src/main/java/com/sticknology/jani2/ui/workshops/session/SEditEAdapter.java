@@ -9,8 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EAttributeKeys;
-import com.sticknology.jani2.app_objects.trainingplan.exercises.EData;
-import com.sticknology.jani2.app_objects.trainingplan.exercises.EDataKeys;
+import com.sticknology.jani2.app_objects.trainingplan.edata.EData;
+import com.sticknology.jani2.app_objects.trainingplan.edata.EDataKeys;
 import com.sticknology.jani2.base_objects.MTime;
 import com.sticknology.jani2.databinding.ReviWorkshopSEItemBinding;
 import com.sticknology.jani2.ui.common.DNumberPicker;
@@ -48,21 +48,21 @@ public class SEditEAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             dialog.show();
         });
 
-        List<String> typeList = eData.getAttributeItem(EAttributeKeys.RECORD_TYPE.getKey());
-        vh.mBinding.setLabel1(EData.getDisplayFromKey(typeList.get(0)));
+        List<String> typeList = eData.getAttributeItem(EAttributeKeys.RECORD_TYPE);
+        vh.mBinding.setLabel1(typeList.get(0));
         vh.mBinding.field1Rwsei.setOnClickListener(view -> {
-            setEditDialogs(typeList.get(0), EData.getDisplayFromKey(typeList.get(0)), vh, eData, typeList);
+            setEditDialogs(typeList.get(0), typeList.get(0), vh, eData, typeList);
         });
-        vh.mBinding.setLabel2(EData.getDisplayFromKey(typeList.get(1)));
+        vh.mBinding.setLabel2(typeList.get(1));
         vh.mBinding.field2Rwsei.setOnClickListener(view -> {
-            setEditDialogs(typeList.get(1), EData.getDisplayFromKey(typeList.get(1)), vh, eData, typeList);
+            setEditDialogs(typeList.get(1), typeList.get(1), vh, eData, typeList);
         });
         if(typeList.size() == 2){
             vh.mBinding.field3Rwsei.setVisibility(View.GONE);
         } else {
-            vh.mBinding.setLabel3(EData.getDisplayFromKey(typeList.get(2)));
+            vh.mBinding.setLabel3(typeList.get(2));
             vh.mBinding.field3Rwsei.setOnClickListener(view -> {
-                setEditDialogs(typeList.get(2), EData.getDisplayFromKey(typeList.get(2)), vh, eData, typeList);
+                setEditDialogs(typeList.get(2), typeList.get(2), vh, eData, typeList);
             });
         }
 
@@ -72,25 +72,15 @@ public class SEditEAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void loopDataDisplays(ViewHolder vh, EData eData, List<String> typeList){
 
         for(int i = 0; i < typeList.size(); i++){
-            System.out.println("This is i:  " + i);
-            if(eData.getData().get(typeList.get(i)) != null){
-                setDataDisplays(vh, eData, typeList.get(i), i);
-            }
+
+            setDataDisplays(vh, eData, typeList.get(i), i);
+
         }
     }
 
     public void setDataDisplays(ViewHolder vh, EData eData, String type, int index){
 
-        System.out.println("This is type:  " + type);
-        System.out.println("This is data:  " + eData.getData().get(type).get(0));
-        switch (index){
-            case 0: vh.mBinding.setData1(eData.getData().get(type).get(0));
-                    break;
-            case 1: vh.mBinding.setData2(eData.getData().get(type).get(0));
-                    break;
-            case 2: vh.mBinding.setData3(eData.getData().get(type).get(0));
-                    break;
-        }
+
     }
 
     public void setEditDialogs(String key, String title, ViewHolder vh, EData eData, List<String> typeList){
@@ -100,7 +90,7 @@ public class SEditEAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 AlertDialog.Builder setBuilder = SNumberPicker.
                         SNumberPicker(vh.mParent.getContext(), title, 1, 10);
                 setBuilder.setPositiveButton("Enter", (dialogInterface, i) -> {
-                    eData.addIntData(EDataKeys.SET.getKey(), new int[]{SNumberPicker.selectedValue});
+                    eData.addIntData(EDataKeys.SET, new int[]{SNumberPicker.selectedValue});
                     loopDataDisplays(vh, eData, typeList);
                 });
                 setBuilder.create().show();
@@ -109,7 +99,7 @@ public class SEditEAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 AlertDialog.Builder repBuilder = SNumberPicker.
                         SNumberPicker(vh.mParent.getContext(), title, 1, 50);
                 repBuilder.setPositiveButton("Enter", (dialogInterface, i) -> {
-                    eData.addIntData(EDataKeys.REPS.getKey(), new int []{SNumberPicker.selectedValue});
+                    eData.addIntData(EDataKeys.REPS, new int []{SNumberPicker.selectedValue});
                     loopDataDisplays(vh, eData, typeList);
                 });
                 repBuilder.create().show();
@@ -118,7 +108,7 @@ public class SEditEAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 AlertDialog.Builder durationBuilder = DNumberPicker.DNumberPicker(vh.mParent.getContext(), title);
                 durationBuilder.setPositiveButton("Enter", ((dialogInterface, i) -> {
                     List<MTime> timeData = Collections.singletonList(new MTime(0, DNumberPicker.selectedValueOne, DNumberPicker.selectedValueTwo));
-                    eData.addTimeData(EDataKeys.DURATION.getKey(), timeData);
+                    eData.addTimeData(EDataKeys.DURATION, timeData);
                     loopDataDisplays(vh, eData, typeList);
                 }));
                 durationBuilder.create().show();
@@ -127,7 +117,7 @@ public class SEditEAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 AlertDialog.Builder weightBuilder = SNumberPicker.
                         SNumberPicker(vh.mParent.getContext(), title, 5, 50);
                 weightBuilder.setPositiveButton("Enter", (dialogInterface, i) -> {
-                    eData.addIntData(EDataKeys.WEIGHT.getKey(), new int[]{SNumberPicker.selectedValue});
+                    eData.addIntData(EDataKeys.WEIGHT, new int[]{SNumberPicker.selectedValue});
                     loopDataDisplays(vh, eData, typeList);
                 });
                 weightBuilder.create().show();

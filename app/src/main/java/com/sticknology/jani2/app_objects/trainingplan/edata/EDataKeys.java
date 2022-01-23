@@ -1,4 +1,4 @@
-package com.sticknology.jani2.app_objects.trainingplan.exercises;
+package com.sticknology.jani2.app_objects.trainingplan.edata;
 
 public enum EDataKeys {
 

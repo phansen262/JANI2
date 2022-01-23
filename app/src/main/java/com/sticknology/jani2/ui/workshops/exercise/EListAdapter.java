@@ -51,7 +51,7 @@ public class EListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         //Show basic details of Exercises
         vh1.mBinding.setName(mExerciseList.get(position).getName());
-        vh1.mBinding.setDescription(mExerciseList.get(position).getAttributeString(EAttributeKeys.DESCRIPTION.getKey()));
+        vh1.mBinding.setDescription(mExerciseList.get(position).getAttributeString(EAttributeKeys.DESCRIPTION));
         vh1.mBinding.cardviewRwel.setOnClickListener(view -> {
 
             AlertDialog.Builder builder = EViewDialog.BuildEViewDialog(mExerciseList.get(vh1.getAdapterPosition()), mContext);

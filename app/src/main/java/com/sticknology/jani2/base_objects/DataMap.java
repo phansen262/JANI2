@@ -5,7 +5,7 @@ import com.sticknology.jani2.base_operations.ListMethods;
 import java.util.HashMap;
 import java.util.List;
 
-public class DataMap extends HashMap<String, List<String>> {
+public class DataMap extends HashMap<Enum<?>, List<String>> {
 
     //Returns string value of attribute
     public String getItemString(String key, String[] delimiters){

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.sticknology.jani2.R;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EAttributeKeys;
-import com.sticknology.jani2.app_objects.trainingplan.exercises.EData;
+import com.sticknology.jani2.app_objects.trainingplan.edata.EData;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
 
 import java.util.ArrayList;
@@ -26,20 +26,20 @@ public class EViewDialog{
 
         //Set UI information
         TextView type = dialogView.findViewById(R.id.dialog_tv_type_dev);
-        type.setText(exercise.getAttributeString(EAttributeKeys.EXERCISE_TYPE.getKey()));
+        type.setText(exercise.getAttributeString(EAttributeKeys.EXERCISE_TYPE));
         TextView description = dialogView.findViewById(R.id.dialog_tv_description_dev);
-        description.setText(exercise.getAttributeString(EAttributeKeys.DESCRIPTION.getKey()));
-        if(exercise.getAttributeItem(EAttributeKeys.MUSCLE_GROUP.getKey()) != null) {
+        description.setText(exercise.getAttributeString(EAttributeKeys.DESCRIPTION));
+        if(exercise.getAttributeItem(EAttributeKeys.MUSCLE_GROUP) != null) {
             TextView mgroup = dialogView.findViewById(R.id.dialog_tv_mgroup_dev);
-            mgroup.setText(exercise.getAttributeItem(EAttributeKeys.MUSCLE_GROUP.getKey()).get(0));
+            mgroup.setText(exercise.getAttributeItem(EAttributeKeys.MUSCLE_GROUP).get(0));
         }
-        if(exercise.getAttributeItem(EAttributeKeys.RECORD_TYPE.getKey()) != null){
+        if(exercise.getAttributeItem(EAttributeKeys.RECORD_TYPE) != null){
             TextView textView = dialogView.findViewById(R.id.dialog_tv_rectype_dev);
-            List<String> recordTypes = exercise.getAttributeItem(EAttributeKeys.RECORD_TYPE.getKey());
+            List<String> recordTypes = exercise.getAttributeItem(EAttributeKeys.RECORD_TYPE);
             List<String> build = new ArrayList<>();
             String display;
             for(String keystring : recordTypes){
-                build.add(EData.getDisplayFromKey(keystring));
+                build.add(keystring);
             }
             if(recordTypes.size() == 2){
                 display = build.get(0) + " and " + build.get(1);

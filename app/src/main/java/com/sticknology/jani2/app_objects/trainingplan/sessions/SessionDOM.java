@@ -2,8 +2,8 @@ package com.sticknology.jani2.app_objects.trainingplan.sessions;
 
 import android.content.Context;
 
-import com.sticknology.jani2.app_objects.trainingplan.exercises.EData;
-import com.sticknology.jani2.app_objects.trainingplan.exercises.EDataKeys;
+import com.sticknology.jani2.app_objects.trainingplan.edata.EData;
+import com.sticknology.jani2.app_objects.trainingplan.edata.EDataKeys;
 import com.sticknology.jani2.base_operations.ListMethods;
 
 import org.w3c.dom.Attr;
@@ -56,19 +56,19 @@ public class SessionDOM {
             sessionElement.setAttributeNode(name);
 
             Attr description = doc.createAttribute(Tags.SESSION_DESCRIPTION.tag);
-            description.setValue(session.getAttributeString(SAttributeKeys.DESCRIPTION.getKey()));
+            description.setValue(session.getAttributeString(SAttributeKeys.DESCRIPTION));
             sessionElement.setAttributeNode(description);
 
             Attr type = doc.createAttribute(Tags.SESSION_TYPE.tag);
-            type.setValue(session.getAttributeString(SAttributeKeys.DESCRIPTION.getKey()));
+            type.setValue(session.getAttributeString(SAttributeKeys.DESCRIPTION));
             sessionElement.setAttributeNode(type);
 
             doc.appendChild(sessionElement);
 
             //Session Attributes
             Element sessionAttributes = doc.createElement(Tags.ATTRIBUTES.tag);
-            for(String key : session.getUsedAttributes()){
-                Attr attribute = doc.createAttribute(key);
+            for(Enum<?> key : session.getUsedAttributes()){
+                Attr attribute = doc.createAttribute(key.toString());
                 attribute.setValue(ListMethods.joinList(session.getAttributeItem(key), "@!@"));
                 sessionAttributes.setAttributeNode(attribute);
             }
@@ -84,11 +84,7 @@ public class SessionDOM {
                 eName.setValue(edata.getName());
                 eDataElement.setAttributeNode(eName);
                 //Iterate through eData and add corresponding attributes
-                for(String key : edata.getData().keySet()){
-                    Attr data = doc.createAttribute(key);
-                    data.setValue(ListMethods.joinList(edata.getData().get(key), "@!@"));
-                    eDataElement.setAttributeNode(data);
-                }
+
             }
 
             //Add edataList and tie off document
@@ -132,7 +128,7 @@ public class SessionDOM {
                 if(sessionAttributes.hasAttribute(key.getKey())){
                     List<String> payload = Arrays.asList(
                             sessionAttributes.getAttributes().getNamedItem(key.getKey()).getNodeValue().split("@!@"));
-                    session.putAttribute(key.getKey(), payload);
+                    session.putAttribute(key, payload);
                 }
             }
 

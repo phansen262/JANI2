@@ -80,11 +80,11 @@ public class ExerciseDOM {
                 exercise.setAttributeNode(name);
                 //Description attr
                 Attr description = doc.createAttribute(Tags.DESCRIPTION.tag);
-                description.setValue(exerciseList.get(i).getAttributeString(EAttributeKeys.DESCRIPTION.getKey()));
+                description.setValue(exerciseList.get(i).getAttributeString(EAttributeKeys.DESCRIPTION));
                 exercise.setAttributeNode(description);
                 //Type attr
                 Attr type = doc.createAttribute(Tags.TYPE.tag);
-                type.setValue(exerciseList.get(i).getAttributeString(EAttributeKeys.EXERCISE_TYPE.getKey()));
+                type.setValue(exerciseList.get(i).getAttributeString(EAttributeKeys.EXERCISE_TYPE));
                 exercise.setAttributeNode(type);
 
                 //Attribute list element
@@ -94,10 +94,10 @@ public class ExerciseDOM {
                 //Adds all items in attributes as attr
                 for(EAttributeKeys attributeKey : EAttributeKeys.values()){
 
-                    if(exerciseList.get(i).getAttributeItem(attributeKey.getKey()) != null){
+                    if(exerciseList.get(i).getAttributeItem(attributeKey) != null){
 
                         Attr attribute = doc.createAttribute(attributeKey.getKey());
-                        String payload = ListMethods.joinList(exerciseList.get(i).getAttributeItem(attributeKey.getKey()), "@!@");
+                        String payload = ListMethods.joinList(exerciseList.get(i).getAttributeItem(attributeKey), "@!@");
                         attribute.setValue(payload);
                         attributeList.setAttributeNode(attribute);
                     }
@@ -155,8 +155,8 @@ public class ExerciseDOM {
 
                 Exercise exerciseObject = new Exercise(eAttrMap.getNamedItem(Tags.NAME.tag).getNodeValue(), new DataMap());
 
-                exerciseObject.putAttribute(EAttributeKeys.DESCRIPTION.getKey(), Arrays.asList(eAttrMap.getNamedItem(Tags.DESCRIPTION.tag).getNodeValue()));
-                exerciseObject.putAttribute(EAttributeKeys.EXERCISE_TYPE.getKey(), Arrays.asList(eAttrMap.getNamedItem(Tags.TYPE.tag).getNodeValue()));
+                exerciseObject.putAttribute(EAttributeKeys.DESCRIPTION, Arrays.asList(eAttrMap.getNamedItem(Tags.DESCRIPTION.tag).getNodeValue()));
+                exerciseObject.putAttribute(EAttributeKeys.EXERCISE_TYPE, Arrays.asList(eAttrMap.getNamedItem(Tags.TYPE.tag).getNodeValue()));
 
                 Element exerciseElement = (Element) nodeList.item(i);
                 Element attributeListElement = (Element) exerciseElement.getElementsByTagName(Tags.ATTRIBUTE_LIST.tag).item(0);
@@ -164,10 +164,12 @@ public class ExerciseDOM {
                 for(int u = 0; u < attributeListElement.getAttributes().getLength(); u++){
 
                     for(EAttributeKeys attributeKey : EAttributeKeys.values()){
+
                         if(attributeListElement.hasAttribute(attributeKey.getKey())){
 
                             List<String> payload = Arrays.asList(attributeListElement.getAttribute(attributeKey.getKey()).split("@!@"));
-                            exerciseObject.putAttribute(attributeKey.getKey(), payload);
+                            exerciseObject.putAttribute(attributeKey, payload);
+
                         }
                     }
                 }
