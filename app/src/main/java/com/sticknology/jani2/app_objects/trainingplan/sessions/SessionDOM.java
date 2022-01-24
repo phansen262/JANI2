@@ -88,7 +88,7 @@ public class SessionDOM {
                 eDataElement.setAttributeNode(eName);
                 Element eDataValues = doc.createElement(Tags.EDATA_VALUES.toString());
                 //Iterate through eData and add corresponding attributes
-                for(Enum<?> eDataKey : edata.getDataKeyList()){
+                for(Enum<?> eDataKey : edata.getUsedAttributes()){
                     Attr eDataValue = doc.createAttribute(eDataKey.toString());
                     eDataValue.setValue(edata.getAttributeString(eDataKey));
                 }

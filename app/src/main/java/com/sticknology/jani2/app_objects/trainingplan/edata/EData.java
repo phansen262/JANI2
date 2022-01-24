@@ -50,9 +50,7 @@ public class EData extends Exercise {
     }
 
     //Base getters and setters
-    public List<String> getData(Enum<?> key){
+    public List<String> getPayloadItem(EDataKeys key){
         return payload.get(key);
     }
-
-    public Set<Enum<?>> getDataKeyList(){return payload.keySet();}
 }
