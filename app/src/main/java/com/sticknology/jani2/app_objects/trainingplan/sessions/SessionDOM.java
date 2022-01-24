@@ -2,9 +2,15 @@ package com.sticknology.jani2.app_objects.trainingplan.sessions;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.sticknology.jani2.app_objects.trainingplan.edata.EData;
 import com.sticknology.jani2.app_objects.trainingplan.edata.EDataKeys;
+import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
+import com.sticknology.jani2.base_objects.DataMap;
 import com.sticknology.jani2.base_operations.ListMethods;
+import com.sticknology.jani2.data.ExerciseServer;
+import com.sticknology.jani2.data.SessionServer;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -14,8 +20,10 @@ import org.xml.sax.SAXException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -30,43 +38,38 @@ import javax.xml.transform.stream.StreamResult;
 public class SessionDOM {
 
     public enum Tags{
-        SESSION("session"),
-        SESSION_NAME("session_name"),
-        SESSION_DESCRIPTION("session_description"),
-        SESSION_TYPE("session_type"),
-        ATTRIBUTES("attributes"),
-        EDATA_LIST("edata_list"),
-        EDATA_ITEM("edata_item");
+        SESSION,
+        SESSION_NAME,
+        ATTRIBUTES,
+        EDATA_LIST,
+        EDATA_ITEM,
+        EDATA_VALUES,
+        EXERCISE_NAME;
 
-        public final String tag;
-        Tags(String tag){this.tag = tag;}
+        @NonNull
+        @Override
+        public String toString() {
+            return super.toString().toLowerCase(Locale.ROOT);
+        }
     }
 
-    public static void writeSession(Context context,Session session){
+    public static void writeSession(Context context, Session session){
 
         try {
             DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document doc = dBuilder.newDocument();
 
             //Root Element and attributes
-            Element sessionElement = doc.createElement(Tags.SESSION.tag);
+            Element sessionElement = doc.createElement(Tags.SESSION.toString());
 
-            Attr name = doc.createAttribute(Tags.SESSION_NAME.tag);
+            Attr name = doc.createAttribute(Tags.SESSION_NAME.toString());
             name.setValue(session.getName());
             sessionElement.setAttributeNode(name);
-
-            Attr description = doc.createAttribute(Tags.SESSION_DESCRIPTION.tag);
-            description.setValue(session.getAttributeString(SAttributeKeys.DESCRIPTION));
-            sessionElement.setAttributeNode(description);
-
-            Attr type = doc.createAttribute(Tags.SESSION_TYPE.tag);
-            type.setValue(session.getAttributeString(SAttributeKeys.DESCRIPTION));
-            sessionElement.setAttributeNode(type);
 
             doc.appendChild(sessionElement);
 
             //Session Attributes
-            Element sessionAttributes = doc.createElement(Tags.ATTRIBUTES.tag);
+            Element sessionAttributes = doc.createElement(Tags.ATTRIBUTES.toString());
             for(Enum<?> key : session.getUsedAttributes()){
                 Attr attribute = doc.createAttribute(key.toString());
                 attribute.setValue(ListMethods.joinList(session.getAttributeItem(key), "@!@"));
@@ -75,16 +78,22 @@ public class SessionDOM {
             sessionElement.appendChild(sessionAttributes);
 
             //EdataList Element Add
-            Element edataList = doc.createElement(Tags.EDATA_LIST.tag);
+            Element edataList = doc.createElement(Tags.EDATA_LIST.toString());
             //Iterate through exercises/edata in session
             for(EData edata : session.getEDataList()){
                 //Initialize element and add name
-                Element eDataElement = doc.createElement(Tags.EDATA_ITEM.tag);
-                Attr eName = doc.createAttribute("name");
+                Element eDataElement = doc.createElement(Tags.EDATA_ITEM.toString());
+                Attr eName = doc.createAttribute(Tags.EXERCISE_NAME.toString());
                 eName.setValue(edata.getName());
                 eDataElement.setAttributeNode(eName);
+                Element eDataValues = doc.createElement(Tags.EDATA_VALUES.toString());
                 //Iterate through eData and add corresponding attributes
-
+                for(Enum<?> eDataKey : edata.getDataKeyList()){
+                    Attr eDataValue = doc.createAttribute(eDataKey.toString());
+                    eDataValue.setValue(edata.getAttributeString(eDataKey));
+                }
+                eDataElement.appendChild(eDataValues);
+                edataList.appendChild(eDataElement);
             }
 
             //Add edataList and tie off document
@@ -95,7 +104,7 @@ public class SessionDOM {
             transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(context.openFileOutput("", Context.MODE_PRIVATE));
+            StreamResult result = new StreamResult(context.openFileOutput(session.getPath(), Context.MODE_PRIVATE));
             transformer.transform(source, result);
 
         } catch (ParserConfigurationException | TransformerException | FileNotFoundException e) {
@@ -106,7 +115,7 @@ public class SessionDOM {
 
     public static Session readSession(Context context, String filepath){
 
-        Session session = new Session(null, null, null, null);
+        Session session = new Session("", "session_test.xml", new ArrayList<>(), new DataMap());
 
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -116,32 +125,35 @@ public class SessionDOM {
             doc.getDocumentElement().normalize();
 
             //Root node data (Session tag attributes)
-            Element sessionNode = doc.getDocumentElement();
-            session.setName(sessionNode.getAttributes().getNamedItem(Tags.SESSION_NAME.tag).getNodeValue());
-
-            //Get Root node list from session
-            NodeList rootNodeList = sessionNode.getElementsByTagName(Tags.SESSION.tag);
+            Element sessionElement = doc.getDocumentElement();
+            session.setName(sessionElement.getAttributes().getNamedItem(Tags.SESSION_NAME.toString()).getNodeValue());
 
             //Get session attributes
-            Element sessionAttributes = (Element) rootNodeList.item(0);
+            Element sessionAttributes = (Element) sessionElement.getElementsByTagName(Tags.ATTRIBUTES.toString()).item(0);
+
             for(SAttributeKeys key : SAttributeKeys.values()){
-                if(sessionAttributes.hasAttribute(key.getKey())){
+
+                if(sessionAttributes.hasAttribute(key.toString())){
                     List<String> payload = Arrays.asList(
-                            sessionAttributes.getAttributes().getNamedItem(key.getKey()).getNodeValue().split("@!@"));
+                            sessionAttributes.getAttributes().getNamedItem(key.toString()).getNodeValue().split("@!@"));
                     session.putAttribute(key, payload);
                 }
             }
 
             //Add edata
-            Element sessionEData = (Element) rootNodeList.item(1);
-            for(int i = 0; i < sessionEData.getElementsByTagName(Tags.EDATA_ITEM.tag).getLength(); i++){
+            Element eDataList = (Element) sessionElement.getElementsByTagName(Tags.EDATA_LIST.toString()).item(0);
+            for(int i = 0; i < eDataList.getElementsByTagName(Tags.EDATA_ITEM.toString()).getLength(); i++){
 
-                Element eData = (Element) sessionEData.getElementsByTagName(Tags.EDATA_ITEM.tag).item(i);
-                for(EDataKeys key : EDataKeys.values()){
-                    if(sessionAttributes.hasAttribute(key.getKey())){
-                        //TODO:  Finish adding session attributes
-                    }
+                Element eDataElement = (Element) eDataList.getElementsByTagName(Tags.EDATA_ITEM.toString()).item(i);
+                Exercise keyExercise = ExerciseServer.getNamedExercise(eDataElement.getAttribute(Tags.EXERCISE_NAME.toString()));
+                EData eDataObject = new EData(keyExercise, new DataMap());
+
+                for(int u = 0; u < eDataElement.getAttributes().getLength(); u++){
+                    Attr eDataItem = (Attr) eDataElement.getAttributes().item(u);
+                    eDataObject.putAttribute(EDataKeys.valueOf(eDataItem.getName().toUpperCase(Locale.ROOT)), Arrays.asList(eDataItem.getValue().split("@!@")));
                 }
+
+                session.addEData(eDataObject);
             }
 
 

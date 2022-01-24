@@ -2,6 +2,8 @@ package com.sticknology.jani2.app_objects.trainingplan.exercises;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.sticknology.jani2.base_objects.DataMap;
 import com.sticknology.jani2.base_operations.ListMethods;
 
@@ -19,6 +21,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -43,18 +46,16 @@ public class ExerciseDOM {
     }
 
     public enum Tags {
-        USER_EXERCISES("user_exercises"),
-        EXERCISE("exercise"),
-        NAME("name"),
-        DESCRIPTION("description"),
-        TYPE("type"),
-        ATTRIBUTE_LIST("attributes_list"),
-        ATTRIBUTE("attribute"),
-        ATTRIBUTE_KEY("attribute_key"),
-        ATTRIBUTE_PAYLOAD("attribute_payload");
+        USER_EXERCISES,
+        EXERCISE,
+        NAME,
+        ATTRIBUTES_LIST;
 
-        public final String tag;
-        Tags(String tag){this.tag = tag;}
+        @NonNull
+        @Override
+        public String toString() {
+            return super.toString().toLowerCase(Locale.ROOT);
+        }
     }
 
     public static void writeUserExercises(Context context, List<Exercise> exerciseList){
@@ -65,38 +66,29 @@ public class ExerciseDOM {
             Document doc = dBuilder.newDocument();
 
             //Root Element
-            Element default_exercises = doc.createElement(Tags.USER_EXERCISES.tag);
+            Element default_exercises = doc.createElement(Tags.USER_EXERCISES.toString());
             doc.appendChild(default_exercises);
 
             for(int i = 0; i < exerciseList.size(); i++) {
 
                 //Root Element
-                Element exercise = doc.createElement(Tags.EXERCISE.tag);
+                Element exercise = doc.createElement(Tags.EXERCISE.toString());
                 default_exercises.appendChild(exercise);
 
                 //Name attr
-                Attr name = doc.createAttribute(Tags.NAME.tag);
+                Attr name = doc.createAttribute(Tags.NAME.toString());
                 name.setValue(exerciseList.get(i).getName());
                 exercise.setAttributeNode(name);
-                //Description attr
-                Attr description = doc.createAttribute(Tags.DESCRIPTION.tag);
-                description.setValue(exerciseList.get(i).getAttributeString(EAttributeKeys.DESCRIPTION));
-                exercise.setAttributeNode(description);
-                //Type attr
-                Attr type = doc.createAttribute(Tags.TYPE.tag);
-                type.setValue(exerciseList.get(i).getAttributeString(EAttributeKeys.EXERCISE_TYPE));
-                exercise.setAttributeNode(type);
 
                 //Attribute list element
-                Element attributeList = doc.createElement(Tags.ATTRIBUTE_LIST.tag);
-
+                Element attributeList = doc.createElement(Tags.ATTRIBUTES_LIST.toString());
 
                 //Adds all items in attributes as attr
                 for(EAttributeKeys attributeKey : EAttributeKeys.values()){
 
                     if(exerciseList.get(i).getAttributeItem(attributeKey) != null){
 
-                        Attr attribute = doc.createAttribute(attributeKey.getKey());
+                        Attr attribute = doc.createAttribute(attributeKey.toString());
                         String payload = ListMethods.joinList(exerciseList.get(i).getAttributeItem(attributeKey), "@!@");
                         attribute.setValue(payload);
                         attributeList.setAttributeNode(attribute);
@@ -147,27 +139,24 @@ public class ExerciseDOM {
             doc.getDocumentElement().normalize();
 
             Element rootNode = doc.getDocumentElement();
-            NodeList nodeList = rootNode.getElementsByTagName(Tags.EXERCISE.tag);
+            NodeList nodeList = rootNode.getElementsByTagName(Tags.EXERCISE.toString());
 
             for(int i = 0; i < nodeList.getLength(); i++){
 
                 NamedNodeMap eAttrMap = nodeList.item(i).getAttributes();
 
-                Exercise exerciseObject = new Exercise(eAttrMap.getNamedItem(Tags.NAME.tag).getNodeValue(), new DataMap());
-
-                exerciseObject.putAttribute(EAttributeKeys.DESCRIPTION, Arrays.asList(eAttrMap.getNamedItem(Tags.DESCRIPTION.tag).getNodeValue()));
-                exerciseObject.putAttribute(EAttributeKeys.EXERCISE_TYPE, Arrays.asList(eAttrMap.getNamedItem(Tags.TYPE.tag).getNodeValue()));
+                Exercise exerciseObject = new Exercise(eAttrMap.getNamedItem(Tags.NAME.toString()).getNodeValue(), new DataMap());
 
                 Element exerciseElement = (Element) nodeList.item(i);
-                Element attributeListElement = (Element) exerciseElement.getElementsByTagName(Tags.ATTRIBUTE_LIST.tag).item(0);
+                Element attributeListElement = (Element) exerciseElement.getElementsByTagName(Tags.ATTRIBUTES_LIST.toString()).item(0);
 
                 for(int u = 0; u < attributeListElement.getAttributes().getLength(); u++){
 
                     for(EAttributeKeys attributeKey : EAttributeKeys.values()){
 
-                        if(attributeListElement.hasAttribute(attributeKey.getKey())){
+                        if(attributeListElement.hasAttribute(attributeKey.toString())){
 
-                            List<String> payload = Arrays.asList(attributeListElement.getAttribute(attributeKey.getKey()).split("@!@"));
+                            List<String> payload = Arrays.asList(attributeListElement.getAttribute(attributeKey.toString()).split("@!@"));
                             exerciseObject.putAttribute(attributeKey, payload);
 
                         }

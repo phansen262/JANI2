@@ -27,13 +27,16 @@ public class SListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        ReviWorkshopEListBinding binding = ReviWorkshopEListBinding.inflate(layoutInflater, parent, false);
-        return new EListAdapter.ViewHolder1(binding);
+        ReviWorkshopSListBinding binding = ReviWorkshopSListBinding.inflate(layoutInflater, parent, false);
+        return new ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
+        ViewHolder vh1 = (ViewHolder) holder;
+
+        vh1.mBinding.setTestText(mSessionList.get(0).getEDataList().get(0).getName());
     }
 
     @Override

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?><user_exercises>
-<exercise name="Run" description="test running description" type="Cardio">
-<attributes_list record_type="set@!@duration"/>
+<exercise name="Run">
+<attributes_list record_type="set@!@duration" description="test running description" exercise_type="Cardio"/>
 </exercise>
-<exercise name="Bike" description="test biking description" type="Cardio">
-<attributes_list record_type="set@!@duration"/>
+<exercise name="Bike">
+<attributes_list record_type="set@!@duration" description="test biking description" exercise_type="Cardio"/>
 </exercise>
-<exercise name="Bench" description="test bench descirption" type="Weights">
-<attributes_list muscle_group="Arms" record_type="set@!@reps@!@weight"/>
+<exercise name="Bench">
+<attributes_list muscle_group="Arms" record_type="set@!@reps@!@weight" description="test bench descirption" exercise_type="Weights"/>
 </exercise>
-<exercise name="Situp" description="test situp description" type="Strength">
-<attributes_list muscle_group="Abs" record_type="set@!@reps"/>
+<exercise name="Situp">
+<attributes_list muscle_group="Abs" record_type="set@!@reps" description="test situp description" exercise_type="Strength"/>
 </exercise>
-<exercise name="New Exercise" description="A brand new exercise (not in defaults)" type="Weights">
-<attributes_list muscle_group="Legs" record_type="set@!@reps@!@weight"/>
+<exercise name="New Exercise">
+<attributes_list muscle_group="Legs" record_type="set@!@reps@!@weight" description="A brand new exercise (not in defaults)" exercise_type="Weights"/>
 </exercise>
 </user_exercises>

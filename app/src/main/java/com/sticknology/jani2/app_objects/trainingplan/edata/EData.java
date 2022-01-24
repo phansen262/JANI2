@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class EData extends Exercise {
 
@@ -52,4 +53,6 @@ public class EData extends Exercise {
     public List<String> getData(Enum<?> key){
         return payload.get(key);
     }
+
+    public Set<Enum<?>> getDataKeyList(){return payload.keySet();}
 }

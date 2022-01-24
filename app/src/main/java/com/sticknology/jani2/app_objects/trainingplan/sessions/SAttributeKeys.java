@@ -1,11 +1,18 @@
 package com.sticknology.jani2.app_objects.trainingplan.sessions;
 
+import androidx.annotation.NonNull;
+
+import java.util.Locale;
+
 public enum SAttributeKeys {
 
-    LOCATION("location"),
-    DESCRIPTION("");
+    LOCATION,
+    DESCRIPTION;
 
-    private final String key;
-    SAttributeKeys(String key){this.key = key;}
-    public String getKey(){return this.key;}
+
+    @NonNull
+    @Override
+    public String toString() {
+        return super.toString().toLowerCase(Locale.ROOT);
+    }
 }

@@ -29,6 +29,7 @@ public class Session extends AppData {
   public List<EData> getEDataList(){return mEDataList;}
   
   public void setName(String name){mName = name;}
+  public void setPath(String path){mPath = path;}
   public void setEDataList(List<EData> newList){mEDataList = newList;}
 
   //Adders

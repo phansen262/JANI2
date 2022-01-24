@@ -114,15 +114,15 @@ public class EEditFragment extends Fragment {
 
             switch (i){
                 case 0:
-                    List<String> recordPayload = Arrays.asList(EDataKeys.SET.getKey(), EDataKeys.REPS.getKey());
+                    List<String> recordPayload = Arrays.asList(EDataKeys.SET.toString(), EDataKeys.REPS.toString());
                     mExercise.putAttribute(EAttributeKeys.RECORD_TYPE, recordPayload);
                     break;
                 case 1:
-                    recordPayload = Arrays.asList(EDataKeys.SET.getKey(), EDataKeys.REPS.getKey(), EDataKeys.WEIGHT.getKey());
+                    recordPayload = Arrays.asList(EDataKeys.SET.toString(), EDataKeys.REPS.toString(), EDataKeys.WEIGHT.toString());
                     mExercise.putAttribute(EAttributeKeys.RECORD_TYPE, recordPayload);
                     break;
                 case 2:
-                    recordPayload = Arrays.asList(EDataKeys.SET.getKey(), EDataKeys.DURATION.getKey());
+                    recordPayload = Arrays.asList(EDataKeys.SET.toString(), EDataKeys.DURATION.toString());
                     mExercise.putAttribute(EAttributeKeys.RECORD_TYPE, recordPayload);
                     break;
             }
@@ -146,7 +146,7 @@ public class EEditFragment extends Fragment {
                 List<String> recordTypes = mExercise.getAttributeItem(EAttributeKeys.RECORD_TYPE);
                 if(recordTypes.size() == 3){
                     binding.rtypeSetsRepsWeightsFwee.setChecked(true);
-                } else if(recordTypes.contains(EDataKeys.DURATION.getKey())){
+                } else if(recordTypes.contains(EDataKeys.DURATION.toString())){
                     binding.rtypeSetsDurationFwee.setChecked(true);
                 } else {
                     binding.rtypeSetsRepsFwee.setChecked(true);
@@ -216,17 +216,17 @@ public class EEditFragment extends Fragment {
             String selectedText = String.valueOf(selected.getText());
             switch (selectedText) {
                 case "Sets and Reps": {
-                    List<String> payload = Arrays.asList(EDataKeys.SET.getKey(), EDataKeys.REPS.getKey());
+                    List<String> payload = Arrays.asList(EDataKeys.SET.toString(), EDataKeys.REPS.toString());
                     attributes.put(EAttributeKeys.RECORD_TYPE, payload);
                     break;
                 }
                 case "Sets and Reps with Weights": {
-                    List<String> payload = Arrays.asList(EDataKeys.SET.getKey(), EDataKeys.REPS.getKey(), EDataKeys.WEIGHT.getKey());
+                    List<String> payload = Arrays.asList(EDataKeys.SET.toString(), EDataKeys.REPS.toString(), EDataKeys.WEIGHT.toString());
                     attributes.put(EAttributeKeys.RECORD_TYPE, payload);
                     break;
                 }
                 case "Sets and Duration": {
-                    List<String> payload = Arrays.asList(EDataKeys.SET.getKey(), EDataKeys.DURATION.getKey());
+                    List<String> payload = Arrays.asList(EDataKeys.SET.toString(), EDataKeys.DURATION.toString());
                     attributes.put(EAttributeKeys.RECORD_TYPE, payload);
                     break;
                 }

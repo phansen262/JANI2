@@ -1,13 +1,19 @@
 package com.sticknology.jani2.app_objects.trainingplan.exercises;
 
+import androidx.annotation.NonNull;
+
+import java.util.Locale;
+
 public enum EAttributeKeys {
 
-    MUSCLE_GROUP("muscle_group"),
-    RECORD_TYPE("record_type"),
-    DESCRIPTION("description"),
-    EXERCISE_TYPE("exercise_type");
+    MUSCLE_GROUP,
+    RECORD_TYPE,
+    DESCRIPTION,
+    EXERCISE_TYPE;
 
-    private final String key;
-    EAttributeKeys(String key){this.key = key;}
-    public String getKey(){return this.key;}
+    @NonNull
+    @Override
+    public String toString() {
+        return super.toString().toLowerCase(Locale.ROOT);
+    }
 }

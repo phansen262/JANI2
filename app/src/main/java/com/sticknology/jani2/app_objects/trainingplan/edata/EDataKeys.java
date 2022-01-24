@@ -1,25 +1,31 @@
 package com.sticknology.jani2.app_objects.trainingplan.edata;
 
+import androidx.annotation.NonNull;
+
+import java.util.Locale;
+
 public enum EDataKeys {
 
-    SET("set", "Sets"),
-    REPS("reps", "Reps"),
-    DURATION("duration", "Duration"),
-    WEIGHT("weight", "Weight");
+    SET("Sets"),
+    REPS("Reps"),
+    DURATION("Duration"),
+    WEIGHT("Weight"),
+    EXERCISE_NAME("THIS IS A MISTAKE");
 
-    private final String key;
     private final String display;
 
-    EDataKeys(String key, String display) {
-        this.key = key;
+    EDataKeys(String display) {
         this.display = display;
-    }
-
-    public String getKey() {
-        return this.key;
     }
 
     public String getDisplay() {
         return this.display;
+    }
+
+
+    @NonNull
+    @Override
+    public String toString() {
+        return super.toString().toLowerCase(Locale.ROOT);
     }
 }
