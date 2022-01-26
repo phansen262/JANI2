@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sticknology.jani2.R;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
-import com.sticknology.jani2.data.ExerciseServer;
+import com.sticknology.jani2.data.servers.ExerciseServer;
 import com.sticknology.jani2.databinding.FragmentWorkshopEListBinding;
 import com.sticknology.jani2.ui.workshops.session.SWorkshopActivity;
 

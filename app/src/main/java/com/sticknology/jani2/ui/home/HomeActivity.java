@@ -6,8 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.sticknology.jani2.R;
-import com.sticknology.jani2.data.ExerciseServer;
+import com.sticknology.jani2.base_operations.FileProxy;
 import com.sticknology.jani2.data.UserFileInitializer;
+import com.sticknology.jani2.data.servers.ExerciseServer;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -22,6 +23,7 @@ public class HomeActivity extends AppCompatActivity {
 
         //TODO: Need to move initialization of files and servers to actual main activity/loading screen when active
         UserFileInitializer.initExerciseUserFile(this);
+        UserFileInitializer.initSessionRegistry(this);
         ExerciseServer.initializeEServer(this);
 
         Fragment workshopFragment = WorkshopFragment.newInstance();

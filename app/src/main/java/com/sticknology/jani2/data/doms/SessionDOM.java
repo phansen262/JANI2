@@ -1,4 +1,4 @@
-package com.sticknology.jani2.app_objects.trainingplan.sessions;
+package com.sticknology.jani2.data.doms;
 
 import android.content.Context;
 
@@ -7,18 +7,20 @@ import androidx.annotation.NonNull;
 import com.sticknology.jani2.app_objects.trainingplan.edata.EData;
 import com.sticknology.jani2.app_objects.trainingplan.edata.EDataKeys;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
+import com.sticknology.jani2.app_objects.trainingplan.sessions.SAttributeKeys;
+import com.sticknology.jani2.app_objects.trainingplan.sessions.Session;
 import com.sticknology.jani2.base_objects.DataMap;
 import com.sticknology.jani2.base_operations.ListMethods;
-import com.sticknology.jani2.data.ExerciseServer;
-import com.sticknology.jani2.data.SessionServer;
+import com.sticknology.jani2.data.servers.ExerciseServer;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -104,10 +106,18 @@ public class SessionDOM {
             transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(context.openFileOutput(session.getPath(), Context.MODE_PRIVATE));
+            File dir = new File(context.getFilesDir(), "session");
+            if(!dir.exists()){
+                System.out.println("recreating directory for session");
+                dir.mkdir();
+            }
+
+            File file = new File(dir, session.getPath());
+            FileOutputStream fos = new FileOutputStream(file);
+            StreamResult result = new StreamResult(fos);
             transformer.transform(source, result);
 
-        } catch (ParserConfigurationException | TransformerException | FileNotFoundException e) {
+        } catch (ParserConfigurationException | TransformerException | IOException e) {
 
             e.printStackTrace();
         }
@@ -115,7 +125,7 @@ public class SessionDOM {
 
     public static Session readSession(Context context, String filepath){
 
-        Session session = new Session("", "session_test.xml", new ArrayList<>(), new DataMap());
+        Session session = new Session("", filepath, new ArrayList<>(), new DataMap());
 
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();

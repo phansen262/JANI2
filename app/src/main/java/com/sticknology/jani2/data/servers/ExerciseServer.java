@@ -1,9 +1,9 @@
-package com.sticknology.jani2.data;
+package com.sticknology.jani2.data.servers;
 
 import android.content.Context;
 
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
-import com.sticknology.jani2.app_objects.trainingplan.exercises.ExerciseDOM;
+import com.sticknology.jani2.data.doms.ExerciseDOM;
 
 import java.util.List;
 

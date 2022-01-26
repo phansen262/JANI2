@@ -13,11 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sticknology.jani2.R;
-import com.sticknology.jani2.data.SessionServer;
+import com.sticknology.jani2.data.servers.SessionServer;
 import com.sticknology.jani2.databinding.FragmentWorkshopSListBinding;
-import com.sticknology.jani2.ui.workshops.exercise.EListAdapter;
-
-import java.util.Objects;
 
 public class SListFragment extends Fragment {
 

@@ -1,9 +1,11 @@
-package com.sticknology.jani2.app_objects.trainingplan.exercises;
+package com.sticknology.jani2.data.doms;
 
 import android.content.Context;
 
 import androidx.annotation.NonNull;
 
+import com.sticknology.jani2.app_objects.trainingplan.exercises.EAttributeKeys;
+import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
 import com.sticknology.jani2.base_objects.DataMap;
 import com.sticknology.jani2.base_operations.ListMethods;
 

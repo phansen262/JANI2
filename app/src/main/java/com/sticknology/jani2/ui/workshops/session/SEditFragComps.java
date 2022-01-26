@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sticknology.jani2.R;
 import com.sticknology.jani2.app_objects.trainingplan.sessions.Session;
-import com.sticknology.jani2.data.SessionServer;
+import com.sticknology.jani2.data.servers.SessionServer;
 import com.sticknology.jani2.databinding.FragmentWorkshopSEditCompsBinding;
 import com.sticknology.jani2.ui.workshops.exercise.EListFragment;
 
@@ -86,7 +86,7 @@ public class SEditFragComps extends Fragment {
         } else if(item.getItemId() == R.id.single_item){
 
             Session saveSession = SEditFragLanding.mSession;
-            saveSession.setPath("session_test.xml");
+            saveSession.setPath(saveSession.getName());
 
             SessionServer.saveSession(saveSession, requireContext());
 
