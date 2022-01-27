@@ -22,6 +22,12 @@ public class EData extends Exercise {
         payload = dataMap;
     }
 
+
+    //Adders for different datatypes to get data into edata payload
+    public void addStringData(Enum<?> key, List<String> inputList){
+        payload.put(key, inputList);
+    }
+
     public void addIntData(Enum<?> key, int[] data){
 
         List<String> intData = new ArrayList<>();
@@ -50,7 +56,8 @@ public class EData extends Exercise {
     }
 
     //Base getters and setters
-    public List<String> getPayloadItem(EDataKeys key){
+    public List<String> getPayloadItem(Enum<?> key){
         return payload.get(key);
     }
+    public Set<Enum<?>> getPayloadKeys(){return payload.keySet();}
 }

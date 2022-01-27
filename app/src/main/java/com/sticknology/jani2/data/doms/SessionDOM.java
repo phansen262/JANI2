@@ -46,7 +46,8 @@ public class SessionDOM {
         EDATA_LIST,
         EDATA_ITEM,
         EDATA_VALUES,
-        EXERCISE_NAME;
+        EXERCISE_NAME,
+        EDATA_PAYLOAD;
 
         @NonNull
         @Override
@@ -88,13 +89,25 @@ public class SessionDOM {
                 Attr eName = doc.createAttribute(Tags.EXERCISE_NAME.toString());
                 eName.setValue(edata.getName());
                 eDataElement.setAttributeNode(eName);
-                Element eDataValues = doc.createElement(Tags.EDATA_VALUES.toString());
+                Element eDataAttributes = doc.createElement(Tags.EDATA_VALUES.toString());
                 //Iterate through eData and add corresponding attributes
                 for(Enum<?> eDataKey : edata.getUsedAttributes()){
                     Attr eDataValue = doc.createAttribute(eDataKey.toString());
                     eDataValue.setValue(edata.getAttributeString(eDataKey));
+                    eDataAttributes.setAttributeNode(eDataValue);
                 }
-                eDataElement.appendChild(eDataValues);
+                eDataElement.appendChild(eDataAttributes);
+
+                //Adds edata payload information
+                Element payloadElement = doc.createElement(Tags.EDATA_PAYLOAD.toString());
+                System.out.println(edata.getPayloadKeys().size() + ":  This is size of payload keys");
+                for(Enum<?> eDataKey : edata.getPayloadKeys()){
+                    Attr payloadAttr = doc.createAttribute(eDataKey.toString());
+                    payloadAttr.setValue(ListMethods.joinList(edata.getPayloadItem(eDataKey), "@!@"));
+                    payloadElement.setAttributeNode(payloadAttr);
+                }
+                eDataElement.appendChild(payloadElement);
+
                 edataList.appendChild(eDataElement);
             }
 
