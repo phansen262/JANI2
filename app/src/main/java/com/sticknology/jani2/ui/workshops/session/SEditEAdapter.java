@@ -19,6 +19,7 @@ import com.sticknology.jani2.ui.common.SNumberPicker;
 import com.sticknology.jani2.ui.workshops.exercise.EViewDialog;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -51,7 +52,7 @@ public class SEditEAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             dialog.show();
         });
 
-        List<String> stringTypeList = eData.getAttributeItem(EAttributeKeys.RECORD_TYPE);
+        List<String> stringTypeList = Arrays.asList(eData.getAttributeItem(EAttributeKeys.RECORD_TYPE).get(0).split("@!@"));
         List<EDataKeys> typeList = new ArrayList<>();
         for(String s : stringTypeList){
             typeList.add(EDataKeys.valueOf(s.toUpperCase(Locale.ROOT)));

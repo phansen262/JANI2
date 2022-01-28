@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.sticknology.jani2.app_objects.trainingplan.edata.EData;
 import com.sticknology.jani2.app_objects.trainingplan.edata.EDataKeys;
+import com.sticknology.jani2.app_objects.trainingplan.exercises.EAttributeKeys;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
 import com.sticknology.jani2.app_objects.trainingplan.sessions.SAttributeKeys;
 import com.sticknology.jani2.app_objects.trainingplan.sessions.Session;
@@ -144,7 +145,14 @@ public class SessionDOM {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 
-            Document doc = dBuilder.parse(context.getFileStreamPath(filepath));
+            File dir = new File(context.getFilesDir(), "session");
+            if(!dir.exists()){
+                System.out.println("recreating directory for session");
+                dir.mkdir();
+            }
+            File file = new File(dir, session.getPath());
+
+            Document doc = dBuilder.parse(file);
             doc.getDocumentElement().normalize();
 
             //Root node data (Session tag attributes)
@@ -153,9 +161,7 @@ public class SessionDOM {
 
             //Get session attributes
             Element sessionAttributes = (Element) sessionElement.getElementsByTagName(Tags.ATTRIBUTES.toString()).item(0);
-
             for(SAttributeKeys key : SAttributeKeys.values()){
-
                 if(sessionAttributes.hasAttribute(key.toString())){
                     List<String> payload = Arrays.asList(
                             sessionAttributes.getAttributes().getNamedItem(key.toString()).getNodeValue().split("@!@"));
@@ -171,8 +177,16 @@ public class SessionDOM {
                 Exercise keyExercise = ExerciseServer.getNamedExercise(eDataElement.getAttribute(Tags.EXERCISE_NAME.toString()));
                 EData eDataObject = new EData(keyExercise, new DataMap());
 
-                for(int u = 0; u < eDataElement.getAttributes().getLength(); u++){
-                    Attr eDataItem = (Attr) eDataElement.getAttributes().item(u);
+                Element eDataAttributes = (Element) eDataElement.getElementsByTagName(Tags.EDATA_VALUES.toString()).item(0);
+                Element eDataPayload = (Element) eDataElement.getElementsByTagName(Tags.EDATA_PAYLOAD.toString()).item(0);
+
+                for(int u = 0; u < eDataAttributes.getAttributes().getLength(); u++){
+                    Attr eDataItem = (Attr) eDataAttributes.getAttributes().item(u);
+                    eDataObject.putAttribute(EAttributeKeys.valueOf(eDataItem.getName().toUpperCase(Locale.ROOT)), Arrays.asList(eDataItem.getValue().split("@!@")));
+                }
+
+                for(int u = 0; u < eDataPayload.getAttributes().getLength(); u++){
+                    Attr eDataItem = (Attr) eDataPayload.getAttributes().item(u);
                     eDataObject.putAttribute(EDataKeys.valueOf(eDataItem.getName().toUpperCase(Locale.ROOT)), Arrays.asList(eDataItem.getValue().split("@!@")));
                 }
 

@@ -11,6 +11,15 @@
         android:theme="@style/Theme.JANI2" >
 
         <activity
+            android:name=".ui.home.SplashScreenActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".ui.workshops.exercise.EWorkshopActivity"
             android:exported="true"/>
 
@@ -24,14 +33,7 @@
 
         <activity
             android:name=".ui.home.HomeActivity"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
+            android:exported="true"/>
 
     </application>
 

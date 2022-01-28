@@ -25,6 +25,7 @@ public class SessionServer {
     public static void saveSession(Session session, Context context){
 
         SessionDOM.writeSession(context, session);
+        appendSessionPath(session.getPath(), context);
     }
 
     public static List<Session> getSessionList(Context context){
@@ -46,5 +47,10 @@ public class SessionServer {
         }
 
         return retList;
+    }
+
+    private static void appendSessionPath(String path, Context c){
+        FileProxy fileProxy = new FileProxy();
+        fileProxy.appendText(path, UserFileName.SESSION_REGISTRY.getPath(), c);
     }
 }
