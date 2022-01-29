@@ -1,6 +1,11 @@
 package com.sticknology.jani2.base_objects;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class MDay {
 
@@ -56,6 +61,15 @@ public class MDay {
     //Object Variable Getters
     public int getYear(){return mYear;}
     public int getDay(){return mDay;}
+    public int getIntDayOfWeek(){
+        Calendar c = Calendar.getInstance();
+        c.setTime(getDateObject());
+        return c.get(Calendar.DAY_OF_WEEK);
+    }
+    public String getStringDayOfWeek(){
+        DateFormat df = new SimpleDateFormat("EEEE", Locale.getDefault());
+        return df.format(getDateObject());
+    }
     public MTimeDay getTimeDay(){return mTimeDay;}
 
     //Get number of days in year
@@ -119,15 +133,31 @@ public class MDay {
 
     public static int monthsFromDays(int days, int year){
         boolean leap = year % 4 == 0;
-        int ret = -1;
+        int ret = 0;
         while(days >= 0){
-            ret++;
             if(!leap || ret != 1) {
                 days -= mDaysInMonths[ret];
             } else {
                 days -= 29;
             }
+            ret++;
         }
         return ret;
+    }
+
+    public Date getDateObject(){
+        try {
+            int months = monthsFromDays(mDay, mYear);
+            int dayOfMonth = mDay - daysFromMonths(months - 1, mYear);
+            String dateString = mYear + "-" + months + "-" + dayOfMonth
+                    + "T" + mTimeDay.getHours() + ":" + mTimeDay.getMinutes() + ":" + mTimeDay.getSeconds();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", java.util.Locale.getDefault());
+
+            return sdf.parse(dateString);
+        } catch (ParseException e){
+            e.printStackTrace();
+            return null;
+        }
     }
 }

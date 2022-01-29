@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sticknology.jani2.R;
 import com.sticknology.jani2.data.servers.SessionServer;
 import com.sticknology.jani2.databinding.FragmentWorkshopSListBinding;
+import com.sticknology.jani2.ui.home.HomeActivity;
 
 public class SListFragment extends Fragment {
 
@@ -44,7 +45,7 @@ public class SListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         setHasOptionsMenu(false);
-        SWorkshopActivity.actionBar.setDisplayHomeAsUpEnabled(false);
+        //SWorkshopActivity.actionBar.setDisplayHomeAsUpEnabled(false);
 
         //Set up binding for class use
         FragmentWorkshopSListBinding mBinding = DataBindingUtil.setContentView(requireActivity(),
@@ -54,7 +55,7 @@ public class SListFragment extends Fragment {
         if(requireContext().getFileStreamPath("session_test.xml").exists()) {
 
             RecyclerView recyclerView = mBinding.revListFwsl;
-            SListAdapter sListAdapter = new SListAdapter(SessionServer.getSessionList(requireContext()));
+            SListAdapter sListAdapter = new SListAdapter(SessionServer.getSessionList(requireContext()), requireActivity());
             recyclerView.setAdapter(sListAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
@@ -67,5 +68,9 @@ public class SListFragment extends Fragment {
             SEditFragLanding frag = SEditFragLanding.newInstance();
             requireActivity().getSupportFragmentManager().beginTransaction().addToBackStack("").replace(R.id.frag_container_aws, frag).commit();
         });
+
+        if(requireActivity() instanceof HomeActivity){
+            System.out.println("DOD DODODO DOD DO D");
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.sticknology.jani2.ui.day_view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.sticknology.jani2.R;
 import com.sticknology.jani2.base_objects.MDay;
 import com.sticknology.jani2.databinding.FragmentDayViewBinding;
+import com.sticknology.jani2.ui.home.WorkshopFragment;
+import com.sticknology.jani2.ui.workshops.session.SListFragment;
+import com.sticknology.jani2.ui.workshops.session.SWorkshopActivity;
 
 public class DayHomeFragment extends Fragment {
 
@@ -53,5 +58,11 @@ public class DayHomeFragment extends Fragment {
             }
         });
 
+        mBinding.buttonAddsessionFdv.setOnClickListener(view1 -> {
+
+            requireActivity().setContentView(R.layout.activity_home);
+            Fragment sessionListFrag = SListFragment.newInstance();
+            requireActivity().getSupportFragmentManager().beginTransaction().add(R.id.frag_container_ah, sessionListFrag, null).commit();
+        });
     }
 }
