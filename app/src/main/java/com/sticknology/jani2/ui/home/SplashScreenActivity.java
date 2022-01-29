@@ -6,6 +6,9 @@ import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.sticknology.jani2.data.UserFileInitializer;
+import com.sticknology.jani2.data.servers.ExerciseServer;
+
 public class SplashScreenActivity extends AppCompatActivity {
 
     @Override
@@ -14,11 +17,18 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         long start = System.currentTimeMillis();
 
+        //Use Below Lines to Clear User Generated Files
+        //this.deleteFile("user_exercises.xml");
+        //this.deleteFile("user_sessions.xml");
 
+        //All app initialization and loading
+        UserFileInitializer.initExerciseUserFile(this);
+        UserFileInitializer.initSessionRegistry(this);
+        ExerciseServer.initializeEServer(this);
 
         long end = System.currentTimeMillis();
 
-        if((end - start) > 3000){
+        if((end - start) > 1500){
             startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
             finish();
         } else {
@@ -26,12 +36,11 @@ public class SplashScreenActivity extends AppCompatActivity {
                 @Override
                 public void run() {
 
-                    //Run all code here, need to implement minimum display time
-                    System.out.println(3000 - (end - start) + ":  Is elapsed time in millies to initialize app");
+                    System.out.println(1500 - (end - start) + ":  Is remaining time in millies to initialize app");
                     startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
                     finish();
                 }
-            }, 3000 - (end - start));
+            }, 1500 - (end - start));
         }
     }
 }

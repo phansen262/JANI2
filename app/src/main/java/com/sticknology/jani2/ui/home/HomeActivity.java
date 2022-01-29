@@ -5,10 +5,9 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.sticknology.jani2.R;
-import com.sticknology.jani2.base_operations.FileProxy;
-import com.sticknology.jani2.data.UserFileInitializer;
-import com.sticknology.jani2.data.servers.ExerciseServer;
+import com.sticknology.jani2.ui.day_view.DayHomeFragment;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -17,16 +16,47 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        //Use Below Lines to Clear User Generated Files
-        this.deleteFile("user_exercises.xml");
-        //this.deleteFile("user_sessions.xml");
+        BottomNavigationView bnv = findViewById(R.id.bottom_navigation);
+        bnv.setSelectedItemId(R.id.day_bnav);
+        Fragment initialFrag = DayHomeFragment.newInstance();
+        getSupportFragmentManager().beginTransaction().add(R.id.frag_container_ah, initialFrag, null).commit();
 
-        //TODO: Need to move initialization of files and servers to actual main activity/loading screen when active
-        UserFileInitializer.initExerciseUserFile(this);
-        UserFileInitializer.initSessionRegistry(this);
-        ExerciseServer.initializeEServer(this);
+        bnv.setOnItemSelectedListener(item -> {
 
-        Fragment workshopFragment = WorkshopFragment.newInstance();
-        getSupportFragmentManager().beginTransaction().add(R.id.frag_container_ah, workshopFragment, null).commit();
+            switch (item.getItemId()){
+                case R.id.day_bnav:
+                    Fragment dayHomeFragment = DayHomeFragment.newInstance();
+                    getSupportFragmentManager().beginTransaction().add(R.id.frag_container_ah, dayHomeFragment, null).commit();
+                    break;
+                case R.id.progress_bnav:
+                    break;
+                case R.id.workshop_bnav:
+                    Fragment workshopFragment = WorkshopFragment.newInstance();
+                    getSupportFragmentManager().beginTransaction().add(R.id.frag_container_ah, workshopFragment, null).commit();
+                    break;
+                case R.id.settings_bnav:
+                    break;
+            }
+
+            return true;
+        });
+
+        //Currently duplicate of above, but might add custom later
+        bnv.setOnItemReselectedListener(item -> {
+
+            switch (item.getItemId()){
+                case R.id.day_bnav:
+                    break;
+                case R.id.progress_bnav:
+                    break;
+                case R.id.workshop_bnav:
+                    Fragment workshopFragment = WorkshopFragment.newInstance();
+                    getSupportFragmentManager().beginTransaction().add(R.id.frag_container_ah, workshopFragment, null).commit();
+                    break;
+                case R.id.settings_bnav:
+                    break;
+            }
+        });
     }
+
 }

@@ -30,6 +30,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@color/light_blue_400"
+            android:foreground="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
             android:id="@+id/sessions_fhw">

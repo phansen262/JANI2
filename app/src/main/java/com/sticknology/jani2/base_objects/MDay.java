@@ -4,6 +4,8 @@ import java.util.Calendar;
 
 public class MDay {
 
+    private static final int[] mDaysInMonths = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
     private int mYear;
     private int mDay;
     private MTimeDay mTimeDay;
@@ -98,5 +100,34 @@ public class MDay {
         int dayOffset = mDay - compareDay.getDay();
         MTimeDay timeOffset = new MTimeDay(mTimeDay.compareDayTime(compareDay.getTimeDay()));
         return new MDay(yearOffset, dayOffset, timeOffset);
+    }
+
+    //Get day count from months (only totals days in months)
+    //Requires year for leap year designation
+    public static int daysFromMonths(int months, int year){
+        boolean leap = year % 4 == 0;
+        int ret = 0;
+        for(int i = 0; i < months; i++){
+            if(!leap || i != 1){
+                ret += mDaysInMonths[i];
+            } else {
+                ret += 29;
+            }
+        }
+        return ret;
+    }
+
+    public static int monthsFromDays(int days, int year){
+        boolean leap = year % 4 == 0;
+        int ret = -1;
+        while(days >= 0){
+            ret++;
+            if(!leap || ret != 1) {
+                days -= mDaysInMonths[ret];
+            } else {
+                days -= 29;
+            }
+        }
+        return ret;
     }
 }

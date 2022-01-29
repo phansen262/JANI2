@@ -18,6 +18,8 @@ import com.sticknology.jani2.ui.workshops.session.SWorkshopActivity;
 
 public class WorkshopFragment extends Fragment {
 
+    private FragmentHomeWorkshopBinding mBinding;
+
     public WorkshopFragment(){
 
     }
@@ -39,8 +41,9 @@ public class WorkshopFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home_workshop, container, false);
+
+        mBinding = FragmentHomeWorkshopBinding.inflate(inflater, container, false);
+        return mBinding.getRoot();
     }
 
     @Override
@@ -48,21 +51,18 @@ public class WorkshopFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //Settup class binding
-        FragmentHomeWorkshopBinding binding = DataBindingUtil.setContentView(requireActivity(),
-                R.layout.fragment_home_workshop);
 
-        binding.exercisesFhw.setOnClickListener(view1 -> {
+        mBinding.exercisesFhw.setOnClickListener(view1 -> {
 
             Intent intent = new Intent(getActivity(), EWorkshopActivity.class);
             startActivity(intent);
         });
 
-        binding.sessionsFhw.setOnClickListener(view12 -> {
+        mBinding.sessionsFhw.setOnClickListener(view12 -> {
 
             Intent intent = new Intent(getActivity(), SWorkshopActivity.class);
             startActivity(intent);
         });
-
 
     }
 }
