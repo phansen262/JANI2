@@ -17,10 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sticknology.jani2.R;
 import com.sticknology.jani2.app_objects.trainingplan.sessions.Session;
+import com.sticknology.jani2.data.DirectoryNames;
 import com.sticknology.jani2.data.servers.SessionServer;
 import com.sticknology.jani2.databinding.FragmentWorkshopSEditCompsBinding;
 import com.sticknology.jani2.ui.home.HomeActivity;
 import com.sticknology.jani2.ui.workshops.exercise.EListFragment;
+
+import java.io.File;
 
 public class SEditFragComps extends Fragment {
 
@@ -93,7 +96,11 @@ public class SEditFragComps extends Fragment {
             Session saveSession = SEditFragLanding.mSession;
             saveSession.setPath(saveSession.getName());
 
-            SessionServer.saveSession(saveSession, requireContext());
+            File dir = new File(requireContext().getFilesDir(), DirectoryNames.SESSION_LIST.toString());
+            if(!dir.exists()){dir.mkdir();}
+            File f = new File(dir, saveSession.getPath());
+
+            SessionServer.saveSession(saveSession, f, requireContext());
 
             SEditFragLanding.mSession = null;
 

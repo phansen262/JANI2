@@ -1,7 +1,5 @@
 package com.sticknology.jani2.data.doms;
 
-import android.content.Context;
-
 import androidx.annotation.NonNull;
 
 import com.sticknology.jani2.app_objects.trainingplan.edata.EData;
@@ -12,7 +10,6 @@ import com.sticknology.jani2.app_objects.trainingplan.sessions.SAttributeKeys;
 import com.sticknology.jani2.app_objects.trainingplan.sessions.Session;
 import com.sticknology.jani2.base_objects.DataMap;
 import com.sticknology.jani2.base_operations.ListMethods;
-import com.sticknology.jani2.data.DirectoryNames;
 import com.sticknology.jani2.data.servers.ExerciseServer;
 
 import org.w3c.dom.Attr;
@@ -21,7 +18,6 @@ import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -58,7 +54,7 @@ public class SessionDOM {
         }
     }
 
-    public static void writeSession(Context context, Session session){
+    public static void writeSession(Session session, File file){
 
         try {
             DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -122,13 +118,7 @@ public class SessionDOM {
             transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             DOMSource source = new DOMSource(doc);
-            File dir = new File(context.getFilesDir(), DirectoryNames.SESSION_LIST.toString());
-            if(!dir.exists()){
-                System.out.println("recreating directory for session");
-                dir.mkdir();
-            }
 
-            File file = new File(dir, session.getPath());
             FileOutputStream fos = new FileOutputStream(file);
             StreamResult result = new StreamResult(fos);
             transformer.transform(source, result);
@@ -139,23 +129,14 @@ public class SessionDOM {
         }
     }
 
-    public static Session readSession(Context context, String filepath){
+    public static Session readSession(File sessionFile){
 
-        Session session = new Session("", filepath, new ArrayList<>(), new DataMap());
+        Session session = new Session("", sessionFile.getPath(), new ArrayList<>(), new DataMap());
 
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-
-            System.out.println(DirectoryNames.SESSION_LIST.toString() + "This is sessionList to string");
-            File dir = new File(context.getFilesDir(), DirectoryNames.SESSION_LIST.toString());
-            if(!dir.exists()){
-                System.out.println("recreating directory for session");
-                dir.mkdir();
-            }
-            File file = new File(dir, session.getPath());
-
-            Document doc = dBuilder.parse(file);
+            Document doc = dBuilder.parse(sessionFile);
             doc.getDocumentElement().normalize();
 
             //Root node data (Session tag attributes)
@@ -192,10 +173,8 @@ public class SessionDOM {
                     Attr eDataItem = (Attr) eDataPayload.getAttributes().item(u);
                     eDataObject.putAttribute(EDataKeys.valueOf(eDataItem.getName().toUpperCase(Locale.ROOT)), Arrays.asList(eDataItem.getValue().split("@!@")));
                 }
-
                 session.addEData(eDataObject);
             }
-
 
         } catch (ParserConfigurationException | SAXException | IOException e){
 

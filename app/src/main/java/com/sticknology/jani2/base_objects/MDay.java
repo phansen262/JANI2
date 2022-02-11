@@ -61,6 +61,7 @@ public class MDay {
     //Object Variable Getters
     public int getYear(){return mYear;}
     public int getDay(){return mDay;}
+    public int getMonth(){return monthsFromDays(mDay, mYear);}
     public int getIntDayOfWeek(){
         Calendar c = Calendar.getInstance();
         c.setTime(getDateObject());

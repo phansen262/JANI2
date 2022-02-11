@@ -6,9 +6,8 @@ import java.util.Locale;
 
 public enum DirectoryNames {
 
-    SESSION_LIST;
-
-
+    SESSION_LIST,
+    SESSION_ASSIGNED;
 
     @NonNull
     @Override

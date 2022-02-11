@@ -1,6 +1,5 @@
 package com.sticknology.jani2.ui.day_view;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,13 +9,15 @@ import android.widget.CalendarView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.sticknology.jani2.R;
 import com.sticknology.jani2.base_objects.MDay;
+import com.sticknology.jani2.data.servers.SessionServer;
 import com.sticknology.jani2.databinding.FragmentDayViewBinding;
-import com.sticknology.jani2.ui.home.WorkshopFragment;
+import com.sticknology.jani2.ui.workshops.session.SListAdapter;
 import com.sticknology.jani2.ui.workshops.session.SListFragment;
-import com.sticknology.jani2.ui.workshops.session.SWorkshopActivity;
 
 public class DayHomeFragment extends Fragment {
 
@@ -36,6 +37,7 @@ public class DayHomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        selectedDay = new MDay();
     }
 
     @Override
@@ -57,6 +59,11 @@ public class DayHomeFragment extends Fragment {
                 selectedDay = new MDay(year, day + MDay.daysFromMonths(month, year));
             }
         });
+
+        RecyclerView revView = mBinding.revSessionFdv;
+        SListAdapter sListAdapter = new SListAdapter(SessionServer.getAssignedSessionList(selectedDay, requireContext()), requireActivity());
+        revView.setAdapter(sListAdapter);
+        revView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         mBinding.buttonAddsessionFdv.setOnClickListener(view1 -> {
 
