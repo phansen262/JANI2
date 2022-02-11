@@ -95,6 +95,8 @@ public class SEditFragComps extends Fragment {
 
             SessionServer.saveSession(saveSession, requireContext());
 
+            SEditFragLanding.mSession = null;
+
             //Move back to session list
             requireActivity().setContentView(R.layout.activity_workshop_session);
             SListFragment frag = SListFragment.newInstance();

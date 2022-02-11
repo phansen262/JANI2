@@ -43,7 +43,7 @@ public class SListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         ViewHolder vh1 = (ViewHolder) holder;
 
-        vh1.mBinding.setTestText(mSessionList.get(0).getEDataList().get(0).getName());
+        vh1.mBinding.setTestText(mSessionList.get(position).getEDataList().get(0).getName());
 
         if(mActivity instanceof HomeActivity){
             vh1.mBinding.buttonAddRwsl.setVisibility(View.VISIBLE);

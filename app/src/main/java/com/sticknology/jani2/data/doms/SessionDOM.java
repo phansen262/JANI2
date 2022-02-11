@@ -12,6 +12,7 @@ import com.sticknology.jani2.app_objects.trainingplan.sessions.SAttributeKeys;
 import com.sticknology.jani2.app_objects.trainingplan.sessions.Session;
 import com.sticknology.jani2.base_objects.DataMap;
 import com.sticknology.jani2.base_operations.ListMethods;
+import com.sticknology.jani2.data.DirectoryNames;
 import com.sticknology.jani2.data.servers.ExerciseServer;
 
 import org.w3c.dom.Attr;
@@ -121,7 +122,7 @@ public class SessionDOM {
             transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             DOMSource source = new DOMSource(doc);
-            File dir = new File(context.getFilesDir(), "session");
+            File dir = new File(context.getFilesDir(), DirectoryNames.SESSION_LIST.toString());
             if(!dir.exists()){
                 System.out.println("recreating directory for session");
                 dir.mkdir();
@@ -146,7 +147,8 @@ public class SessionDOM {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 
-            File dir = new File(context.getFilesDir(), "session");
+            System.out.println(DirectoryNames.SESSION_LIST.toString() + "This is sessionList to string");
+            File dir = new File(context.getFilesDir(), DirectoryNames.SESSION_LIST.toString());
             if(!dir.exists()){
                 System.out.println("recreating directory for session");
                 dir.mkdir();

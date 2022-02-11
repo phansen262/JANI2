@@ -44,7 +44,7 @@ public class UserFileInitializer {
             fileProxy.writeFile("", UserFileName.SESSION_REGISTRY.getPath(), context);
         }
 
-        File mydir = new File(context.getFilesDir(), "session");
+        File mydir = new File(context.getFilesDir(), DirectoryNames.SESSION_LIST.toString());
         if (!mydir.exists()) {
             mydir.mkdirs();
         }
