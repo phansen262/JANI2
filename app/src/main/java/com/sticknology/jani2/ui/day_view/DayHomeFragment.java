@@ -22,7 +22,7 @@ import com.sticknology.jani2.ui.workshops.session.SListFragment;
 public class DayHomeFragment extends Fragment {
 
     private FragmentDayViewBinding mBinding;
-    private MDay selectedDay;
+    public static MDay selectedDay;
 
     public DayHomeFragment(){
 
@@ -61,7 +61,8 @@ public class DayHomeFragment extends Fragment {
         });
 
         RecyclerView revView = mBinding.revSessionFdv;
-        SListAdapter sListAdapter = new SListAdapter(SessionServer.getAssignedSessionList(selectedDay, requireContext()), requireActivity());
+        SListAdapter sListAdapter = new SListAdapter(SessionServer.getAssignedSessionList(selectedDay,
+                                                        requireContext()), requireActivity());
         revView.setAdapter(sListAdapter);
         revView.setLayoutManager(new LinearLayoutManager(requireContext()));
 

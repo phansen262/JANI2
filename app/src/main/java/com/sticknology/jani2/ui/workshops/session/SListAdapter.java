@@ -5,23 +5,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sticknology.jani2.app_objects.trainingplan.sessions.Session;
-import com.sticknology.jani2.databinding.ReviWorkshopEListBinding;
+import com.sticknology.jani2.base_objects.MDay;
+import com.sticknology.jani2.data.servers.SessionServer;
 import com.sticknology.jani2.databinding.ReviWorkshopSListBinding;
+import com.sticknology.jani2.ui.day_view.DayHomeFragment;
 import com.sticknology.jani2.ui.home.HomeActivity;
-import com.sticknology.jani2.ui.workshops.exercise.EListAdapter;
 
 import java.util.List;
 
 public class SListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final List<Session> mSessionList;
-    private FragmentActivity mActivity;
+    private final FragmentActivity mActivity;
 
     public SListAdapter(List<Session> sessionList, FragmentActivity activity){
 
@@ -35,7 +34,7 @@ public class SListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         ReviWorkshopSListBinding binding = ReviWorkshopSListBinding.inflate(layoutInflater, parent, false);
-        return new ViewHolder(binding);
+        return new ViewHolder(binding, parent);
     }
 
     @Override
@@ -47,6 +46,8 @@ public class SListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         if(mActivity instanceof HomeActivity){
             vh1.mBinding.buttonAddRwsl.setVisibility(View.VISIBLE);
+            vh1.mBinding.buttonAddRwsl.setOnClickListener(view ->
+                    SessionServer.writeAssignedSession(mSessionList.get(position), DayHomeFragment.selectedDay, vh1.mParent.getContext()));
         }
     }
 
@@ -60,10 +61,11 @@ public class SListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public ReviWorkshopSListBinding mBinding;
         public ViewGroup mParent;
 
-        public ViewHolder(ReviWorkshopSListBinding binding) {
+        public ViewHolder(ReviWorkshopSListBinding binding, ViewGroup parent) {
 
             super(binding.getRoot());
             mBinding = binding;
+            mParent = parent;
         }
     }
 }

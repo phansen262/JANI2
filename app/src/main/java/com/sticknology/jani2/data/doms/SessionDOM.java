@@ -82,24 +82,24 @@ public class SessionDOM {
             Element edataList = doc.createElement(Tags.EDATA_LIST.toString());
             //Iterate through exercises/edata in session
             for(EData edata : session.getEDataList()){
+
                 //Initialize element and add name
                 Element eDataElement = doc.createElement(Tags.EDATA_ITEM.toString());
                 Attr eName = doc.createAttribute(Tags.EXERCISE_NAME.toString());
                 eName.setValue(edata.getName());
                 eDataElement.setAttributeNode(eName);
+
                 Element eDataAttributes = doc.createElement(Tags.EDATA_VALUES.toString());
                 //Iterate through eData and add corresponding attributes
-                for(Enum<?> eDataKey : edata.getUsedAttributes()){
-                    Attr eDataValue = doc.createAttribute(eDataKey.toString());
-                    eDataValue.setValue(edata.getAttributeString(eDataKey));
-                    eDataValue.setValue(ListMethods.joinList(edata.getAttributeItem(eDataKey), "@!@"));
+                for(Enum<?> eAttributeKey : edata.getUsedAttributes()){
+                    Attr eDataValue = doc.createAttribute(eAttributeKey.toString());
+                    eDataValue.setValue(ListMethods.joinList(edata.getAttributeItem(eAttributeKey), "@!@"));
                     eDataAttributes.setAttributeNode(eDataValue);
                 }
                 eDataElement.appendChild(eDataAttributes);
 
                 //Adds edata payload information
                 Element payloadElement = doc.createElement(Tags.EDATA_PAYLOAD.toString());
-                System.out.println(edata.getPayloadKeys().size() + ":  This is size of payload keys");
                 for(Enum<?> eDataKey : edata.getPayloadKeys()){
                     Attr payloadAttr = doc.createAttribute(eDataKey.toString());
                     payloadAttr.setValue(ListMethods.joinList(edata.getPayloadItem(eDataKey), "@!@"));
@@ -171,7 +171,7 @@ public class SessionDOM {
 
                 for(int u = 0; u < eDataPayload.getAttributes().getLength(); u++){
                     Attr eDataItem = (Attr) eDataPayload.getAttributes().item(u);
-                    eDataObject.putAttribute(EDataKeys.valueOf(eDataItem.getName().toUpperCase(Locale.ROOT)), Arrays.asList(eDataItem.getValue().split("@!@")));
+                    eDataObject.putPayload(EDataKeys.valueOf(eDataItem.getName().toUpperCase(Locale.ROOT)), Arrays.asList(eDataItem.getValue().split("@!@")));
                 }
                 session.addEData(eDataObject);
             }

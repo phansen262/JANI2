@@ -60,4 +60,5 @@ public class EData extends Exercise {
         return payload.get(key);
     }
     public Set<Enum<?>> getPayloadKeys(){return payload.keySet();}
+    public void putPayload(Enum<?> key, List<String> payload){this.payload.put(key, payload);}
 }

@@ -41,20 +41,24 @@ public class SessionServer {
         File dir = new File(c.getFilesDir(), DirectoryNames.SESSION_LIST.toString());
 
         for(File f : Objects.requireNonNull(dir.listFiles())){
-
             retList.add(SessionDOM.readSession(f));
         }
 
         return retList;
     }
 
+    public static void writeAssignedSession(Session session, MDay day, Context c){
+
+        File dir = getAssignedSessionDir(day, c);
+        File f = new File(dir, day.getDayInMonth() + "@!@" + session.getName() + ".xml");
+        f.getParentFile().mkdirs();
+        SessionDOM.writeSession(session, f);
+    }
+
     public static List<Session> getAssignedSessionList(MDay day, Context context){
 
         List<Session> retList = new ArrayList<>();
-        List<String> dirNames = Arrays.asList(DirectoryNames.SESSION_ASSIGNED.toString(),
-                                                String.valueOf(day.getYear()),
-                                                String.valueOf(day.getMonth()));
-        File dir = new DirectoryProxy().getEndDirectory(dirNames, context);
+        File dir = getAssignedSessionDir(day, context);
 
         //Break out in case end directory does not exist
         if(dir.listFiles() == null){return retList;}
@@ -82,5 +86,12 @@ public class SessionServer {
     private static void appendSessionPath(String path, Context c){
         FileProxy fileProxy = new FileProxy();
         fileProxy.appendText(path, UserFileName.SESSION_REGISTRY.getPath(), c);
+    }
+
+    private static File getAssignedSessionDir(MDay mDay, Context c){
+        List<String> dirNames = Arrays.asList(DirectoryNames.SESSION_ASSIGNED.toString(),
+                String.valueOf(mDay.getYear()),
+                String.valueOf(mDay.getMonth()));
+        return new DirectoryProxy().getEndDirectory(dirNames, c);
     }
 }

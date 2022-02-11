@@ -71,6 +71,9 @@ public class MDay {
         DateFormat df = new SimpleDateFormat("EEEE", Locale.getDefault());
         return df.format(getDateObject());
     }
+    public int getDayInMonth(){
+        return mDay - daysFromMonths(monthsFromDays(mDay, mYear)-1, mYear);
+    }
     public MTimeDay getTimeDay(){return mTimeDay;}
 
     //Get number of days in year
