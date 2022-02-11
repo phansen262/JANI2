@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sticknology.jani2.R;
+import com.sticknology.jani2.app_objects.trainingplan.exercises.EAttributeKeys;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
 import com.sticknology.jani2.data.servers.ExerciseServer;
 import com.sticknology.jani2.databinding.FragmentWorkshopEListBinding;
@@ -59,12 +60,14 @@ public class EListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if(!fromSession) {
-            setHasOptionsMenu(false);
-            EWorkshopActivity.actionBar.setDisplayHomeAsUpEnabled(false);
-        } else {
+        if(requireActivity() instanceof SWorkshopActivity){
             setHasOptionsMenu(true);
             SWorkshopActivity.actionBar.setDisplayHomeAsUpEnabled(true);
+        } else if(requireActivity() instanceof EWorkshopActivity){
+            setHasOptionsMenu(false);
+            EWorkshopActivity.actionBar.setDisplayHomeAsUpEnabled(false);
+        } else{
+            setHasOptionsMenu(true);
         }
 
         //Set up binding for class use
@@ -73,8 +76,6 @@ public class EListFragment extends Fragment {
 
         //Add exercise list to list
         displayExercises = ExerciseServer.getExerciseList();
-
-        //List<Exercise> exerciseList =  AssetsHandler.getDefaultExercises(getContext());
 
         //Set up rev for list of exercises
         RecyclerView recyclerView = mBinding.revListFwel;

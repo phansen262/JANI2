@@ -2,6 +2,7 @@ package com.sticknology.jani2.ui.home;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -11,10 +12,14 @@ import com.sticknology.jani2.ui.day_view.DayHomeFragment;
 
 public class HomeActivity extends AppCompatActivity {
 
+    public static ActionBar mActionBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        mActionBar = getSupportActionBar();
 
         BottomNavigationView bnv = findViewById(R.id.bottom_navigation);
         bnv.setSelectedItemId(R.id.day_bnav);

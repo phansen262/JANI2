@@ -95,6 +95,7 @@ public class SessionDOM {
                 for(Enum<?> eDataKey : edata.getUsedAttributes()){
                     Attr eDataValue = doc.createAttribute(eDataKey.toString());
                     eDataValue.setValue(edata.getAttributeString(eDataKey));
+                    eDataValue.setValue(ListMethods.joinList(edata.getAttributeItem(eDataKey), "@!@"));
                     eDataAttributes.setAttributeNode(eDataValue);
                 }
                 eDataElement.appendChild(eDataAttributes);

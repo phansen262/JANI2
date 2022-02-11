@@ -19,6 +19,7 @@ import com.sticknology.jani2.R;
 import com.sticknology.jani2.app_objects.trainingplan.sessions.Session;
 import com.sticknology.jani2.data.servers.SessionServer;
 import com.sticknology.jani2.databinding.FragmentWorkshopSEditCompsBinding;
+import com.sticknology.jani2.ui.home.HomeActivity;
 import com.sticknology.jani2.ui.workshops.exercise.EListFragment;
 
 public class SEditFragComps extends Fragment {
@@ -43,7 +44,11 @@ public class SEditFragComps extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         setHasOptionsMenu(true);
-        SWorkshopActivity.actionBar.setDisplayHomeAsUpEnabled(true);
+        if(requireActivity() instanceof SWorkshopActivity){
+            SWorkshopActivity.actionBar.setDisplayHomeAsUpEnabled(true);
+        } else if (requireActivity() instanceof HomeActivity){
+            HomeActivity.mActionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         mBinding = DataBindingUtil.setContentView(requireActivity(), R.layout.fragment_workshop_s_edit_comps);
 

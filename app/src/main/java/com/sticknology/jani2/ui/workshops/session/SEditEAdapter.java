@@ -52,20 +52,26 @@ public class SEditEAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             dialog.show();
         });
 
-        List<String> stringTypeList = Arrays.asList(eData.getAttributeItem(EAttributeKeys.RECORD_TYPE).get(0).split("@!@"));
+        List<String> stringTypeList = eData.getAttributeItem(EAttributeKeys.RECORD_TYPE);
         List<EDataKeys> typeList = new ArrayList<>();
         for(String s : stringTypeList){
             typeList.add(EDataKeys.valueOf(s.toUpperCase(Locale.ROOT)));
         }
-
+        //Field 1
         vh.mBinding.setLabel1(stringTypeList.get(0));
         vh.mBinding.field1Rwsei.setOnClickListener(view -> {
             setEditDialogs(typeList.get(0), typeList.get(0).getDisplay(), vh, eData, typeList);
         });
-        vh.mBinding.setLabel2(stringTypeList.get(1));
-        vh.mBinding.field2Rwsei.setOnClickListener(view -> {
-            setEditDialogs(typeList.get(1), typeList.get(1).getDisplay(), vh, eData, typeList);
-        });
+        //Field 2
+        if(typeList.size() == 1){
+            vh.mBinding.field2Rwsei.setVisibility(View.GONE);
+        } else {
+            vh.mBinding.setLabel2(stringTypeList.get(1));
+            vh.mBinding.field2Rwsei.setOnClickListener(view -> {
+                setEditDialogs(typeList.get(1), typeList.get(1).getDisplay(), vh, eData, typeList);
+            });
+        }
+        //Field 3
         if(typeList.size() == 2){
             vh.mBinding.field3Rwsei.setVisibility(View.GONE);
         } else {
@@ -74,6 +80,7 @@ public class SEditEAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 setEditDialogs(typeList.get(2), typeList.get(2).getDisplay(), vh, eData, typeList);
             });
         }
+
 
         loopDataDisplays(vh, eData, typeList);
     }

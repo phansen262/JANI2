@@ -69,7 +69,9 @@ public class SEditFragLanding extends Fragment {
 
         //Set app bar button presence
         setHasOptionsMenu(true);
-        SWorkshopActivity.actionBar.setDisplayHomeAsUpEnabled(true);
+        if(requireActivity() instanceof SWorkshopActivity) {
+            SWorkshopActivity.actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         //Settup class binding
         mBinding = DataBindingUtil.setContentView(requireActivity(), R.layout.fragment_workshop_s_edit_landing);

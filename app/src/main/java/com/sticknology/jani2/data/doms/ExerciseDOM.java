@@ -164,6 +164,7 @@ public class ExerciseDOM {
                         }
                     }
                 }
+
                 exerciseList.add(exerciseObject);
             }
 

@@ -32,7 +32,10 @@ public class SessionServer {
 
         List<Session> retList = new ArrayList<>();
 
+        System.out.println("This is size of getSessionPaths:  " + getSessionPaths(SessionGroup.ALL, context));
+
         for(String path : getSessionPaths(SessionGroup.ALL, context)){
+            System.out.println(path + ":  This is path");
             retList.add(SessionDOM.readSession(context, path));
         }
 
@@ -44,6 +47,7 @@ public class SessionServer {
         List<String> retList = new ArrayList<>();
         if(sessionGroup == SessionGroup.ALL){
             retList = new FileProxy().readFileLines(UserFileName.SESSION_REGISTRY.getPath(), context);
+            System.out.println(retList.size() + " : this is ret list size");
         }
 
         return retList;

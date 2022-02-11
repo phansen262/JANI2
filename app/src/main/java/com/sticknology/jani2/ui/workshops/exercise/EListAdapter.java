@@ -72,7 +72,8 @@ public class EListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 if(SEditFragLanding.mSession.getEDataList() == null){
                     SEditFragLanding.mSession.setEDataList(new ArrayList<>());
                 }
-                SEditFragLanding.mSession.addExercise(EListFragment.displayExercises.get(vh1.getAdapterPosition()));
+
+                SEditFragLanding.mSession.addExercise(mExerciseList.get(vh1.getAdapterPosition()));
             });
         } else {
             vh1.mBinding.addButtonRwel.setVisibility(View.GONE);

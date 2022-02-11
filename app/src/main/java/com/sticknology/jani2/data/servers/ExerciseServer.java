@@ -2,6 +2,7 @@ package com.sticknology.jani2.data.servers;
 
 import android.content.Context;
 
+import com.sticknology.jani2.app_objects.trainingplan.exercises.EAttributeKeys;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
 import com.sticknology.jani2.data.doms.ExerciseDOM;
 
@@ -13,6 +14,7 @@ public class ExerciseServer {
 
     public static void initializeEServer(Context context){
         mExerciseList = ExerciseDOM.getExerciseList(context, ExerciseDOM.ExerciseFilePath.USER.path);
+        System.out.println(mExerciseList.get(0).getAttributeItem(EAttributeKeys.RECORD_TYPE).get(0));
     }
 
     //Check whether or not named exercise already exists
@@ -54,6 +56,7 @@ public class ExerciseServer {
 
     //Get complete list of exercises
     public static List<Exercise> getExerciseList(){
+
         return mExerciseList;
     }
 }

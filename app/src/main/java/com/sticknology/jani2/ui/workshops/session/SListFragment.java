@@ -52,7 +52,7 @@ public class SListFragment extends Fragment {
                 R.layout.fragment_workshop_s_list);
 
         //Set recyclerview for list
-        if(requireContext().getFileStreamPath("session_test.xml").exists()) {
+        if(requireContext().getFileStreamPath("session_registry.xml").exists()) {
 
             RecyclerView recyclerView = mBinding.revListFwsl;
             SListAdapter sListAdapter = new SListAdapter(SessionServer.getSessionList(requireContext()), requireActivity());
