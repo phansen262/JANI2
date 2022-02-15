@@ -1,25 +1,30 @@
 package com.sticknology.jani2.ui.workshops.exercise;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.RadioButton;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.sticknology.jani2.R;
 import com.sticknology.jani2.app_objects.other.Muscle;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EAttributeKeys;
-import com.sticknology.jani2.app_objects.trainingplan.edata.EDataKeys;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EType;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
 import com.sticknology.jani2.base_objects.DataMap;
@@ -28,13 +33,10 @@ import com.sticknology.jani2.data.servers.ExerciseServer;
 import com.sticknology.jani2.databinding.FragmentWorkshopEEditBinding;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class EEditFragment extends Fragment {
-
-    //TODO:  Fix entering this fragment from elist by way of session editor
 
     //Class inputs
     private static Exercise mExercise;
@@ -96,6 +98,15 @@ public class EEditFragment extends Fragment {
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.typeFwee.setAdapter(typeAdapter);
         binding.setType(ListMethods.matchListIndex(exerciseTypes, "None"));
+        binding.typeFwee.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                closeKeyboard();
+                binding.nameFwee.clearFocus();
+                binding.descriptionFwee.clearFocus();
+                return false;
+            }
+        });
 
         //Set up spinner for muscle group initial
         ArrayList<String> muscleGroups = new ArrayList<>();
@@ -108,25 +119,33 @@ public class EEditFragment extends Fragment {
         binding.groupFwee.setAdapter(groupAdapter);
         binding.setGroup(ListMethods.matchListIndex(muscleGroups, "None"));
         binding.setGroupVisible(View.GONE);
-
-        //Set up radio group for record type
-        binding.typeRadiogroupFwee.setOnCheckedChangeListener((radioGroup, i) -> {
-
-            switch (i){
-                case 0:
-                    List<String> recordPayload = Arrays.asList(EDataKeys.SET.toString(), EDataKeys.REPS.toString());
-                    mExercise.putAttribute(EAttributeKeys.RECORD_TYPE, recordPayload);
-                    break;
-                case 1:
-                    recordPayload = Arrays.asList(EDataKeys.SET.toString(), EDataKeys.REPS.toString(), EDataKeys.WEIGHT.toString());
-                    mExercise.putAttribute(EAttributeKeys.RECORD_TYPE, recordPayload);
-                    break;
-                case 2:
-                    recordPayload = Arrays.asList(EDataKeys.SET.toString(), EDataKeys.DURATION.toString());
-                    mExercise.putAttribute(EAttributeKeys.RECORD_TYPE, recordPayload);
-                    break;
+        binding.groupFwee.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                closeKeyboard();
+                binding.nameFwee.clearFocus();
+                binding.descriptionFwee.clearFocus();
+                return false;
             }
         });
+
+        //Set up chip group for record type chips
+        ChipGroup rTypeChipGroup = binding.recordTypeChipsFwee;
+        String[] rTypes = new String[]{"set", "reps", "weight", "duration"};
+        for(String type : rTypes){
+            Chip tChip = new Chip(requireContext());
+            tChip.setCheckable(true);
+            tChip.setText(type);
+            tChip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    closeKeyboard();
+                    binding.nameFwee.clearFocus();
+                    binding.descriptionFwee.clearFocus();
+                }
+            });
+            rTypeChipGroup.addView(tChip);
+        }
 
 
         //Set behavior for filling it edit information from selected exercise
@@ -143,13 +162,13 @@ public class EEditFragment extends Fragment {
             }
 
             if(mExercise.getAttributeItem(EAttributeKeys.RECORD_TYPE) != null){
-                List<String> recordTypes = mExercise.getAttributeItem(EAttributeKeys.RECORD_TYPE);
-                if(recordTypes.size() == 3){
-                    binding.rtypeSetsRepsWeightsFwee.setChecked(true);
-                } else if(recordTypes.contains(EDataKeys.DURATION.toString())){
-                    binding.rtypeSetsDurationFwee.setChecked(true);
-                } else {
-                    binding.rtypeSetsRepsFwee.setChecked(true);
+                for(String type : mExercise.getAttributeItem(EAttributeKeys.RECORD_TYPE)){
+                    for(int i = 0; i < rTypeChipGroup.getChildCount(); i++){
+                        Chip chip = (Chip) rTypeChipGroup.getChildAt(i);
+                        if(chip.getText().equals(type)){
+                            chip.setChecked(true);
+                        }
+                    }
                 }
             }
         }
@@ -172,6 +191,16 @@ public class EEditFragment extends Fragment {
 
             }
         });
+    }
+
+    private void closeKeyboard(){
+
+        View view = requireActivity().getCurrentFocus();
+
+        if (view != null) {
+            InputMethodManager manager = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     @Override
@@ -210,27 +239,7 @@ public class EEditFragment extends Fragment {
                 attributes.put(EAttributeKeys.MUSCLE_GROUP, mGroup);
             }
 
-            int id = binding.typeRadiogroupFwee.getCheckedRadioButtonId();
-
-            RadioButton selected = requireView().findViewById(id);
-            String selectedText = String.valueOf(selected.getText());
-            switch (selectedText) {
-                case "Sets and Reps": {
-                    List<String> payload = Arrays.asList(EDataKeys.SET.toString(), EDataKeys.REPS.toString());
-                    attributes.put(EAttributeKeys.RECORD_TYPE, payload);
-                    break;
-                }
-                case "Sets and Reps with Weights": {
-                    List<String> payload = Arrays.asList(EDataKeys.SET.toString(), EDataKeys.REPS.toString(), EDataKeys.WEIGHT.toString());
-                    attributes.put(EAttributeKeys.RECORD_TYPE, payload);
-                    break;
-                }
-                case "Sets and Duration": {
-                    List<String> payload = Arrays.asList(EDataKeys.SET.toString(), EDataKeys.DURATION.toString());
-                    attributes.put(EAttributeKeys.RECORD_TYPE, payload);
-                    break;
-                }
-            }
+            //TODO: put back in exercise save capability
 
             Exercise saveExercise = new Exercise(eName, attributes);
 

@@ -67,7 +67,7 @@
             android:layout_marginVertical="10dp"
             android:layout_marginHorizontal="15dp"
             android:selectedItemPosition="@{type}"
-            android:id="@+id/type_fwee"/>
+            android:id="@+id/type_fwee" />
 
         <View
             android:layout_width="match_parent"
@@ -115,29 +115,11 @@
             android:layout_marginHorizontal="12dp"
             android:textSize="18dp"/>
 
-        <RadioGroup
-            android:layout_width="wrap_content"
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/type_radiogroup_fwee">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/rtype_sets_reps_fwee"
-                android:text="Sets and Reps"/>
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/rtype_sets_reps_weights_fwee"
-                android:text="Sets and Reps with Weights"/>
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/rtype_sets_duration_fwee"
-                android:text="Sets and Duration"/>
-
-        </RadioGroup>
+            android:id="@+id/record_type_chips_fwee"
+            android:layout_marginHorizontal="10dp"/>
 
     </LinearLayout>
 
