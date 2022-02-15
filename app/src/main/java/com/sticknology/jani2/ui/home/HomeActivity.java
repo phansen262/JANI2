@@ -33,13 +33,9 @@ public class HomeActivity extends AppCompatActivity {
                     Fragment dayHomeFragment = DayHomeFragment.newInstance();
                     getSupportFragmentManager().beginTransaction().replace(R.id.frag_container_ah, dayHomeFragment, null).commit();
                     break;
-                case R.id.progress_bnav:
-                    break;
                 case R.id.workshop_bnav:
                     Fragment workshopFragment = WorkshopFragment.newInstance();
                     getSupportFragmentManager().beginTransaction().replace(R.id.frag_container_ah, workshopFragment, null).commit();
-                    break;
-                case R.id.settings_bnav:
                     break;
             }
 
@@ -52,13 +48,9 @@ public class HomeActivity extends AppCompatActivity {
             switch (item.getItemId()){
                 case R.id.day_bnav:
                     break;
-                case R.id.progress_bnav:
-                    break;
                 case R.id.workshop_bnav:
                     Fragment workshopFragment = WorkshopFragment.newInstance();
                     getSupportFragmentManager().beginTransaction().replace(R.id.frag_container_ah, workshopFragment, null).commit();
-                    break;
-                case R.id.settings_bnav:
                     break;
             }
         });

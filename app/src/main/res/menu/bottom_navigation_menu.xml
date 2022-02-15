@@ -6,16 +6,8 @@
         android:enabled="true"
         android:title="Day"/>
     <item
-        android:id="@+id/progress_bnav"
-        android:enabled="true"
-        android:title="Progress"/>
-    <item
         android:id="@+id/workshop_bnav"
         android:enabled="true"
         android:title="Workshop"/>
-    <item
-        android:id="@+id/settings_bnav"
-        android:enabled="true"
-        android:title="Settings"/>
 
 </menu>
