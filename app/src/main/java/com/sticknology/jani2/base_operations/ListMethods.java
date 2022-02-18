@@ -53,4 +53,8 @@ public class ListMethods {
         }
         return sb.toString();
     }
+
+    public static String joinList(List<String> inputList){
+        return joinList(inputList, new String[]{",", ", and ", " and "});
+    }
 }

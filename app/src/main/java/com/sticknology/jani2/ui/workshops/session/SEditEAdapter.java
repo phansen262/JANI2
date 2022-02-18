@@ -12,14 +12,12 @@ import com.sticknology.jani2.app_objects.trainingplan.exercises.EAttributeKeys;
 import com.sticknology.jani2.app_objects.trainingplan.edata.EData;
 import com.sticknology.jani2.app_objects.trainingplan.edata.EDataKeys;
 import com.sticknology.jani2.base_objects.MTime;
-import com.sticknology.jani2.base_operations.ListMethods;
 import com.sticknology.jani2.databinding.ReviWorkshopSEItemBinding;
-import com.sticknology.jani2.ui.common.DNumberPicker;
-import com.sticknology.jani2.ui.common.SNumberPicker;
+import com.sticknology.jani2.ui.common.dialogs.DNumberPicker;
+import com.sticknology.jani2.ui.common.dialogs.SNumberPicker;
 import com.sticknology.jani2.ui.workshops.exercise.EViewDialog;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;

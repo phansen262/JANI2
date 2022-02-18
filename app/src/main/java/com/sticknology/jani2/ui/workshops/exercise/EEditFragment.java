@@ -1,6 +1,5 @@
 package com.sticknology.jani2.ui.workshops.exercise;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -82,7 +81,10 @@ public class EEditFragment extends Fragment {
 
         //Set app bar button presence
         setHasOptionsMenu(true);
-        EWorkshopActivity.actionBar.setDisplayHomeAsUpEnabled(true);
+        if(requireActivity() instanceof EWorkshopActivity) {
+            EWorkshopActivity.actionBar.setDisplayHomeAsUpEnabled(true);
+            EWorkshopActivity.actionBar.setTitle("Edit Exercise");
+        }
 
         //Settup class binding
         binding = DataBindingUtil.setContentView(requireActivity(),
@@ -147,7 +149,6 @@ public class EEditFragment extends Fragment {
             rTypeChipGroup.addView(tChip);
         }
 
-
         //Set behavior for filling it edit information from selected exercise
         if(mHasInputExercise){
 
@@ -183,7 +184,6 @@ public class EEditFragment extends Fragment {
                 } else {
                     binding.setGroupVisible(View.GONE);
                 }
-
             }
 
             @Override
@@ -239,7 +239,14 @@ public class EEditFragment extends Fragment {
                 attributes.put(EAttributeKeys.MUSCLE_GROUP, mGroup);
             }
 
-            //TODO: put back in exercise save capability
+            List<String> sChipNames = new ArrayList<>();
+            for(int i = 0; i < binding.recordTypeChipsFwee.getChildCount(); i++){
+                Chip chip = (Chip) binding.recordTypeChipsFwee.getChildAt(i);
+                if(chip.isChecked()){
+                    sChipNames.add(String.valueOf(chip.getText()));
+                }
+            }
+            attributes.put(EAttributeKeys.RECORD_TYPE, sChipNames);
 
             Exercise saveExercise = new Exercise(eName, attributes);
 

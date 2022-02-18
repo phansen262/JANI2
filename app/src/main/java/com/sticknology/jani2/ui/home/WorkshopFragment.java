@@ -50,6 +50,8 @@ public class WorkshopFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        HomeActivity.mActionBar.setTitle("Workshop");
+
         //Settup class binding
 
         mBinding.exercisesFhw.setOnClickListener(view1 -> {

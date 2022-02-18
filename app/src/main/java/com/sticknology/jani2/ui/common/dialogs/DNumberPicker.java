@@ -1,4 +1,4 @@
-package com.sticknology.jani2.ui.common;
+package com.sticknology.jani2.ui.common.dialogs;
 
 import android.app.AlertDialog;
 import android.content.Context;

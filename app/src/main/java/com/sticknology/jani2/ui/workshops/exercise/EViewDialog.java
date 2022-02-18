@@ -10,6 +10,7 @@ import com.sticknology.jani2.R;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EAttributeKeys;
 import com.sticknology.jani2.app_objects.trainingplan.edata.EData;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
+import com.sticknology.jani2.base_operations.ListMethods;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,17 +37,7 @@ public class EViewDialog{
         if(exercise.getAttributeItem(EAttributeKeys.RECORD_TYPE) != null){
             TextView textView = dialogView.findViewById(R.id.dialog_tv_rectype_dev);
             List<String> recordTypes = exercise.getAttributeItem(EAttributeKeys.RECORD_TYPE);
-            List<String> build = new ArrayList<>();
-            String display;
-            for(String keystring : recordTypes){
-                build.add(keystring);
-            }
-            if(recordTypes.size() == 2){
-                display = build.get(0) + " and " + build.get(1);
-            } else {
-                display = build.get(0) + ", " + build.get(1) + ", and " + build.get(2);
-            }
-            textView.setText(display);
+            textView.setText(ListMethods.joinList(recordTypes));
         }
 
         return d;
