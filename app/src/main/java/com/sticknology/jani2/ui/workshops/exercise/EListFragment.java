@@ -30,6 +30,8 @@ public class EListFragment extends Fragment {
 
     public static boolean fromSession;
 
+    private FragmentWorkshopEListBinding mBinding;
+
     public EListFragment() {
         // Required empty public constructor
     }
@@ -71,11 +73,19 @@ public class EListFragment extends Fragment {
         }
 
         //Set up binding for class use
-        FragmentWorkshopEListBinding mBinding = DataBindingUtil.setContentView(requireActivity(),
+        mBinding = DataBindingUtil.setContentView(requireActivity(),
                 R.layout.fragment_workshop_e_list);
 
         //Add exercise list to list
         displayExercises = ExerciseServer.getExerciseList();
+
+        //Default start with no filter applied and generic filter showing
+        mBinding.setFilterBar(View.VISIBLE);
+        mBinding.setFilterSelect(View.GONE);
+        mBinding.setFilterLabel("- No Filter");
+        mBinding.setCardEffect(true);
+
+        setFilterPanelListener();
 
         //Set up rev for list of exercises
         RecyclerView recyclerView = mBinding.revListFwel;
@@ -111,5 +121,34 @@ public class EListFragment extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setFilterPanelListener(){
+
+        mBinding.filterPanelFwel.setOnClickListener(view12 -> {
+
+            mBinding.setFilterBar(View.GONE);
+            mBinding.setFilterSelect(View.VISIBLE);
+            mBinding.setCardEffect(false);
+
+            setApplyFilterListener();
+            mBinding.filterPanelFwel.setOnClickListener(null);
+        });
+    }
+
+    private void setApplyFilterListener(){
+
+        mBinding.buttonApplyFilterFwel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                mBinding.setFilterBar(View.VISIBLE);
+                mBinding.setFilterSelect(View.GONE);
+
+                setFilterPanelListener();
+                mBinding.setCardEffect(true);
+                mBinding.buttonApplyFilterFwel.setOnClickListener(null);
+            }
+        });
     }
 }

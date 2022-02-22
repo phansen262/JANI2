@@ -24,8 +24,8 @@ import com.google.android.material.chip.ChipGroup;
 import com.sticknology.jani2.R;
 import com.sticknology.jani2.app_objects.other.Muscle;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EAttributeKeys;
-import com.sticknology.jani2.app_objects.trainingplan.exercises.EType;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
+import com.sticknology.jani2.app_objects.trainingplan.exercises.ExerciseEnums;
 import com.sticknology.jani2.base_objects.DataMap;
 import com.sticknology.jani2.base_operations.ListMethods;
 import com.sticknology.jani2.data.servers.ExerciseServer;
@@ -92,7 +92,7 @@ public class EEditFragment extends Fragment {
 
         //Set up spinner for type
         ArrayList<String> exerciseTypes = new ArrayList<>();
-        for(EType type : EType.values()){
+        for(ExerciseEnums.EType type : ExerciseEnums.EType.values()){
             exerciseTypes.add(type.getName());
         }
         ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(getActivity(),
