@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sticknology.jani2.R;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EAttributeKeys;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
+import com.sticknology.jani2.base_operations.ListMethods;
 import com.sticknology.jani2.databinding.ReviWorkshopEListBinding;
 import com.sticknology.jani2.ui.workshops.session.SEditFragLanding;
 
@@ -51,7 +52,20 @@ public class EListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         //Show basic details of Exercises
         vh1.mBinding.setName(mExerciseList.get(position).getName());
+
+        String details = "Type: " + ListMethods.joinList(mExerciseList.get(position).getAttributeItem(EAttributeKeys.EXERCISE_TYPE));
+        vh1.mBinding.setDetails(details);
+
+        if(mExerciseList.get(position).hasAttribute(EAttributeKeys.MUSCLE_GROUP)){
+            vh1.mBinding.setMuscleGroups("Muscle Groups: " + ListMethods.joinList(mExerciseList.get(position).getAttributeItem(EAttributeKeys.MUSCLE_GROUP)));
+        } else {
+            vh1.mBinding.muscleGroupsRwel.setVisibility(View.GONE);
+        }
+        vh1.mBinding.setDetails(details);
+
         vh1.mBinding.setDescription(mExerciseList.get(position).getAttributeString(EAttributeKeys.DESCRIPTION));
+
+        //Listener for launching exercise dialog view
         vh1.mBinding.cardviewRwel.setOnClickListener(view -> {
 
             AlertDialog.Builder builder = EViewDialog.BuildEViewDialog(mExerciseList.get(vh1.getAdapterPosition()), mContext);

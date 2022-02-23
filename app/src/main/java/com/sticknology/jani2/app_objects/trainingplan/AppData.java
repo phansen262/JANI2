@@ -63,4 +63,14 @@ public abstract class AppData {
             return ListMethods.joinList(attribute, new String[]{", ", ", and ", " and "});
         }
     }
+
+    public boolean hasAttribute(Enum<?> key){
+
+        for(Enum<?> test : getUsedAttributes()){
+            if(test == key){
+                return true;
+            }
+        }
+        return false;
+    }
 }
