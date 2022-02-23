@@ -21,7 +21,7 @@ import java.util.List;
 
 public class EListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final List<Exercise> mExerciseList;
+    public static List<Exercise> mExerciseList;
     private final FragmentActivity mActivity;
     private final Context mContext;
 

@@ -6,6 +6,7 @@ import com.sticknology.jani2.app_objects.trainingplan.exercises.EAttributeKeys;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
 import com.sticknology.jani2.data.doms.ExerciseDOM;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExerciseServer {
@@ -52,6 +53,23 @@ public class ExerciseServer {
     public static void deleteExercise(Exercise exercise, Context context){
         mExerciseList.remove(exercise);
         ExerciseDOM.writeUserExercises(context, mExerciseList);
+    }
+
+    //Get Filtered List
+    public static List<Exercise> getFilteredList(EAttributeKeys eAttributeKey, String value){
+
+        List<Exercise> ret = new ArrayList<>();
+
+        for(Exercise exercise : mExerciseList){
+            List<String> valueList = exercise.getAttributeItem(eAttributeKey);
+            for(String s : valueList){
+                if(s.equals(value)){
+                    ret.add(exercise);
+                }
+            }
+        }
+
+        return ret;
     }
 
     //Get complete list of exercises

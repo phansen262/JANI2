@@ -16,10 +16,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sticknology.jani2.R;
+import com.sticknology.jani2.app_objects.other.Muscle;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.EAttributeKeys;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
+import com.sticknology.jani2.app_objects.trainingplan.exercises.ExerciseEnums;
 import com.sticknology.jani2.data.servers.ExerciseServer;
 import com.sticknology.jani2.databinding.FragmentWorkshopEListBinding;
+import com.sticknology.jani2.ui.common.elements.MSpinner;
 import com.sticknology.jani2.ui.workshops.session.SWorkshopActivity;
 
 import java.util.List;
@@ -31,6 +34,7 @@ public class EListFragment extends Fragment {
     public static boolean fromSession;
 
     private FragmentWorkshopEListBinding mBinding;
+    private EListAdapter eListAdapter;
 
     public EListFragment() {
         // Required empty public constructor
@@ -82,14 +86,17 @@ public class EListFragment extends Fragment {
         //Default start with no filter applied and generic filter showing
         mBinding.setFilterBar(View.VISIBLE);
         mBinding.setFilterSelect(View.GONE);
-        mBinding.setFilterLabel("- No Filter");
+        mBinding.setFilterLabel("- None");
         mBinding.setCardEffect(true);
+
+        MSpinner testType = new MSpinner(requireContext(),requireActivity(), ExerciseEnums.getTypeNames());
+        mBinding.filterSelectLayoutFwel.addView(testType, 0);
 
         setFilterPanelListener();
 
         //Set up rev for list of exercises
         RecyclerView recyclerView = mBinding.revListFwel;
-        EListAdapter eListAdapter = new EListAdapter(displayExercises, getActivity(), getContext());
+        eListAdapter = new EListAdapter(displayExercises, getActivity(), getContext());
         recyclerView.setAdapter(eListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -142,8 +149,20 @@ public class EListFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
+                MSpinner mSpinner = (MSpinner) mBinding.filterSelectLayoutFwel.getChildAt(0);
+                String type = mSpinner.getSelectedItem().toString();
+
                 mBinding.setFilterBar(View.VISIBLE);
                 mBinding.setFilterSelect(View.GONE);
+
+                if(!type.equals("None")) {
+                    EListAdapter.mExerciseList = ExerciseServer.getFilteredList(EAttributeKeys.EXERCISE_TYPE, type);
+                } else {
+                    EListAdapter.mExerciseList = ExerciseServer.getExerciseList();
+                }
+                eListAdapter.notifyDataSetChanged();
+
+                mBinding.setFilterLabel("- " + type);
 
                 setFilterPanelListener();
                 mBinding.setCardEffect(true);
