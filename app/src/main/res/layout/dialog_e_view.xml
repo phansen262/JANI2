@@ -7,25 +7,53 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/dialog_tv_type_dev"/>
+            android:orientation="horizontal"
+            android:layout_marginBottom="15dp"
+            android:background="@color/design_default_color_primary_dark">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TITLE"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginLeft="20dp"
+                android:layout_marginVertical="10dp"
+                android:id="@+id/e_title"/>
+
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/dialog_tv_description_dev"/>
+            android:id="@+id/dialog_tv_type_dev"
+            android:text="FILLER TYPE"
+            android:layout_marginHorizontal="20dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/dialog_tv_mgroup_dev"/>
+            android:id="@+id/dialog_tv_description_dev"
+            android:text="FILLER DESCRIPTION"
+            android:layout_marginHorizontal="20dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/dialog_tv_rectype_dev"/>
+            android:id="@+id/dialog_tv_mgroup_dev"
+            android:text="FILLER MUSCLE GROUPS"
+            android:layout_marginHorizontal="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/dialog_tv_rectype_dev"
+            android:text="FILLER RECORD TYPES"
+            android:layout_marginHorizontal="20dp"/>
 
     </LinearLayout>
 

@@ -11,6 +11,7 @@ import com.sticknology.jani2.app_objects.trainingplan.exercises.EAttributeKeys;
 import com.sticknology.jani2.app_objects.trainingplan.edata.EData;
 import com.sticknology.jani2.app_objects.trainingplan.exercises.Exercise;
 import com.sticknology.jani2.base_operations.ListMethods;
+import com.sticknology.jani2.databinding.DialogEViewBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +23,14 @@ public class EViewDialog{
         //build alert dialog
         final AlertDialog.Builder d = new AlertDialog.Builder(context);
         View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_e_view, null, false);
-        d.setTitle(exercise.getName());
-        d.setView(dialogView);
+        //d.setTitle(exercise.getName());
+
+        DialogEViewBinding binding = DialogEViewBinding.inflate(LayoutInflater.from(context));
+        d.setView(binding.getRoot());
+
+        //d.setView(dialogView);
+
+        binding.eTitle.setText(exercise.getName());
 
         //Set UI information
         TextView type = dialogView.findViewById(R.id.dialog_tv_type_dev);
